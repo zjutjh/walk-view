@@ -1,11 +1,46 @@
-# Vue 3 + Typescript + Vite
+# walk-view 精弘毅行 2021 报名系统前端
 
-This template should help get you started developing with Vue 3 and Typescript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+精弘网络在 2021 年决定尝试优化一下精弘毅行报名系统的性能，对原来的项目进行了重构
 
-## Recommended IDE Setup
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
 
-## Type Support For `.vue` Imports in TS
+## 相关技术
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's `.vue` type support plugin by running `Volar: Switch TS Plugin on/off` from VSCode command palette.
+**第三方库：**
+
+- Vue
+
+- Vue-router
+
+- Naive UI
+
+- axios
+
+**前端构建工具：**
+
+- yarn 包管理器
+- Node.JS 运行环境
+- Vite 构建工具
+
+
+
+## 如何开始
+
+**本地运行测试**
+
+```bash
+yarn dev
+```
+
+**编译 realease 版本**
+
+```bash
+yarn build
+```
+
+**预览编译结果**
+
+```bash
+yarn serve
+```
+
