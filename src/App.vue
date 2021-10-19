@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { NLoadingBarProvider } from 'naive-ui'
+import { RouterView, RouterLink } from "vue-router";
 import Grant from "./pages/Grant.vue"
 </script>
 
 <template>
-    <n-loading-bar-provider>
-        <grant></grant>
-    </n-loading-bar-provider>
+    <router-view></router-view>
 </template>
 
 <style>

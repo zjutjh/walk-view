@@ -1,9 +1,9 @@
 <script setup lang="ts">
-
+import LoadingVue from '../pages/Loading.vue';
 </script>
 
 <template>
-    <h1>测试页面</h1>
+    <loading-vue></loading-vue>
 </template>
 
 <style>

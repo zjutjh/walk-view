@@ -1,14 +1,15 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import {
     NCard,
     NSpace,
     NButton,
-    useLoadingBar
 } from 'naive-ui'
 
-const loadingBar = useLoadingBar()
-function testLoading(): void {
-    loadingBar.start()
+const router = useRouter()
+
+function jumpToLoadingPage() {
+    router.push({ path: '/loading' })
 }
 </script>
 
@@ -33,7 +34,7 @@ function testLoading(): void {
     </n-card>
 
     <div style="text-align: center;">
-        <n-button style="width: 90%" @click="testLoading" type="primary">微信授权登陆</n-button>
+        <n-button @click="jumpToLoadingPage" style="width: 90%" type="primary">微信授权登陆</n-button>
     </div>
 </template>
 
