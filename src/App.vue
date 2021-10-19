@@ -1,10 +1,12 @@
 <script setup lang="ts">
-
+import { NLoadingBarProvider } from 'naive-ui'
+import Grant from "./pages/Grant.vue"
 </script>
 
 <template>
-    <h1>精弘毅行报名系统</h1>
-    <a href="/entry/linkjoin.html">跳转链接</a>
+    <n-loading-bar-provider>
+        <grant></grant>
+    </n-loading-bar-provider>
 </template>
 
 <style>
