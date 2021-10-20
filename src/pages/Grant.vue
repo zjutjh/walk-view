@@ -1,15 +1,45 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import axios from 'axios'
+import ServerConfig from '../config/server'
 import {
     NCard,
     NSpace,
     NButton,
+    useMessage,
+    useLoadingBar
 } from 'naive-ui'
 
 const router = useRouter()
+const message = useMessage()
+const loadingBar = useLoadingBar()
 
-function jumpToLoadingPage() {
-    router.push({ path: '/loading' })
+function grantAuthorization() {
+    const oauthUrl = ServerConfig.urlPrefix + ServerConfig.apiMap.oauth
+    const loginUrl = ServerConfig.urlPrefix + ServerConfig.apiMap.login
+
+    loadingBar.start()  // 启动进度条
+
+    // TODO 到时候要换成真正的登陆
+    axios({
+        url: loginUrl,
+        method: "get",
+        timeout: 1500
+    }).then(function (resp) {
+        if (resp.status !== 200) {
+            loadingBar.error()
+            message.error('服务器错误')
+        } else { // 请求成功
+            const dataRecive: any = resp.data
+            localStorage.setItem("jwt", <string>dataRecive.data.jwt)  // 存入 jwt 数据
+            loadingBar.finish()
+            router.push("/loading")
+        }
+    }).catch(function (error) {
+        loadingBar.error()
+        message.error('服务器错误')
+        console.log(error)
+    })
 }
 </script>
 
@@ -34,7 +64,7 @@ function jumpToLoadingPage() {
     </n-card>
 
     <div style="text-align: center;">
-        <n-button @click="jumpToLoadingPage" style="width: 90%" type="primary">微信授权登陆</n-button>
+        <n-button @click="grantAuthorization" style="width: 90%" type="primary">微信授权登陆</n-button>
     </div>
 </template>
 

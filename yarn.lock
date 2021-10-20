@@ -133,6 +133,11 @@
   dependencies:
     "@types/yargs-parser" "*"
 
+"@vicons/fluent@^0.11.0":
+  version "0.11.0"
+  resolved "https://registry.nlark.com/@vicons/fluent/download/@vicons/fluent-0.11.0.tgz#84f3cda255539cb96f45c89c1601e2892d79826f"
+  integrity sha1-hPPNolVTnLlvRcicFgHiiS15gm8=
+
 "@vitejs/plugin-vue@^1.9.3":
   version "1.9.3"
   resolved "https://registry.npmmirror.com/@vitejs/plugin-vue/download/@vitejs/plugin-vue-1.9.3.tgz?cache=0&sync_timestamp=1633433458406&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40vitejs%2Fplugin-vue%2Fdownload%2F%40vitejs%2Fplugin-vue-1.9.3.tgz"
@@ -318,6 +323,13 @@ async-validator@^4.0.1:
   version "4.0.7"
   resolved "https://registry.npmmirror.com/async-validator/download/async-validator-4.0.7.tgz?cache=0&sync_timestamp=1634529574100&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fasync-validator%2Fdownload%2Fasync-validator-4.0.7.tgz#034a0fd2103a6b2ebf010da75183bec299247afe"
   integrity sha1-A0oP0hA6ay6/AQ2nUYO+wpkkev4=
+
+axios@^0.23.0:
+  version "0.23.0"
+  resolved "https://registry.npmmirror.com/axios/download/axios-0.23.0.tgz?cache=0&sync_timestamp=1634053131158&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Faxios%2Fdownload%2Faxios-0.23.0.tgz#b0fa5d0948a8d1d75e3d5635238b6c4625b05149"
+  integrity sha1-sPpdCUio0ddePVY1I4tsRiWwUUk=
+  dependencies:
+    follow-redirects "^1.14.4"
 
 babel-walk@3.0.0-canary-5:
   version "3.0.0-canary-5"
@@ -568,6 +580,11 @@ evtd@^0.2.2:
   version "0.2.2"
   resolved "https://registry.nlark.com/evtd/download/evtd-0.2.2.tgz#bebbe27e15aedc1d5c18bc2620dfc90f260787c3"
   integrity sha1-vrvifhWu3B1cGLwmIN/JDyYHh8M=
+
+follow-redirects@^1.14.4:
+  version "1.14.4"
+  resolved "https://registry.nlark.com/follow-redirects/download/follow-redirects-1.14.4.tgz?cache=0&sync_timestamp=1631622129411&other_urls=https%3A%2F%2Fregistry.nlark.com%2Ffollow-redirects%2Fdownload%2Ffollow-redirects-1.14.4.tgz#838fdf48a8bbdd79e52ee51fb1c94e3ed98b9379"
+  integrity sha1-g4/fSKi73XnlLuUfsclOPtmLk3k=
 
 fsevents@~2.3.2:
   version "2.3.2"

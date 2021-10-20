@@ -10,7 +10,7 @@ import { NSpace, NSpin } from 'naive-ui';
     </div>
 
     <div style="text-align: center; margin-top: 30px;">
-        加载中 &nbsp;···
+        加载个人信息中 &nbsp;···
     </div>
 </template>
 

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import LoadingVue from '../pages/Loading.vue';
+import Info from '../pages/Info.vue';
 </script>
 
 <template>
-    <loading-vue></loading-vue>
+<info></info>
 </template>
 
 <style>
