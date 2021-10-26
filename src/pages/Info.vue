@@ -6,7 +6,7 @@ import JoinTeam from '/src/components/team/JoinTeam.vue';
 import CreateTeam from '/src/components/team/CreateTeam.vue';
 import TeamInfo from '/src/components/team/TeamInfo.vue';
 import UpdateTeam from '/src/components/team/UpdateTeam.vue';
-
+import SubmitUserInfo from "/src/components/user/SubmitUserInfo.vue";
 
 // 添加团队信息相关的组件的路由
 const router = useRouter()
@@ -18,7 +18,7 @@ router.addRoute({ path: "/team/join", components: { teaminfo: JoinTeam } })
 router.addRoute({ path: "/team/create", components: { teaminfo: CreateTeam } })
 router.addRoute({ path: "/team/teaminfo", components: { teaminfo: TeamInfo } })
 router.addRoute({ path: "/team/updateteam", components: { teaminfo: UpdateTeam } })
-
+router.addRoute({ path: "/team/submit", components: { teaminfo: SubmitUserInfo } })
 
 // TODO: 设置默认路由为已经加入状态
 router.replace("/team/notjoin")

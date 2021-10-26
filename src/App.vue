@@ -11,5 +11,4 @@ import { NMessageProvider, NLoadingBarProvider } from "naive-ui";
     </n-loading-bar-provider>
 </template>
 
-<style>
-</style>
+<style></style>
