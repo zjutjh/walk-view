@@ -1,8 +1,49 @@
 <script setup lang="ts">
+import { NTable, NCard, NButton } from 'naive-ui';
+
+function jumpToSubmitUserInfo() {
+
+}
 </script>
 
 <template>
+    <n-card embedded :bordered="false" size="small">
+        <n-table :bordered="true" :single-line="false">
+            <tbody>
+                <tr>
+                    <td class="left-item">
+                        <strong>姓名</strong>
+                    </td>
+                    <td class="right-item">Node Sans</td>
+                </tr>
+
+                <tr>
+                    <td class="left-item">
+                        <strong>学号</strong>
+                    </td>
+                    <td class="right-item">20200334011</td>
+                </tr>
+
+                <td class="left-item">
+                    <strong>电话号码</strong>
+                </td>
+                <td class="right-item">1776956288</td>
+            </tbody>
+        </n-table>
+
+        <n-button style="margin-top: 20px;  width: 100%;" type="primary" @click="jumpToSubmitUserInfo">修改信息</n-button>
+    </n-card>
 </template>
 
 <style>
+.left-item {
+    text-align: center;
+    width: 40%;
+}
+.right-item {
+    text-align: center;
+}
+.right-teammate-item {
+    text-align: center;
+}
 </style>
