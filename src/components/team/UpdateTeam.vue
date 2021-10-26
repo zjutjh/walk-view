@@ -47,7 +47,7 @@ function updateRouteOptions() {
             value: 5
         }]
     }
-    if (campus.value !== null) 
+    if (campus.value !== null)
         showRouteOptions.value = true
     route.value = null  // 初始化路线选项数据
 }
@@ -57,18 +57,17 @@ function createTeam() {
 }
 
 function goBack() {
-    router.push("/team/notjoin")
+    router.push("/team/teaminfo")
 }
 </script>
 
 <template>
-    <n-card title="📖 &nbsp 创建团队" embedded :bordered="false">
+    <n-card title="👟 基本信息" embedded :bordered="false">
         <div style="margin-top: 15px;">
             <n-form label-placement="top" ref="formRef">
                 <n-form-item label="团队名称" path="user.name">
                     <n-input placeholder="输入名称"></n-input>
                 </n-form-item>
-                
                 <n-form-item label="团队校区" path="user.age">
                     <n-select
                         :on-update="updateRouteOptions()"
@@ -77,22 +76,32 @@ function goBack() {
                         :options="campusOptions"
                     ></n-select>
                 </n-form-item>
-
                 <n-form-item label="路线选择" path="user.age">
-                    <n-select :disabled="!showRouteOptions" v-model:value="route" placeholder="选择校区后选择路线" :options="routeOptions"></n-select>
+                    <n-select
+                        :disabled="!showRouteOptions"
+                        v-model:value="route"
+                        placeholder="选择校区后选择路线"
+                        :options="routeOptions"
+                    ></n-select>
                 </n-form-item>
-                
-                <n-space :size="25" style="margin-top: 10px;" :vertical="true">
-                    <n-button
-                        @click="createTeam"
-                        style="width: 100%;"
-                        type="primary"
-                        attr-type="button"
-                    >创建团队</n-button>
-                    <n-button @click="goBack" style="width: 100%;" attr-type="button">返回上一步</n-button>
-                </n-space>
             </n-form>
         </div>
+    </n-card>
+
+    <n-card title="🧑‍🎓 队员信息" embedded :bordered="false">
+        
+    </n-card>
+
+    <n-card embedded :bordered="false">
+        <n-space :size="25" style="margin-top: 10px;" :vertical="true">
+            <n-button
+                @click="createTeam"
+                style="width: 100%;"
+                type="primary"
+                attr-type="button"
+            >更新信息</n-button>
+            <n-button @click="goBack" style="width: 100%;" attr-type="button">返回上一步</n-button>
+        </n-space>
     </n-card>
 </template>
 
