@@ -24,6 +24,7 @@ router.addRoute({ path: "/team/submit", component: SubmitUserInfo })
 
 router.replace("/user/showinfo") // 默认展示个人信息
 function changeTab(value: string) {
+    console.log(value)  // debug
     if (value === "team") 
         router.replace("/team/teaminfo") // TODO: 设置默认路由为已经加入状态
     else if (value === "personal") {

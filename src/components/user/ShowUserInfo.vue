@@ -25,7 +25,7 @@ function jumpToSubmitUserInfo() {
                 </tr>
 
                 <td class="left-item">
-                    <strong>电话号码</strong>
+                    <strong>电话</strong>
                 </td>
                 <td class="right-item">1776956288</td>
             </tbody>
