@@ -6,7 +6,7 @@ import JoinTeam from '/src/components/team/JoinTeam.vue';
 import CreateTeam from '/src/components/team/CreateTeam.vue';
 import TeamInfo from '/src/components/team/TeamInfo.vue';
 import UpdateTeam from '/src/components/team/UpdateTeam.vue';
-import SubmitUserInfo from "/src/components/user/SubmitUserInfo.vue";
+import SubmitStudentInfo from "/src/components/user/SubmitStudentInfo.vue";
 import ShowUserInfo from '../components/user/ShowUserInfo.vue';
 import { ref } from 'vue';
 
@@ -20,7 +20,7 @@ router.addRoute({ path: "/team/join", component: JoinTeam })
 router.addRoute({ path: "/team/create", component: CreateTeam })
 router.addRoute({ path: "/team/teaminfo", component: TeamInfo })
 router.addRoute({ path: "/team/updateteam", component: UpdateTeam })
-router.addRoute({ path: "/team/submit", component: SubmitUserInfo })
+router.addRoute({ path: "/team/submit", component: SubmitStudentInfo })
 
 router.replace("/user/showinfo") // 默认展示个人信息
 function changeTab(value: string) {
