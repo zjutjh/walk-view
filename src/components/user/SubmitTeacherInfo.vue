@@ -10,17 +10,22 @@ import {
     useMessage,
 } from "naive-ui";
 import { ref } from "vue";
+import Server from "../../config/server"
+import axios, { AxiosResponse } from "axios";
+import { useRouter } from "vue-router";
 
 const formRef = ref();
 const message = useMessage();
+const router = useRouter()
 const formValue = ref({
     name: "",
-    gender: 1,
-    campus: "",
+    gender: -1,
     id: "",
-    phone: "",
-    wechat: "",
-    qq: "",
+    contact: {
+        tel: "",
+        wechat: "",
+        qq: ""
+    }
 });
 const rules = ref({
     name: {
@@ -33,42 +38,51 @@ const rules = ref({
         message: "请选择性别",
         trigger: ["input", "blur"],
     },
-    campus: {
-        required: true,
-        message: "校区",
-        trigger: ["input", "blur"],
-    },
     id: {
         required: true,
         message: "请输入身份证号",
         trigger: ["input", "blur"],
     },
-    phone: {
-        required: true,
-        message: "请输入电话号码",
-        trigger: ["input", "blur"],
-    },
-    wechat: {
-        required: false,
-        message: "请输入微信号",
-        trigger: ["input", "blur"],
-    },
-    qq: {
-        required: false,
-        message: "请输入QQ号",
-        trigger: ["input", "blur"],
-    },
+    contact: {
+        tel: {
+            required: true,
+            message: "请输入电话号码",
+            trigger: ["input", "blur"],
+        },
+        wechat: {
+            required: false,
+            message: "请输入微信号",
+            trigger: ["input", "blur"],
+        },
+        qq: {
+            required: false,
+            message: "请输入QQ号",
+            trigger: ["input", "blur"],
+        }
+    }
+})
 
-});
-
-function handleValidateClick() {
-    console.log(formValue);
+function submit() {
     formRef.value.validate((errors: any) => {
         if (!errors) {
-            message.success("Valid");
+            // 提交数据
+            formValue.value.gender = Number(formValue.value.gender)
+            const submitTeacherUrl = Server.urlPrefix + Server.apiMap["register"]["teacher"]
+            axios.post(submitTeacherUrl, formValue.value, {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("jwt")
+                }
+            }).then(function (response: AxiosResponse) {
+                const responseData: any = response.data
+                if (responseData["code"] == 200) {
+                    message.success("报名成功")
+                    setTimeout(() => router.push("/loading"), 1000) // 跳转到加载信息页面  
+                } else {
+                    message.error(responseData["msg"])  // 报错信息
+                }
+            })
         } else {
-            console.log(errors);
-            message.error("请输入完整");
+            message.error("请输入完整")
         }
     });
 }
@@ -80,7 +94,7 @@ function handleValidateClick() {
             <n-input placeholder="请输入姓名" v-model:value="formValue.name" />
         </n-form-item>
 
-        <n-form-item label="性别" path="sex">
+        <n-form-item label="性别" path="gender">
             <n-radio-group v-model:value="formValue.gender">
                 <n-radio-button value="1">男</n-radio-button>
                 <n-radio-button value="0">女</n-radio-button>
@@ -90,18 +104,18 @@ function handleValidateClick() {
         <n-form-item label="身份证号" path="id">
             <n-input placeholder="请输入身份证号" v-model:value="formValue.id" />
         </n-form-item>
-        <n-form-item label="电话号码" path="phone">
-            <n-input placeholder="请输入电话号码" v-model:value="formValue.phone" />
+        <n-form-item label="电话号码" path="contact.tel">
+            <n-input placeholder="请输入电话号码" v-model:value="formValue.contact.tel" />
         </n-form-item>
-        <n-form-item label="微信号(可选)" path="wechat">
-            <n-input placeholder="请输入微信号" v-model:value="formValue.wechat" />
+        <n-form-item label="微信号(可选)" path="contact.wechat">
+            <n-input placeholder="请输入微信号" v-model:value="formValue.contact.wechat" />
         </n-form-item>
-        <n-form-item label="QQ号(可选)" path="qq">
-            <n-input placeholder="请输入QQ号" v-model:value="formValue.qq" />
+        <n-form-item label="QQ号(可选)" path="contact.qq">
+            <n-input placeholder="请输入QQ号" v-model:value="formValue.contact.qq" />
         </n-form-item>
         <n-form-item>
             <n-button
-                @click="handleValidateClick"
+                @click="submit"
                 attr-type="button"
                 style="margin: auto; width: 100%"
                 type="primary"
