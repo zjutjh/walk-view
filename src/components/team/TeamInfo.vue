@@ -32,6 +32,9 @@ function jumpToUpdateTeam() {
 
 <template>
     <n-card title="👟 &nbsp; 基本信息" embedded :bordered="false" size="small">
+        <template #header-extra>
+            <n-button v-if="canModify" @click="jumpToUpdateTeam" size="small" round>修改信息</n-button>
+        </template>
         <n-table :bordered="true" :single-line="false">
             <tbody>
                 <tr>
@@ -64,6 +67,9 @@ function jumpToUpdateTeam() {
     </n-card>
 
     <n-card title="🧑‍🎓 &nbsp; 队员信息" embedded :bordered="false" size="small">
+        <template #header-extra>
+            <n-button v-if="canModify" @click="jumpToUpdateTeam" size="small" round>管理团队</n-button>
+        </template>
         <n-table :bordered="true" :single-line="false">
             <thead>
                 <tr>
@@ -89,8 +95,6 @@ function jumpToUpdateTeam() {
             </tbody>
         </n-table>
     </n-card>
-
-    <n-button v-if="canModify" @click="jumpToUpdateTeam" style="margin-top: 8%; width: 100%;" type="primary">修改信息</n-button>
 </template>
 
 <style>
