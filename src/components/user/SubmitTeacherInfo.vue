@@ -97,7 +97,7 @@ function submit() {
         <n-form-item label="性别" path="gender">
             <n-radio-group v-model:value="formValue.gender">
                 <n-radio-button value="1">男</n-radio-button>
-                <n-radio-button value="0">女</n-radio-button>
+                <n-radio-button value="2">女</n-radio-button>
             </n-radio-group>
         </n-form-item>
 
@@ -119,7 +119,7 @@ function submit() {
                 attr-type="button"
                 style="margin: auto; width: 100%"
                 type="primary"
-            >报名</n-button>
+            >提交</n-button>
         </n-form-item>
     </n-form>
 </template>

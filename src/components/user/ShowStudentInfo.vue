@@ -1,8 +1,31 @@
 <script setup lang="ts">
 import { NTable, NButton } from 'naive-ui';
+import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
+
+// 从本地缓存中读取用户信息
+const name = ref(localStorage.getItem("name"))
+const gender = computed(() => localStorage.getItem("gender") == "1" ? "男" : "女")
+const stuID = ref(localStorage.getItem("stu_id"))
+const id = ref(localStorage.getItem("id"))
+const tel = ref(localStorage.getItem("tel"))
+const qq = ref(localStorage.getItem("qq"))
+const wechat = ref(localStorage.getItem("wechat"))
+const campus = computed(() => {
+    const campusNum = localStorage.getItem("campus")
+    if (campusNum == "1") {
+        return "朝晖校区"
+    } else if (campusNum == "2") {
+        return "屏峰校区"
+    } else if (campusNum == "3") {
+        return "莫干山校区"
+    }
+})
 
 function jumpToSubmitUserInfo() {
-
+    router.replace("/update/student")
 }
 </script>
 
@@ -13,21 +36,57 @@ function jumpToSubmitUserInfo() {
                 <td class="left-item">
                     <strong>姓名</strong>
                 </td>
-                <td class="right-item">Node Sans</td>
+                <td class="right-item">{{ name }}</td>
+            </tr>
+
+            <tr>
+                <td class="left-item">
+                    <strong>性别</strong>
+                </td>
+                <td class="right-item">{{ gender }}</td>
             </tr>
 
             <tr>
                 <td class="left-item">
                     <strong>学号</strong>
                 </td>
-                <td class="right-item">20200334011</td>
+                <td class="right-item">{{ stuID }}</td>
             </tr>
 
-            <td class="left-item">
-                <strong>电话</strong>
-            </td>
+            <tr>
+                <td class="left-item">
+                    <strong>校区</strong>
+                </td>
+                <td class="right-item">{{ campus }}</td>
+            </tr>
 
-            <td class="right-item">1776956288</td>
+            <tr>
+                <td class="left-item">
+                    <strong>身份证号</strong>
+                </td>
+                <td class="right-item">{{ id }}</td>
+            </tr>
+
+            <tr>
+                <td class="left-item">
+                    <strong>电话</strong>
+                </td>
+                <td class="right-item">{{ tel }}</td>
+            </tr>
+
+            <tr>
+                <td class="left-item">
+                    <strong>微信</strong>
+                </td>
+                <td class="right-item">{{ wechat }}</td>
+            </tr>
+
+            <tr>
+                <td class="left-item">
+                    <strong>QQ</strong>
+                </td>
+                <td class="right-item">{{ qq }}</td>
+            </tr>
         </tbody>
     </n-table>
 
@@ -41,7 +100,7 @@ function jumpToSubmitUserInfo() {
 <style>
 .left-item {
     text-align: center;
-    width: 40%;
+    width: 34%;
 }
 .right-item {
     text-align: center;

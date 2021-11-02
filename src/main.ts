@@ -13,11 +13,15 @@ import UpdateTeam from '/src/components/team/UpdateTeam.vue';
 import SubmitStudentInfo from "/src/components/user/SubmitStudentInfo.vue";
 import ShowStudentInfo from '/src/components/user/ShowStudentInfo.vue';
 import ShowTeacherInfo from '/src/components/user/ShowTeacherInfo.vue'
+import UpdateStudentInfo from '/src/pages/UpdateStudentInfo.vue'
+import UpdateTeacherInfo from '/src/pages/UpdateTeacherInfo.vue'
 
 // 设置前端路由
 const routes = [
     { path: '/', component: Login },  // 根目录为加载页面
     { path: '/register', component: Register }, // 报名页面
+    { path: '/update/student', component: UpdateStudentInfo },
+    { path: '/update/teacher', component: UpdateTeacherInfo },
     { path: '/loading', component: Loading },
     {
         path: '/info', component: Info, children: [

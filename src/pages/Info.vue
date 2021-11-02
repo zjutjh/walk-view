@@ -15,9 +15,13 @@ if (localStorage.getItem("campus") === "5") {
 
 router.replace(userInfoRoute) // 默认展示个人信息
 function changeTab(value: string) {
-    if (value === "team")
-        router.replace("/info/team/") // TODO: 设置默认路由为已经加入状态
-    else if (value === "personal") {
+    if (value === "team") {
+        if (localStorage.getItem("team_id") == "-1") {
+            router.replace("/info/team/notjoin")
+        } else {
+            router.replace("/info/team/teaminfo")
+        }
+    } else if (value === "personal") {
         router.replace(userInfoRoute)
     }
 }
