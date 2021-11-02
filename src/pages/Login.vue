@@ -23,6 +23,10 @@ function getQueryVariable(variable: string): string {
 const code = getQueryVariable("code")
 const loginUrl = Server.urlPrefix + Server.apiMap["basic"]["login"]
 
+// 如果本地已经有 token 就直接跳转到加载信息页面
+if (localStorage.getItem("jwt") !== "")
+    router.replace("/loading")
+
 axios.get(loginUrl, {
     "params": {
         "code": code
