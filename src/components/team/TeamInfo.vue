@@ -90,12 +90,9 @@ function jumpToUpdateTeam() {
             :wechat="member['contact']['wechat']"
             :is-leader="false"
         ></member-card>
-
-        <n-space justify="space-around">
-            <n-button round v-if="isLeader" style="margin-top: 20px;" type="primary">提交团队</n-button>
-            <n-button round v-if="isLeader" style="margin-top: 20px;" type="error">解散团队</n-button>
-        </n-space>
     </n-card>
+    <n-button v-if="isLeader" style="width: 100%; margin-top: 20px;" type="primary">提交团队</n-button>
+    <n-button v-if="isLeader" style="width: 100%; margin-top: 20px;" type="error">解散团队</n-button>
 </template>
 
 <style>
