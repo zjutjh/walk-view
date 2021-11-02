@@ -1,0 +1,43 @@
+<script setup lang="ts">
+import { NTable, NTag, NCard } from 'naive-ui';
+const props = defineProps({
+    'name': String,
+    'isLeader': Boolean,
+    'tel': String,
+    'qq': String,
+    'wechat': String
+})
+
+</script>
+
+<template>
+    <n-card
+        :segmented="{
+            'content': 'soft',
+        }"
+        :title="'&nbsp;&nbsp;&nbsp;' + name"
+        size="small"
+    >
+        <template #header-extra>
+            <n-tag v-if="isLeader" style="margin-right: 10px;" size="small" type="success">队长</n-tag>
+            <n-tag v-if="!isLeader" style="margin-right: 10px;" size="small" type="warning">队员</n-tag>
+        </template>
+
+        <n-table :bordered="false" :single-line="true">
+            <tbody>
+                <tr>
+                    <td>电话</td>
+                    <td style="text-align: right;">{{ tel }}</td>
+                </tr>
+                <tr>
+                    <td>QQ</td>
+                    <td style="text-align: right;">{{ qq }}</td>
+                </tr>
+                <tr>
+                    <td>微信</td>
+                    <td style="text-align: right;">{{ wechat }}</td>
+                </tr>
+            </tbody>
+        </n-table>
+    </n-card>
+</template>

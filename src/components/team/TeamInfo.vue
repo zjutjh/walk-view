@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { NCard, NTable, NButton } from 'naive-ui';
+import { NCard, NTable, NButton, NSpace } from 'naive-ui';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router'
+import MemberCard from './MemberCard.vue';
 
 const router = useRouter()
 
@@ -9,7 +10,7 @@ const router = useRouter()
 const teamData = ref(JSON.parse(<string>localStorage.getItem("team_data")))
 
 // 是否能修改
-const canModify = computed(() => localStorage.getItem("status") == "2" ? true : false)
+const isLeader = computed(() => localStorage.getItem("status") == "2" ? true : false)
 
 // 毅行路线数据
 const teamRoute = computed(() => {
@@ -33,7 +34,7 @@ function jumpToUpdateTeam() {
 <template>
     <n-card title="👟 &nbsp; 基本信息" embedded :bordered="false" size="small">
         <template #header-extra>
-            <n-button v-if="canModify" @click="jumpToUpdateTeam" size="small" round>修改信息</n-button>
+            <n-button v-if="isLeader" @click="jumpToUpdateTeam" size="small" round>修改信息</n-button>
         </template>
         <n-table :bordered="true" :single-line="false">
             <tbody>
@@ -68,32 +69,32 @@ function jumpToUpdateTeam() {
 
     <n-card title="🧑‍🎓 &nbsp; 队员信息" embedded :bordered="false" size="small">
         <template #header-extra>
-            <n-button v-if="canModify" @click="jumpToUpdateTeam" size="small" round>管理团队</n-button>
+            <n-button v-if="isLeader" @click="jumpToUpdateTeam" size="small" round>管理团队</n-button>
         </template>
-        <n-table :bordered="true" :single-line="false">
-            <thead>
-                <tr>
-                    <th style="text-align: center; width: 40%;">姓名</th>
-                    <th style="text-align: center;">身份</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="left-item">Node Sans</td>
-                    <td class="right-teammate-item">队长</td>
-                </tr>
+        <!-- 领队信息 -->
+        <member-card
+            :name="teamData['leader']['name']"
+            :tel="teamData['leader']['contact']['tel']"
+            :qq="teamData['leader']['contact']['qq']"
+            :wechat="teamData['leader']['contact']['wechat']"
+            :is-leader="true"
+        ></member-card>
 
-                <tr>
-                    <td class="left-item">NULL</td>
-                    <td class="right-teammate-item">队员</td>
-                </tr>
+        <!-- 队员信息 -->
+        <member-card
+            style="margin-top: 15px;"
+            v-for="member in teamData['member']"
+            :name="member['name']"
+            :tel="member['contact']['tel']"
+            :qq="member['contact']['qq']"
+            :wechat="member['contact']['wechat']"
+            :is-leader="false"
+        ></member-card>
 
-                <tr>
-                    <td class="left-item">I-Info</td>
-                    <td class="right-teammate-item">队员</td>
-                </tr>
-            </tbody>
-        </n-table>
+        <n-space justify="space-around">
+            <n-button round v-if="isLeader" style="margin-top: 20px;" type="primary">提交团队</n-button>
+            <n-button round v-if="isLeader" style="margin-top: 20px;" type="error">解散团队</n-button>
+        </n-space>
     </n-card>
 </template>
 
