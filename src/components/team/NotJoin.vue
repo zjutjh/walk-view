@@ -5,11 +5,11 @@ import { useRouter } from 'vue-router';
 const router = useRouter()
 
 function jumpToJoin() {
-    router.push("/team/join")
+    router.push("/info/team/join")
 }
 
 function jumpToCreate() {
-    router.push("/team/create")
+    router.push("/info/team/create")
 }
 
 </script>

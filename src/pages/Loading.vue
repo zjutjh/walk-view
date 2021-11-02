@@ -37,6 +37,25 @@ axios.get(userInfoUrl, {
         localStorage.setItem("qq", respData["data"]["contact"]["qq"])
         localStorage.setItem("wechat", respData["data"]["contact"]["wechat"])
         localStorage.setItem("tel", respData["data"]["contact"]["tel"])
+
+        if (respData["data"]["team_id"] != -1) { // 如果这个人已经加入了团队
+            // 获取团队信息获取链接
+            const getTeamInfoUrl = Server.urlPrefix + Server.apiMap["team"]["info"]
+            axios.get(getTeamInfoUrl, {
+                "headers": {
+                    "Authorization": "Bearer " + jwt
+                }
+            }).then(function (response: AxiosResponse) {
+                const respData: any = response.data
+                localStorage.setItem("team_data", JSON.stringify(respData["data"]))
+            }).catch(function (error) {
+                dialog.warning({
+                    "title": "登陆错误",
+                    "content": "服务器错误, 请稍后重试",
+                    "positiveText": "确定"
+                })
+            })
+        }
         // 跳转页面
         router.replace("/info")
     } else {
