@@ -31,6 +31,7 @@ axios.get(userInfoUrl, {
         localStorage.setItem("gender", respData["data"]["gender"])
         localStorage.setItem("id", respData["data"]["id"])
         localStorage.setItem("campus", respData["data"]["campus"])
+        localStorage.setItem("status", respData["data"]["status"])
         localStorage.setItem("create_op", respData["data"]["create_op"])
         localStorage.setItem("join_op", respData["data"]["join_op"])
         localStorage.setItem("team_id", respData["data"]["team_id"])

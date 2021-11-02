@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NTable, NButton } from 'naive-ui';
+import { NTable, NButton, NCard } from 'naive-ui';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -30,65 +30,73 @@ function jumpToSubmitUserInfo() {
 </script>
 
 <template>
-    <n-table :bordered="true" style="margin-top: 10px;" :single-line="false">
-        <tbody>
-            <tr>
-                <td class="left-item">
-                    <strong>姓名</strong>
-                </td>
-                <td class="right-item">{{ name }}</td>
-            </tr>
+    <n-card title="📖 &nbsp; 基本信息" embedded :bordered="false" size="small">
+        <n-table :bordered="true" :single-line="false">
+            <tbody>
+                <tr>
+                    <td class="left-item">
+                        <strong>姓名</strong>
+                    </td>
+                    <td class="right-item">{{ name }}</td>
+                </tr>
 
-            <tr>
-                <td class="left-item">
-                    <strong>性别</strong>
-                </td>
-                <td class="right-item">{{ gender }}</td>
-            </tr>
+                <tr>
+                    <td class="left-item">
+                        <strong>性别</strong>
+                    </td>
+                    <td class="right-item">{{ gender }}</td>
+                </tr>
 
-            <tr>
-                <td class="left-item">
-                    <strong>学号</strong>
-                </td>
-                <td class="right-item">{{ stuID }}</td>
-            </tr>
+                <tr>
+                    <td class="left-item">
+                        <strong>学号</strong>
+                    </td>
+                    <td class="right-item">{{ stuID }}</td>
+                </tr>
 
-            <tr>
-                <td class="left-item">
-                    <strong>校区</strong>
-                </td>
-                <td class="right-item">{{ campus }}</td>
-            </tr>
+                <tr>
+                    <td class="left-item">
+                        <strong>校区</strong>
+                    </td>
+                    <td class="right-item">{{ campus }}</td>
+                </tr>
 
-            <tr>
-                <td class="left-item">
-                    <strong>身份证号</strong>
-                </td>
-                <td class="right-item">{{ id }}</td>
-            </tr>
+                <tr>
+                    <td class="left-item">
+                        <strong>身份证号</strong>
+                    </td>
+                    <td class="right-item">{{ id }}</td>
+                </tr>
+            </tbody>
+        </n-table>
+    </n-card>
 
-            <tr>
-                <td class="left-item">
-                    <strong>电话</strong>
-                </td>
-                <td class="right-item">{{ tel }}</td>
-            </tr>
+    <n-card title="☎️ &nbsp; 联系方式" embedded :bordered="false" size="small">
+        <n-table :bordered="true" :single-line="false">
+            <tbody>
+                <tr>
+                    <td class="left-item">
+                        <strong>电话</strong>
+                    </td>
+                    <td class="right-item">{{ tel }}</td>
+                </tr>
 
-            <tr>
-                <td class="left-item">
-                    <strong>微信</strong>
-                </td>
-                <td class="right-item">{{ wechat }}</td>
-            </tr>
+                <tr>
+                    <td class="left-item">
+                        <strong>微信</strong>
+                    </td>
+                    <td class="right-item">{{ wechat }}</td>
+                </tr>
 
-            <tr>
-                <td class="left-item">
-                    <strong>QQ</strong>
-                </td>
-                <td class="right-item">{{ qq }}</td>
-            </tr>
-        </tbody>
-    </n-table>
+                <tr>
+                    <td class="left-item">
+                        <strong>QQ</strong>
+                    </td>
+                    <td class="right-item">{{ qq }}</td>
+                </tr>
+            </tbody>
+        </n-table>
+    </n-card>
 
     <n-button
         style="margin-top: 20px;  width: 100%;"

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { NCard, NTabs, NTabPane } from 'naive-ui';
-import { userInfo } from 'os';
+import { NCard, NTabs, NTabPane, NButton } from 'naive-ui';
 import { RouterView, useRouter } from 'vue-router';
 
 const router = useRouter()
@@ -25,10 +24,17 @@ function changeTab(value: string) {
         router.replace(userInfoRoute)
     }
 }
+
+function refresh() {
+    router.replace("/loading")
+}
 </script>
 
 <template>
-    <n-card title="毅行信息管理 🚀" style="margin: 4% auto; width: 93%;">
+    <n-card title="毅行信息管理 &nbsp; 🚀" style="margin: 4% auto; width: 93%;">
+        <template #header-extra>
+            <n-button @click="refresh" round><div style="margin-left: 8px">刷新 🔥</div></n-button>
+        </template>
         <n-tabs @update:value="changeTab" type="line">
             <n-tab-pane name="personal" tab="个人信息">
                 <router-view></router-view>

@@ -57,7 +57,7 @@ function createTeam() {
 }
 
 function goBack() {
-    router.push("/team/teaminfo")
+    router.push("/info/team/teaminfo")
 }
 </script>
 

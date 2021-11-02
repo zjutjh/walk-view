@@ -1,41 +1,69 @@
 <script setup lang="ts">
-import { NCard, NSpace, NTable, NButton } from 'naive-ui';
+import { NCard, NTable, NButton } from 'naive-ui';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
+// 展示用的数据
+const teamData = ref(JSON.parse(<string>localStorage.getItem("team_data")))
+
+// 是否能修改
+const canModify = computed(() => localStorage.getItem("status") == "2" ? true : false)
+
+// 毅行路线数据
+const teamRoute = computed(() => {
+    if (teamData.value["route"] == 1)
+        return "朝晖全程"
+    else if (teamData.value["route"] == 2)
+        return "屏峰半程"
+    else if (teamData.value["route"] == 3)
+        return "屏峰全程"
+    else if (teamData.value["route"] == 4)
+        return "莫干山半程"
+    else if (teamData.value["route"] == 5)
+        return "莫干山全程"
+})
+
 function jumpToUpdateTeam() {
-    router.replace("/team/updateteam")
+    router.replace("/info/team/updateteam")
 }
 </script>
 
 <template>
-    <n-card title="👟 基本信息" embedded :bordered="false" size="small">
+    <n-card title="👟 &nbsp; 基本信息" embedded :bordered="false" size="small">
         <n-table :bordered="true" :single-line="false">
             <tbody>
                 <tr>
                     <td class="left-item">
                         <strong>团队名称</strong>
                     </td>
-                    <td class="right-item">重音猛男</td>
+                    <td class="right-item">{{ teamData["name"] }}</td>
                 </tr>
 
                 <tr>
                     <td class="left-item">
-                        <strong>团队校区</strong>
+                        <strong>团队编号</strong>
                     </td>
-                    <td class="right-item">莫干山校区</td>
+                    <td class="right-item">{{ teamData["id"] }}</td>
+                </tr>
+
+                <tr>
+                    <td class="left-item">
+                        <strong>团队密码</strong>
+                    </td>
+                    <td class="right-item">{{ teamData["password"] }}</td>
                 </tr>
 
                 <td class="left-item">
                     <strong>毅行路线</strong>
                 </td>
-                <td class="right-item">莫干山半程</td>
+                <td class="right-item">{{ teamRoute }}</td>
             </tbody>
         </n-table>
     </n-card>
 
-    <n-card title="🧑‍🎓 队员信息" embedded :bordered="false" size="small">
+    <n-card title="🧑‍🎓 &nbsp; 队员信息" embedded :bordered="false" size="small">
         <n-table :bordered="true" :single-line="false">
             <thead>
                 <tr>
@@ -62,7 +90,7 @@ function jumpToUpdateTeam() {
         </n-table>
     </n-card>
 
-    <n-button @click="jumpToUpdateTeam" style="margin-top: 8%; width: 100%;" type="primary">修改信息</n-button>
+    <n-button v-if="canModify" @click="jumpToUpdateTeam" style="margin-top: 8%; width: 100%;" type="primary">修改信息</n-button>
 </template>
 
 <style>
