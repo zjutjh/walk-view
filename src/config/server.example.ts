@@ -6,7 +6,16 @@ export default {
             "login": "/login"
         },
         "user": {
-            "info": "/user/info"
+            "info": "/user/info",
+            "update": "/user/modify"
+        },
+        "register": {
+            "student": "/register/student",
+            "teacher": "/register/teacher"
+        },
+        "team": {
+            "create": "/team/create",
+            "info": "/team/info"
         }
     }
 }
