@@ -8,79 +8,52 @@ import { useRouter } from 'vue-router';
 const dialog = useDialog()
 const router = useRouter()
 
-// 函数定义
-function getQueryVariable(variable: string): string {
-    let query = window.location.search.substring(1);
-    let vars = query.split("&");
-    for (let i = 0; i < vars.length; i++) {
-        let pair = vars[i].split("=");
-        if (pair[0] == variable) { return pair[1]; }
-    }
-    return "";
+const jwt = localStorage.getItem("jwt")
+if (jwt === "") {
+    dialog.error({
+        title: "登陆错误",
+        content: "请重新从微信公众号进入",
+        positiveText: "确定"
+    })
 }
 
-// 获取微信 code
-const code = getQueryVariable("code")
-const loginUrl = Server.urlPrefix + Server.apiMap["basic"]["login"]
-
-axios.get(loginUrl, {
-    params: {
-        "code": code
+const userInfoUrl = Server.urlPrefix + Server.apiMap["user"]["info"]
+axios.get(userInfoUrl, {
+    "headers": {
+        "Authorization": "Bearer " + jwt
     }
 }).then(function (response: AxiosResponse) {
-    const responseData: any = response.data
-    const jwt = responseData["data"]["jwt"]
-
-    localStorage.setItem("jwt", jwt)  // 将 jwt 数据存入本地数据库
-
-    // 接下来获取用户信息
-    const userInfoUrl = Server.urlPrefix + Server.apiMap["user"]["info"]
-    axios({
-        "url": userInfoUrl,
-        "method": "get",
-        "headers": {
-            "Authorization": "Bearer " + localStorage.getItem("jwt")
-        }
-    }).then(function (response: AxiosResponse) {
-        const responseData: any = response.data
-        const code = responseData["code"]
-
-        if (code != 200) {
-            dialog.warning({
-                "title": "警告",
-                "content": "尚未报名",
-                "positiveText": "报名",
-                "onPositiveClick": () => {
-                    router.push("/register") // 跳转到报名页面
-                }
-            })
-        } else {
-            const responseData: any = response.data
-            // 存储个人信息
-            localStorage.setItem("name", responseData["name"])
-            localStorage.setItem("stu_id", responseData["stu_id"])
-            localStorage.setItem("gender", responseData["gender"])
-            localStorage.setItem("campus", responseData["campus"])
-            localStorage.setItem("create_op", responseData["create_op"])
-            localStorage.setItem("join_op", responseData["join_op"])
-            localStorage.setItem("team_id", responseData["team_id"])
-            localStorage.setItem("qq", responseData["contact"]["qq"])
-            localStorage.setItem("wechat", responseData["contact"]["wechat"])
-            localStorage.setItem("tel", responseData["contact"]["tel"])
-            router.push('/info') // 获取到用户信息，跳转到用户信息页面
-        }
-    }).catch(function (error) {
-        dialog.error({
-            title: '错误',
-            content: '服务器错误，请重新进入',
-            positiveText: '确定',
+    const respData: any = response.data
+    if (respData["code"] === 200) {
+        // 存储用户信息
+        localStorage.setItem("name", respData["data"]["name"])
+        localStorage.setItem("stu_id", respData["data"]["stu_id"])
+        localStorage.setItem("gender", respData["data"]["gender"])
+        localStorage.setItem("campus", respData["data"]["campus"])
+        localStorage.setItem("create_op", respData["data"]["create_op"])
+        localStorage.setItem("join_op", respData["data"]["join_op"])
+        localStorage.setItem("team_id", respData["data"]["team_id"])
+        localStorage.setItem("qq", respData["data"]["contact"]["qq"])
+        localStorage.setItem("wechat", respData["data"]["contact"]["wechat"])
+        localStorage.setItem("tel", respData["data"]["contact"]["tel"])
+        // 跳转页面
+        router.replace("/info")
+    } else {
+        // 获取用户信息错误
+        dialog.warning({
+            "title": "没有用户信息",
+            "content": "前往报名页面",
+            "positiveText": "确定",
+            "onPositiveClick": () => {
+                router.replace("/register")
+            }
         })
-    })
+    }
 }).catch(function (error) {
-    dialog.error({
-        title: '错误',
-        content: '服务器错误，请重新进入',
-        positiveText: '确定',
+    dialog.warning({
+        "title": "登陆错误",
+        "content": "服务器错误, 请稍后重试",
+        "positiveText": "确定"
     })
 })
 </script>

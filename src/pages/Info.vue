@@ -22,9 +22,8 @@ router.addRoute({ path: "/team/teaminfo", component: TeamInfo })
 router.addRoute({ path: "/team/updateteam", component: UpdateTeam })
 router.addRoute({ path: "/team/submit", component: SubmitStudentInfo })
 
-router.replace("/user/showinfo") // 默认展示个人信息
+// router.replace("/user/showinfo") // 默认展示个人信息
 function changeTab(value: string) {
-    console.log(value)  // debug
     if (value === "team") 
         router.replace("/team/teaminfo") // TODO: 设置默认路由为已经加入状态
     else if (value === "personal") {
@@ -37,10 +36,10 @@ function changeTab(value: string) {
     <n-card title="毅行信息管理 🚀" style="margin: 4% auto; width: 93%;">
         <n-tabs @update:value="changeTab" type="line">
             <n-tab-pane name="personal" tab="个人信息">
-                <router-view></router-view>
+                <!-- <router-view></router-view> -->
             </n-tab-pane>
             <n-tab-pane name="team" tab="团队信息">
-                <router-view></router-view>
+                <!-- <router-view></router-view> -->
             </n-tab-pane>
         </n-tabs>
     </n-card>
