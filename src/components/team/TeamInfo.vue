@@ -55,12 +55,36 @@ function disbandTeam() {
         message.error("网络错误，请检查网络")
     })
 }
+
+function submitTeam() {
+    const submitTeamUrl = ServerConfig.urlPrefix + ServerConfig.apiMap["team"]["submit"]
+    axios.get(submitTeamUrl, {
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("jwt")
+        }
+    }).then(function (response: AxiosResponse) {
+        const respData: any = response.data
+        if (respData["code"] == 200) {
+            message.success("提交队伍成功")
+            setTimeout(() => router.replace("/loading"), 1000)
+        } else {
+            message.error(respData["msg"])
+        }
+    }).catch(function (error) {
+        message.error("网络错误，请检查网络")
+    })
+}
 </script>
 
 <template>
     <n-card title="👟 &nbsp; 基本信息" embedded :bordered="false" size="small">
         <template #header-extra>
-            <n-button v-if="isLeader" @click="jumpToUpdateTeam" size="small" round>修改信息</n-button>
+            <n-button
+                v-if="isLeader && !teamData['submitted']"
+                @click="jumpToUpdateTeam"
+                size="small"
+                round
+            >修改信息</n-button>
         </template>
         <n-table :bordered="true" :single-line="false">
             <tbody>
@@ -95,7 +119,12 @@ function disbandTeam() {
 
     <n-card title="🧑‍🎓 &nbsp; 队员信息" embedded :bordered="false" size="small">
         <template #header-extra>
-            <n-button v-if="isLeader" @click="jumpToManageMember" size="small" round>管理团队</n-button>
+            <n-button
+                v-if="isLeader && !teamData['submitted']"
+                @click="jumpToManageMember"
+                size="small"
+                round
+            >管理团队</n-button>
         </template>
         <!-- 领队信息 -->
         <member-card
@@ -117,10 +146,15 @@ function disbandTeam() {
             :is-leader="false"
         ></member-card>
     </n-card>
-    <n-button v-if="isLeader" style="width: 100%; margin-top: 20px;" type="primary">提交团队</n-button>
+    <n-button
+        @click="submitTeam"
+        v-if="isLeader && !teamData['submitted']"
+        style="width: 100%; margin-top: 20px;"
+        type="primary"
+    >提交团队</n-button>
     <n-button
         @click="disbandTeam"
-        v-if="isLeader"
+        v-if="isLeader && !teamData['submitted']"
         style="width: 100%; margin-top: 20px;"
         type="error"
     >解散团队</n-button>

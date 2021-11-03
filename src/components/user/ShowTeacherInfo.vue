@@ -12,8 +12,10 @@ const id = ref(localStorage.getItem("id"))
 const tel = ref(localStorage.getItem("tel"))
 const qq = ref(localStorage.getItem("qq"))
 const wechat = ref(localStorage.getItem("wechat"))
+const joinOp = ref(localStorage.getItem("join_op"))
+const createOp = ref(localStorage.getItem("create_op"))
 
-function jumpToSubmitUserInfo() {
+function jumpToUpdateTeacherInfo() {
     router.replace("/update/teacher")
 }
 </script>
@@ -73,10 +75,30 @@ function jumpToSubmitUserInfo() {
         </n-table>
     </n-card>
 
+    <n-card title="📕 &nbsp; 剩余次数" embedded :bordered="false" size="small">
+        <n-table :bordered="true" :single-line="false">
+            <tbody>
+                <tr>
+                    <td class="left-item">
+                        <strong>创建团队</strong>
+                    </td>
+                    <td class="right-item">{{ createOp }}</td>
+                </tr>
+
+                <tr>
+                    <td class="left-item">
+                        <strong>加入团队</strong>
+                    </td>
+                    <td class="right-item">{{ joinOp }}</td>
+                </tr>
+            </tbody>
+        </n-table>
+    </n-card>
+
     <n-button
         style="margin-top: 20px;  width: 100%;"
         type="primary"
-        @click="jumpToSubmitUserInfo"
+        @click="jumpToUpdateTeacherInfo"
     >修改信息</n-button>
 </template>
 
