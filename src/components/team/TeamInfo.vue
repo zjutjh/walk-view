@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { NCard, NTable, NButton, NSpace } from 'naive-ui';
+import axios, { AxiosResponse } from 'axios';
+import { NCard, NTable, NButton, NSpace, useMessage } from 'naive-ui';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router'
 import MemberCard from './MemberCard.vue';
+import ServerConfig from '../../config/server'
 
 const router = useRouter()
+const message = useMessage()
 
 // 展示用的数据
 const teamData = ref(JSON.parse(<string>localStorage.getItem("team_data")))
@@ -32,6 +35,25 @@ function jumpToUpdateTeam() {
 
 function jumpToManageMember() {
     router.replace("/info/team/managemember")
+}
+
+function disbandTeam() {
+    const disbandTeamUrl = ServerConfig.urlPrefix + ServerConfig.apiMap["team"]["disband"]
+    axios.get(disbandTeamUrl, {
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("jwt")
+        }
+    }).then(function (response: AxiosResponse) {
+        const respData: any = response.data
+        if (respData["code"] == 200) {
+            message.success("解散成功")
+            setTimeout(() => router.replace("/loading"), 1000)
+        } else {
+            message.error(respData["msg"])
+        }
+    }).catch(function (error) {
+        message.error("网络错误，请检查网络")
+    })
 }
 </script>
 
@@ -96,7 +118,12 @@ function jumpToManageMember() {
         ></member-card>
     </n-card>
     <n-button v-if="isLeader" style="width: 100%; margin-top: 20px;" type="primary">提交团队</n-button>
-    <n-button v-if="isLeader" style="width: 100%; margin-top: 20px;" type="error">解散团队</n-button>
+    <n-button
+        @click="disbandTeam"
+        v-if="isLeader"
+        style="width: 100%; margin-top: 20px;"
+        type="error"
+    >解散团队</n-button>
 </template>
 
 <style>
