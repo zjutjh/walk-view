@@ -86,7 +86,7 @@ function submit() {
             // 提交数据
             formValue.value.campus = Number(formValue.value.campus)
             formValue.value.gender = Number(formValue.value.gender)
-            const submitStudentUrl = Server.urlPrefix + Server.apiMap["register"]["student"]
+            const submitStudentUrl = Server.urlPrefix + Server.apiMap["user"]["update"]
             axios.post(submitStudentUrl, formValue.value, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("jwt")
