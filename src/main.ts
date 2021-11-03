@@ -15,6 +15,7 @@ import ShowStudentInfo from '/src/components/user/ShowStudentInfo.vue';
 import ShowTeacherInfo from '/src/components/user/ShowTeacherInfo.vue'
 import UpdateStudentInfo from '/src/pages/UpdateStudentInfo.vue'
 import UpdateTeacherInfo from '/src/pages/UpdateTeacherInfo.vue'
+import ManageMember from '/src/components/team/ManageMember.vue'
 
 // 设置前端路由
 const routes = [
@@ -32,7 +33,8 @@ const routes = [
             { path: "team/create", component: CreateTeam },
             { path: "team/teaminfo", component: TeamInfo },
             { path: "team/updateteam", component: UpdateTeam },
-            { path: "team/submit", component: SubmitStudentInfo }
+            { path: "team/submit", component: SubmitStudentInfo },
+            { path: "team/managemember", component: ManageMember }
         ]
     }
 ]

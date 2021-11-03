@@ -29,6 +29,10 @@ const teamRoute = computed(() => {
 function jumpToUpdateTeam() {
     router.replace("/info/team/updateteam")
 }
+
+function jumpToManageMember() {
+    router.replace("/info/team/managemember")
+}
 </script>
 
 <template>
@@ -69,7 +73,7 @@ function jumpToUpdateTeam() {
 
     <n-card title="🧑‍🎓 &nbsp; 队员信息" embedded :bordered="false" size="small">
         <template #header-extra>
-            <n-button v-if="isLeader" @click="jumpToUpdateTeam" size="small" round>管理团队</n-button>
+            <n-button v-if="isLeader" @click="jumpToManageMember" size="small" round>管理团队</n-button>
         </template>
         <!-- 领队信息 -->
         <member-card
