@@ -2,14 +2,21 @@
   "name": "walk-view",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.2.16"
+    "axios": "^0.23.0",
+    "naive-ui": "^2.19.9",
+    "vfonts": "^0.1.0",
+    "vue": "^3.2.16",
+    "vue-router": "4",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
+    "@types/node": "^16.11.1",
+    "@vicons/fluent": "^0.11.0",
     "@vitejs/plugin-vue": "^1.9.3",
     "typescript": "^4.4.3",
     "vite": "^2.6.4",
