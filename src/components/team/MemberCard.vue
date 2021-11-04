@@ -10,6 +10,21 @@ const props = defineProps({
     'wechat': String
 })
 
+const qqStr = computed(() => {
+    const qqStr = localStorage.getItem("qq")
+    if (qqStr == "")
+        return "无"
+    else
+        return qqStr
+})
+const wechatStr = computed(() => {
+    const wechatStr = localStorage.getItem("wechat")
+    if (wechatStr == "")
+        return "无"
+    else
+        return wechatStr
+})
+
 const campusName = computed(() => {
     if (props.campus == 1)
         return "朝晖"
@@ -51,11 +66,11 @@ const campusName = computed(() => {
                 </tr>
                 <tr>
                     <td>QQ</td>
-                    <td style="text-align: right;">{{ qq }}</td>
+                    <td style="text-align: right;">{{ qqStr }}</td>
                 </tr>
                 <tr>
                     <td>微信</td>
-                    <td style="text-align: right;">{{ wechat }}</td>
+                    <td style="text-align: right;">{{ wechatStr }}</td>
                 </tr>
             </tbody>
         </n-table>

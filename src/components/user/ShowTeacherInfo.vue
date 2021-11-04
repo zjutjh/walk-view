@@ -10,8 +10,20 @@ const name = ref(localStorage.getItem("name"))
 const gender = computed(() => localStorage.getItem("gender") == "1" ? "男" : "女")
 const id = ref(localStorage.getItem("id"))
 const tel = ref(localStorage.getItem("tel"))
-const qq = ref(localStorage.getItem("qq"))
-const wechat = ref(localStorage.getItem("wechat"))
+const qq = computed(() => {
+    const qqStr = localStorage.getItem("qq")
+    if (qqStr == "")
+        return "无"
+    else
+        return qqStr
+})
+const wechat = computed(() => {
+    const wechatStr = localStorage.getItem("wechat")
+    if (wechatStr == "")
+        return "无"
+    else
+        return wechatStr
+})
 const joinOp = ref(localStorage.getItem("join_op"))
 const createOp = ref(localStorage.getItem("create_op"))
 
