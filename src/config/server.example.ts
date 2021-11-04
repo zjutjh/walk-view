@@ -15,7 +15,14 @@ export default {
         },
         "team": {
             "create": "/team/create",
-            "info": "/team/info"
+            "info": "/team/info",
+            "join": "/team/join",
+            "update": "/team/update",
+            "remove": "/team/remove",
+            "disband": "/team/disband",
+            "submit": "/team/submit",
+            "match": "/team/match",
+            "leave": "/team/leave"
         }
     }
 }

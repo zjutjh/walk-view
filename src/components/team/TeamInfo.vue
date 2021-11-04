@@ -12,14 +12,14 @@ const message = useMessage()
 // 展示用的数据
 const teamData = ref(JSON.parse(<string>localStorage.getItem("team_data")))
 
-// 是否能修改
+// 是否是队长
 const isLeader = computed(() => localStorage.getItem("status") == "2" ? true : false)
 
 // 是否能允许随机
 const allowMatch = computed(() => {
     if (teamData.value["allow_match"] == true)
         return "允许 ✅"
-    else 
+    else
         return "不允许 ❎"
 })
 
@@ -80,6 +80,25 @@ function submitTeam() {
         }
     }).catch(function (error) {
         message.error("网络错误，请检查网络")
+    })
+}
+
+function leaveTeam() {
+    const leaveTeamUrl = ServerConfig.urlPrefix + ServerConfig.apiMap["team"]["leave"]
+    axios.get(leaveTeamUrl, {
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("jwt")
+        }
+    }).then(function (response: AxiosResponse) {
+        const respData: any = response.data
+        if (respData["code"] == 200) {
+            message.success("退出成功")
+            setTimeout(() => router.replace("/loading"), 1000)
+        } else {
+            message.error(respData["msg"])
+        }
+    }).catch(function (error) {
+        message.error("服务器错误")
     })
 }
 </script>
@@ -175,6 +194,12 @@ function submitTeam() {
         style="width: 100%; margin-top: 20px;"
         type="error"
     >解散团队</n-button>
+    <n-button
+        @click="leaveTeam"
+        v-if="!isLeader && !teamData['submitted']"
+        style="margin-top: 15px; width: 100%;"
+        type="error"
+    >退出团队</n-button>
 </template>
 
 <style>
