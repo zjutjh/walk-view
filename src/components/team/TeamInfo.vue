@@ -15,6 +15,14 @@ const teamData = ref(JSON.parse(<string>localStorage.getItem("team_data")))
 // 是否能修改
 const isLeader = computed(() => localStorage.getItem("status") == "2" ? true : false)
 
+// 是否能允许随机
+const allowMatch = computed(() => {
+    if (teamData.value["allow_match"] == true)
+        return "允许 ✅"
+    else 
+        return "不允许 ❎"
+})
+
 // 毅行路线数据
 const teamRoute = computed(() => {
     if (teamData.value["route"] == 1)
@@ -109,10 +117,19 @@ function submitTeam() {
                     <td class="right-item">{{ teamData["password"] }}</td>
                 </tr>
 
-                <td class="left-item">
-                    <strong>毅行路线</strong>
-                </td>
-                <td class="right-item">{{ teamRoute }}</td>
+                <tr>
+                    <td class="left-item">
+                        <strong>毅行路线</strong>
+                    </td>
+                    <td class="right-item">{{ teamRoute }}</td>
+                </tr>
+
+                <tr>
+                    <td class="left-item">
+                        <strong>随机队员</strong>
+                    </td>
+                    <td class="right-item">{{ allowMatch }}</td>
+                </tr>
             </tbody>
         </n-table>
     </n-card>

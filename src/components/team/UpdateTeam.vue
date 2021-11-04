@@ -25,6 +25,16 @@ const rules = {
         trigger: ['blur']
     }
 }
+const allowMatchOptions = [
+    {
+        label: '是',
+        value: "1"
+    },
+    {
+        label: '否',
+        value: "0"
+    }
+]
 const campusOptions = [
     {
         label: '朝晖校区',
@@ -44,6 +54,7 @@ const teamData: any = JSON.parse(<string>localStorage.getItem("team_data"))
 const formValue = ref({
     "name": teamData["name"],
     "route": null,
+    "allow_match": teamData["allow_match"] ? "1" : "0"
 })
 
 function updateRouteOptions() {
@@ -79,7 +90,8 @@ function updateTeam() {
         if (!errors) {
             const postData = {
                 "name": formValue.value.name,
-                "route": Number(formValue.value.route)
+                "route": Number(formValue.value.route),
+                "allow_match": formValue.value.allow_match == "1" ? true : false
             }
 
             const createTeamUrl = Config.urlPrefix + Config.apiMap["team"]["update"]
@@ -115,6 +127,13 @@ function goBack() {
             <n-form :model="formValue" :rules="rules" label-placement="top" ref="formRef">
                 <n-form-item label="团队名称" path="name">
                     <n-input placeholder="输入名称" v-model:value="formValue.name"></n-input>
+                </n-form-item>
+
+                <n-form-item label="是否接受随机队员">
+                    <n-select
+                        v-model:value="formValue.allow_match"
+                        :options="allowMatchOptions"
+                    ></n-select>
                 </n-form-item>
 
                 <n-form-item label="团队校区">
