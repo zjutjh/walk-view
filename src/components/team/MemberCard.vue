@@ -1,11 +1,22 @@
 <script setup lang="ts">
-import { NTable, NTag, NCard } from 'naive-ui';
+import { computed } from '@vue/reactivity';
+import { NTable, NTag, NSpace, NCard } from 'naive-ui';
 const props = defineProps({
     'name': String,
     'isLeader': Boolean,
     'tel': String,
     'qq': String,
+    'campus': Number,
     'wechat': String
+})
+
+const campusName = computed(() => {
+    if (props.campus == 1)
+        return "朝晖"
+    else if (props.campus == 2)
+        return "屏峰"
+    else if (props.campus == 3)
+        return "莫干山"
 })
 
 </script>
@@ -19,8 +30,17 @@ const props = defineProps({
         size="small"
     >
         <template #header-extra>
-            <n-tag v-if="isLeader" style="margin-right: 10px;" size="small" type="success">队长</n-tag>
-            <n-tag v-if="!isLeader" style="margin-right: 10px;" size="small" type="warning">队员</n-tag>
+            <n-space>
+                <n-tag
+                    v-if="campus == 5"
+                    style="margin-right: 10px;"
+                    size="small"
+                    type="success"
+                >教职工</n-tag>
+                <n-tag v-else style="margin-right: 10px;" size="small" type="warning">{{ campusName }}</n-tag>
+                <n-tag v-if="isLeader" style="margin-right: 10px;" size="small" type="success">队长</n-tag>
+                <n-tag v-else style="margin-right: 10px;" size="small" type="warning">队员</n-tag>
+            </n-space>
         </template>
 
         <n-table :bordered="false" :single-line="true">

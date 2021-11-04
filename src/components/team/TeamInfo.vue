@@ -169,6 +169,7 @@ function leaveTeam() {
             :qq="teamData['leader']['contact']['qq']"
             :wechat="teamData['leader']['contact']['wechat']"
             :is-leader="true"
+            :campus="teamData['leader']['campus']"
         ></member-card>
 
         <!-- 队员信息 -->
@@ -176,6 +177,7 @@ function leaveTeam() {
             style="margin-top: 15px;"
             v-for="member in teamData['member']"
             :name="member['name']"
+            :campus="member['campus']"
             :tel="member['contact']['tel']"
             :qq="member['contact']['qq']"
             :wechat="member['contact']['wechat']"
