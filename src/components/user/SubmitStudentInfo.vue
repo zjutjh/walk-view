@@ -55,7 +55,7 @@ const rules = ref({
     },
     college: {
         required: true,
-        message: "请选择学院",
+        message: "请输入学院",
         trigger: ["input", "blur"],
     },
     campus: {
@@ -143,7 +143,7 @@ function submit() {
                 }
             })
         } else {
-            message.error("请输入完整");
+            message.error("请正确输入数据");
         }
     });
 }

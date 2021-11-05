@@ -116,7 +116,7 @@ function submit() {
                 }
             })
         } else {
-            message.error("请输入完整")
+            message.error("请正确输入数据")
         }
     });
 }
