@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import axios, { AxiosResponse } from 'axios';
-import { NSelect, NCollapse, NCollapseItem, NInput, NButton, NSpace, useMessage } from 'naive-ui';
+import { NSelect, NCollapse, NCollapseItem, NInput, NButton, NSpace, useMessage, NModal } from 'naive-ui';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import ServerConfig from '../../config/server'
@@ -32,6 +32,12 @@ const routeOptions = [
         value: '5'
     }
 ]
+const showModal = ref(false)
+
+function onPositiveClick() {
+    showModal.value = false
+    router.replace("/loading")
+}
 
 function joinTeam() {
     const joinTeamUrl = ServerConfig.urlPrefix + ServerConfig.apiMap["team"]["join"]
@@ -70,9 +76,8 @@ function randMatch() {
         }
     }).then(function (response: AxiosResponse) {
         const respData: any = response.data
-        if (respData["code"] == 200) {
-            message.success("随机加入成功")
-            router.replace("/loading")
+        if (respData["code"] !== 200) {
+            showModal.value = true;
         } else {
             message.warning(respData["msg"])
         }
@@ -104,6 +109,16 @@ function randMatch() {
                 <n-button @click="goBack" style="width: 100%;">返回上一步</n-button>
             </n-space>
         </n-collapse-item>
+        <n-modal
+            v-model:show="showModal"
+            :mask-closable="false"
+            :closable="false"
+            preset="dialog"
+            title="随机加入成功"
+            content="为了防止被队长踢出队伍，请尽快联系队长。"
+            positive-text="确认"
+            @positive-click="onPositiveClick"
+        />
     </n-collapse>
 </template>
 
