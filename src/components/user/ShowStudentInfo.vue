@@ -10,7 +10,6 @@ const name = ref(localStorage.getItem("name"))
 const gender = computed(() => localStorage.getItem("gender") == "1" ? "男" : "女")
 const college = ref(localStorage.getItem("college"))
 const stuID = ref(localStorage.getItem("stu_id"))
-const id = ref(localStorage.getItem("id"))
 const tel = ref(localStorage.getItem("tel"))
 const qq = computed(() => {
     const qqStr = localStorage.getItem("qq")
@@ -83,12 +82,6 @@ function jumpToUpdateStudentInfo() {
                     <td class="right-item">{{ campus }}</td>
                 </tr>
 
-                <tr>
-                    <td class="left-item">
-                        <strong>身份证号</strong>
-                    </td>
-                    <td class="right-item">{{ id }}</td>
-                </tr>
             </tbody>
         </n-table>
     </n-card>
