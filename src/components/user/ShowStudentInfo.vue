@@ -8,6 +8,7 @@ const router = useRouter()
 // 从本地缓存中读取用户信息
 const name = ref(localStorage.getItem("name"))
 const gender = computed(() => localStorage.getItem("gender") == "1" ? "男" : "女")
+const college = ref(localStorage.getItem("college"))
 const stuID = ref(localStorage.getItem("stu_id"))
 const id = ref(localStorage.getItem("id"))
 const tel = ref(localStorage.getItem("tel"))
@@ -59,6 +60,13 @@ function jumpToUpdateStudentInfo() {
                         <strong>性别</strong>
                     </td>
                     <td class="right-item">{{ gender }}</td>
+                </tr>
+                
+                <tr>
+                    <td class="left-item">
+                        <strong>学院</strong>
+                    </td>
+                    <td class="right-item">{{ college }}</td>
                 </tr>
 
                 <tr>

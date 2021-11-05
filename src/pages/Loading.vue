@@ -27,6 +27,7 @@ axios.get(userInfoUrl, {
     if (respData["code"] === 200) {
         // 存储用户信息
         localStorage.setItem("name", respData["data"]["name"])
+        localStorage.setItem("college", respData["data"]["college"])
         localStorage.setItem("stu_id", respData["data"]["stu_id"])
         localStorage.setItem("gender", respData["data"]["gender"])
         localStorage.setItem("id", respData["data"]["id"])

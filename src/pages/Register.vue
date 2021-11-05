@@ -33,6 +33,7 @@ function onPositiveClick() {
         <n-modal
             :show="showModal"
             :mask-closable="false"
+            :closable="false"
             preset="dialog"
             title="报名须知"
             :positive-text= "timeout > 0 ? timeout+'s 后确认' : '确认'"
