@@ -11,14 +11,14 @@ const props = defineProps({
 })
 
 const qqStr = computed(() => {
-    const qqStr = localStorage.getItem("qq")
+    const qqStr = props.qq
     if (qqStr == "")
         return "无"
     else
         return qqStr
 })
 const wechatStr = computed(() => {
-    const wechatStr = localStorage.getItem("wechat")
+    const wechatStr = props.wechat
     if (wechatStr == "")
         return "无"
     else

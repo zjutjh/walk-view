@@ -11,7 +11,7 @@ const router = useRouter()
 const jwt = localStorage.getItem("jwt")
 if (jwt === "") {
     dialog.error({
-        title: "登陆错误",
+        title: "登录错误",
         content: "请重新从微信公众号进入",
         positiveText: "确定"
     })
@@ -27,9 +27,9 @@ axios.get(userInfoUrl, {
     if (respData["code"] === 200) {
         // 存储用户信息
         localStorage.setItem("name", respData["data"]["name"])
+        localStorage.setItem("college", respData["data"]["college"])
         localStorage.setItem("stu_id", respData["data"]["stu_id"])
         localStorage.setItem("gender", respData["data"]["gender"])
-        localStorage.setItem("id", respData["data"]["id"])
         localStorage.setItem("campus", respData["data"]["campus"])
         localStorage.setItem("status", respData["data"]["status"])
         localStorage.setItem("create_op", respData["data"]["create_op"])
@@ -51,7 +51,7 @@ axios.get(userInfoUrl, {
                 localStorage.setItem("team_data", JSON.stringify(respData["data"]))
             }).catch(function (error) {
                 dialog.warning({
-                    "title": "登陆错误",
+                    "title": "登录错误",
                     "content": "服务器错误, 请稍后重试",
                     "positiveText": "确定"
                 })
@@ -60,19 +60,25 @@ axios.get(userInfoUrl, {
         // 跳转页面
         router.replace("/info")
     } else {
-        // 获取用户信息错误
-        dialog.warning({
-            "title": "没有用户信息",
-            "content": "前往报名页面",
-            "positiveText": "确定",
-            "onPositiveClick": () => {
-                router.replace("/register")
-            }
-        })
+        if (respData["msg"] == "jwt error") {
+            // jwt 过期了就重新登录
+            const oauthUrl = Server.urlPrefix + Server.apiMap["basic"]["oauth"]
+            window.location.replace(oauthUrl)
+        } else {
+            // 获取用户信息错误
+            dialog.warning({
+                "title": "没有用户信息",
+                "content": "前往报名页面",
+                "positiveText": "确定",
+                "onPositiveClick": () => {
+                    router.replace("/register")
+                }
+            })
+        }
     }
 }).catch(function (error) {
     dialog.warning({
-        "title": "登陆错误",
+        "title": "登录错误",
         "content": "服务器错误, 请稍后重试",
         "positiveText": "确定"
     })
