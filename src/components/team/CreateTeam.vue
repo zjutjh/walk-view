@@ -30,7 +30,7 @@ const rules = {
         required: true,
         validator(rule: any, value: any) {
             if (!value) {
-                return new Error('请输入团队名称')
+                return new Error('请输入团队密码')
             } else if (!/^[a-z0-9A-Z]+$/.test(value)) {
                 return new Error('只能含有数字和英文字母')
             }
