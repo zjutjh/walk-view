@@ -60,15 +60,21 @@ axios.get(userInfoUrl, {
         // 跳转页面
         router.replace("/info")
     } else {
-        // 获取用户信息错误
-        dialog.warning({
-            "title": "没有用户信息",
-            "content": "前往报名页面",
-            "positiveText": "确定",
-            "onPositiveClick": () => {
-                router.replace("/register")
-            }
-        })
+        if (respData["msg"] == "jwt error") {
+            // jwt 过期了就重新登陆
+            const oauthUrl = Server.urlPrefix + Server.apiMap["basic"]["oauth"]
+            window.location.replace(oauthUrl)
+        } else {
+            // 获取用户信息错误
+            dialog.warning({
+                "title": "没有用户信息",
+                "content": "前往报名页面",
+                "positiveText": "确定",
+                "onPositiveClick": () => {
+                    router.replace("/register")
+                }
+            })
+        }
     }
 }).catch(function (error) {
     dialog.warning({
