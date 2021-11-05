@@ -1,3 +1,5 @@
+import 'vfonts/Lato.css'
+import 'vfonts/FiraCode.css'
 import { createApp } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import App from './App.vue'
@@ -19,7 +21,7 @@ import ManageMember from '/src/components/team/ManageMember.vue'
 
 // 设置前端路由
 const routes = [
-    { path: '/', component: Login },  // 根目录为登陆页面
+    { path: '/', component: Login },  // 根目录为登录页面
     { path: '/register', component: Register }, // 报名页面
     { path: '/update/student', component: UpdateStudentInfo },
     { path: '/update/teacher', component: UpdateTeacherInfo },

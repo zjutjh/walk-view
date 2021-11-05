@@ -38,18 +38,18 @@ axios.get(loginUrl, {
         const jwt = respData["data"]["jwt"]
         localStorage.setItem("jwt", jwt)
 
-        // 跳转到登陆页面
+        // 跳转到登录页面
         router.replace("/loading")
     } else {
         dialog.warning({
-            "title": "登陆错误",
+            "title": "登录错误",
             "content": "服务器错误, 请稍后重试",
             "positiveText": "确定"
         })
     }
 }).catch(function (error) {
     dialog.warning({
-        "title": "登陆错误", 
+        "title": "登录错误", 
         "content": "服务器错误, 请稍后重试",
         "positiveText": "确定"
     })
@@ -63,7 +63,7 @@ axios.get(loginUrl, {
         </n-space>
     </div>
 
-    <div style="text-align: center; margin-top: 30px;">登陆中 &nbsp;···</div>
+    <div style="text-align: center; margin-top: 30px;">登录中 &nbsp;···</div>
 </template>
 
 <style>
