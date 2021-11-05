@@ -76,7 +76,7 @@ function randMatch() {
         }
     }).then(function (response: AxiosResponse) {
         const respData: any = response.data
-        if (respData["code"] !== 200) {
+        if (respData["code"] == 200) {
             showModal.value = true;
         } else {
             message.warning(respData["msg"])
