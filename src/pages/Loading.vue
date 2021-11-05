@@ -11,7 +11,7 @@ const router = useRouter()
 const jwt = localStorage.getItem("jwt")
 if (jwt === "") {
     dialog.error({
-        title: "登陆错误",
+        title: "登录错误",
         content: "请重新从微信公众号进入",
         positiveText: "确定"
     })
@@ -51,7 +51,7 @@ axios.get(userInfoUrl, {
                 localStorage.setItem("team_data", JSON.stringify(respData["data"]))
             }).catch(function (error) {
                 dialog.warning({
-                    "title": "登陆错误",
+                    "title": "登录错误",
                     "content": "服务器错误, 请稍后重试",
                     "positiveText": "确定"
                 })
@@ -61,7 +61,7 @@ axios.get(userInfoUrl, {
         router.replace("/info")
     } else {
         if (respData["msg"] == "jwt error") {
-            // jwt 过期了就重新登陆
+            // jwt 过期了就重新登录
             const oauthUrl = Server.urlPrefix + Server.apiMap["basic"]["oauth"]
             window.location.replace(oauthUrl)
         } else {
@@ -78,7 +78,7 @@ axios.get(userInfoUrl, {
     }
 }).catch(function (error) {
     dialog.warning({
-        "title": "登陆错误",
+        "title": "登录错误",
         "content": "服务器错误, 请稍后重试",
         "positiveText": "确定"
     })
