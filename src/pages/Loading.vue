@@ -56,10 +56,8 @@ if (jwt === "") {
                         "positiveText": "确定"
                     })
                 })
-            } else {
-                // 跳转页面
-                router.replace("/info")
-            }
+            } 
+            router.replace("/info")
         } else {
             if (respData["msg"] == "jwt error") {
                 // jwt 有问题就重新登录
