@@ -141,7 +141,7 @@ function goBack() {
                 </n-form-item>
 
                 <n-form-item label="团队密码" path="password">
-                    <n-input placeholder="输入名称" v-model:value="formValue.password"></n-input>
+                    <n-input placeholder="输入密码" v-model:value="formValue.password"></n-input>
                 </n-form-item>
 
                 <n-form-item label="是否接受随机队员">
