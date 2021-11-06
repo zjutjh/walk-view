@@ -41,9 +41,17 @@ if (localStorage.getItem("jwt") != null) {
 
             // 跳转到登录页面
             router.replace("/loading")
+        } else if (respData["msg"] == "time error") {
+            dialog.warning({
+                "closable": false,
+                "title": "尚未开始",
+                "content": "报名尚未开始",
+                "positiveText": "确定"
+            })
         } else {
             dialog.warning({
                 "title": "登录错误",
+                "closable": false,
                 "content": "服务器错误, 请稍后重试",
                 "positiveText": "确定"
             })
@@ -51,6 +59,7 @@ if (localStorage.getItem("jwt") != null) {
     }).catch(function (error) {
         dialog.warning({
             "title": "登录错误",
+            "closable": false,
             "content": "服务器错误, 请稍后重试",
             "positiveText": "确定"
         })

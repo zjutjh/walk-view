@@ -13,6 +13,7 @@ const jwt = localStorage.getItem("jwt")
 if (jwt === "") {
     dialog.error({
         title: "登录错误",
+        closable: false,
         content: "请重新从微信公众号进入",
         positiveText: "确定"
     })
@@ -53,13 +54,21 @@ if (jwt === "") {
                     dialog.warning({
                         "title": "登录错误",
                         "content": "服务器错误, 请稍后重试",
+                        "closable": false,
                         "positiveText": "确定"
                     })
                 })
-            } 
+            }
             router.replace("/info")
         } else {
-            if (respData["msg"] == "jwt error") {
+            if (respData["msg"] == "time error") {
+                dialog.warning({
+                    "closable": false,
+                    "title": "尚未开始",
+                    "content": "报名尚未开始",
+                    "positiveText": "确定"
+                })
+            } else if (respData["msg"] == "jwt error") {
                 // jwt 有问题就重新登录
                 const oauthUrl = Server.urlPrefix + Server.apiMap["basic"]["oauth"]
                 localStorage.removeItem("jwt")
