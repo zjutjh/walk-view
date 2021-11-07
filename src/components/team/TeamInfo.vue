@@ -26,6 +26,15 @@ const allowMatch = computed(() => {
         return "不允许 ❎"
 })
 
+// 是否提交
+const isSubmitted = computed(() => {
+    if (teamData.value["submitted"]) {
+        return "提交成功 ✅"
+    } else {
+        return "尚未提交 ❎"
+    }
+})
+
 // 毅行路线数据
 const teamRoute = computed(() => {
     if (teamData.value["route"] == 1)
@@ -69,6 +78,10 @@ function disbandTeam() {
 
 function submitTeam() {
     // 5s 禁用按钮
+    if (disabled.value) {
+        message.warning("请不要频繁点击按钮，造成服务器拥挤")
+        return
+    }
     disabled.value = true
     setTimeout(()=>{
         disabled.value = false
@@ -124,6 +137,13 @@ function leaveTeam() {
         </template>
         <n-table :bordered="true" :single-line="false">
             <tbody>
+                <tr>
+                    <td class="left-item">
+                        <strong>是否提交</strong>
+                    </td>
+                    <td class="right-item">{{ isSubmitted }}</td>
+                </tr>
+
                 <tr>
                     <td class="left-item">
                         <strong>团队名称</strong>
@@ -195,9 +215,9 @@ function leaveTeam() {
     </n-card>
     <n-button
         @click="submitTeam"
+        :disabled="true"
         v-if="isLeader && !teamData['submitted']"
         style="width: 100%; margin-top: 20px;"
-        :disabled="disabled"
         type="primary"
     >提交团队</n-button>
     <n-button
