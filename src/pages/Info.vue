@@ -32,7 +32,7 @@ function refresh() {
         router.replace("/loading")
         setTimeout(() => {
             localStorage.setItem("canLoadInfo", "yes")
-        }, 2000)
+        }, 1000)
     } else {
         message.warning("让生产队的驴休息一下吧")
     }
