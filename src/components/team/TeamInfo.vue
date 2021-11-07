@@ -9,6 +9,9 @@ import ServerConfig from '../../config/server'
 const router = useRouter()
 const message = useMessage()
 
+// 是否禁用提交按钮
+const disabled = ref(false)
+
 // 展示用的数据
 const teamData = ref(JSON.parse(<string>localStorage.getItem("team_data")))
 
@@ -65,6 +68,12 @@ function disbandTeam() {
 }
 
 function submitTeam() {
+    // 5s 禁用按钮
+    disabled.value = true
+    setTimeout(()=>{
+        disabled.value = false
+    }, 3000)
+
     const submitTeamUrl = ServerConfig.urlPrefix + ServerConfig.apiMap["team"]["submit"]
     axios.get(submitTeamUrl, {
         headers: {
@@ -188,6 +197,7 @@ function leaveTeam() {
         @click="submitTeam"
         v-if="isLeader && !teamData['submitted']"
         style="width: 100%; margin-top: 20px;"
+        :disabled="disabled"
         type="primary"
     >提交团队</n-button>
     <n-button
