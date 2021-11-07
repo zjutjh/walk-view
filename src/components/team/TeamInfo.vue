@@ -215,7 +215,6 @@ function leaveTeam() {
     </n-card>
     <n-button
         @click="submitTeam"
-        :disabled="true"
         v-if="isLeader && !teamData['submitted']"
         style="width: 100%; margin-top: 20px;"
         type="primary"
