@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import axios, { AxiosResponse } from 'axios';
-import { NCard, NTable, NButton, NSpace, useMessage } from 'naive-ui';
+import { NCard, NTable, NButton, NSpace, useMessage, useDialog } from 'naive-ui';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router'
 import MemberCard from './MemberCard.vue';
@@ -8,6 +8,7 @@ import ServerConfig from '../../config/server'
 
 const router = useRouter()
 const message = useMessage()
+const dialog = useDialog()
 
 // 是否禁用提交按钮
 const disabled = ref(false)
@@ -57,7 +58,7 @@ function jumpToManageMember() {
     router.replace("/info/team/managemember")
 }
 
-function disbandTeam() {
+function disbandTeamAPI() {
     const disbandTeamUrl = ServerConfig.urlPrefix + ServerConfig.apiMap["team"]["disband"]
     axios.get(disbandTeamUrl, {
         timeout: 3000,
@@ -77,6 +78,21 @@ function disbandTeam() {
     })
 }
 
+function disbandTeam() {
+    dialog.warning({
+        title: '警告',
+        content: '你确定解散团队？',
+        positiveText: '确定',
+        negativeText: '不确定',
+        onPositiveClick: () => {
+            disbandTeamAPI()
+        },
+        onNegativeClick: () => {
+            
+        }
+    })
+}
+
 function submitTeam() {
     // 5s 禁用按钮
     if (disabled.value) {
@@ -84,7 +100,7 @@ function submitTeam() {
         return
     }
     disabled.value = true
-    setTimeout(()=>{
+    setTimeout(() => {
         disabled.value = false
     }, 3000)
 
