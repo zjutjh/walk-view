@@ -5,6 +5,7 @@ import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router'
 import MemberCard from './MemberCard.vue';
 import ServerConfig from '../../config/server'
+import { messageLight } from 'naive-ui/lib/message/styles';
 
 const router = useRouter()
 const message = useMessage()
@@ -142,6 +143,41 @@ function leaveTeam() {
         message.error("服务器错误")
     })
 }
+
+function rollbackTeamAPI() {
+    const rollbackTeamUrl = ServerConfig.urlPrefix + ServerConfig.apiMap["team"]["rollback"]
+    axios.get(rollbackTeamUrl, {
+        timeout: 3000,
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("jwt")
+        }
+    }).then(function (response: AxiosResponse){
+        const respData: any = response.data
+        if (respData["code"] == 200) {
+            message.success("撤回成功")
+            setTimeout(() => router.replace("/loading"), 1000)
+        } else {
+            message.error(respData["msg"])
+        }
+    }).catch(function (error) {
+        message.error("服务器错误")
+    })
+}
+
+function rollbackTeam() {
+    dialog.warning({
+        title: '警告',
+        content: '你确定撤销提交？',
+        positiveText: '确定',
+        negativeText: '不确定',
+        onPositiveClick: () => {
+            rollbackTeamAPI()
+        },
+        onNegativeClick: () => {
+            
+        }
+    })
+}
 </script>
 
 <template>
@@ -232,6 +268,12 @@ function leaveTeam() {
             :is-leader="false"
         ></member-card>
     </n-card>
+    <n-button
+        @click="rollbackTeam"
+        v-if="isLeader && teamData['submitted']"
+        style="width: 100%; margin-top: 20px;"
+        type="error"
+    >撤销团队</n-button>
     <n-button
         @click="submitTeam"
         v-if="isLeader && !teamData['submitted']"
