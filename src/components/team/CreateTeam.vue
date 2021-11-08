@@ -112,7 +112,8 @@ function createTeamAPI() {
     axios.post(createTeamUrl, postData, {
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("jwt")
-        }
+        },
+        timeout: 3000,
     }).then(function (response: AxiosResponse) {
         const respData: any = response.data
         if (respData["code"] == 200) { // 队伍创建成功

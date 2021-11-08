@@ -45,6 +45,7 @@ function joinTeam() {
         "team_id": Number(teamID.value),
         "password": teamPass.value
     }, {
+        timeout: 3000,
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("jwt")
         }
@@ -71,6 +72,7 @@ function randMatch() {
         params: {
             "route": route.value
         },
+        timeout: 3000,
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("jwt")
         }

@@ -111,6 +111,7 @@ function updateTeamAPI() {
     }
     const createTeamUrl = Config.urlPrefix + Config.apiMap["team"]["update"]
     axios.post(createTeamUrl, postData, {
+        timeout: 3000,
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("jwt")
         }

@@ -20,6 +20,7 @@ if (jwt === "") {
 } else {
     const userInfoUrl = Server.urlPrefix + Server.apiMap["user"]["info"]
     axios.get(userInfoUrl, {
+        timeout: 3000,
         "headers": {
             "Authorization": "Bearer " + jwt
         }
@@ -44,6 +45,7 @@ if (jwt === "") {
                 // 获取团队信息获取链接
                 const getTeamInfoUrl = Server.urlPrefix + Server.apiMap["team"]["info"]
                 axios.get(getTeamInfoUrl, {
+                    timeout: 3000,
                     "headers": {
                         "Authorization": "Bearer " + jwt
                     }

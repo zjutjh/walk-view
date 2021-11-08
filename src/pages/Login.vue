@@ -29,6 +29,7 @@ if (localStorage.getItem("jwt") != null) {
     router.replace("/loading")
 } else {
     axios.get(loginUrl, {
+        timeout: 3000,
         "params": {
             "code": code
         }

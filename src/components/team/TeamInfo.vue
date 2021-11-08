@@ -60,6 +60,7 @@ function jumpToManageMember() {
 function disbandTeam() {
     const disbandTeamUrl = ServerConfig.urlPrefix + ServerConfig.apiMap["team"]["disband"]
     axios.get(disbandTeamUrl, {
+        timeout: 3000,
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("jwt")
         }
@@ -89,6 +90,7 @@ function submitTeam() {
 
     const submitTeamUrl = ServerConfig.urlPrefix + ServerConfig.apiMap["team"]["submit"]
     axios.get(submitTeamUrl, {
+        timeout: 3000,
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("jwt")
         }
@@ -108,6 +110,7 @@ function submitTeam() {
 function leaveTeam() {
     const leaveTeamUrl = ServerConfig.urlPrefix + ServerConfig.apiMap["team"]["leave"]
     axios.get(leaveTeamUrl, {
+        timeout: 3000,
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("jwt")
         }

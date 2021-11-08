@@ -103,6 +103,7 @@ function submit() {
             formValue.value.gender = Number(formValue.value.gender)
             const submitTeacherUrl = Server.urlPrefix + Server.apiMap["register"]["teacher"]
             axios.post(submitTeacherUrl, formValue.value, {
+                timeout: 3000,
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("jwt")
                 }
