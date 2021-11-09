@@ -19,6 +19,7 @@ function removeMember(openID: string | undefined) {
         params: {
             'openid': openID
         },
+        timeout: 3000,
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("jwt")
         }
