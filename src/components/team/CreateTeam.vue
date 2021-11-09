@@ -69,6 +69,26 @@ function onPositiveClick() {
 function onNegativeClick() {
     showModal.value = false
 }
+function onNegativeClick() {
+    showModal.value = false
+}
+
+routeOptions.value = [{
+    label: '朝晖全程',
+    value: "1"
+}, {
+    label: '屏峰半程',
+    value: "2"
+}, {
+    label: '屏峰全程',
+    value: "3"
+}, {
+    label: '莫干山半程',
+    value: "4"
+}, {
+    label: '莫干山全程',
+    value: "5"
+}]
 
 routeOptions.value = [{
     label: '朝晖全程',
@@ -112,7 +132,8 @@ function createTeamAPI() {
     axios.post(createTeamUrl, postData, {
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("jwt")
-        }
+        },
+        timeout: 3000,
     }).then(function (response: AxiosResponse) {
         const respData: any = response.data
         if (respData["code"] == 200) { // 队伍创建成功
@@ -141,7 +162,7 @@ function goBack() {
                 </n-form-item>
 
                 <n-form-item label="团队密码" path="password">
-                    <n-input placeholder="输入名称" v-model:value="formValue.password"></n-input>
+                    <n-input placeholder="输入密码" v-model:value="formValue.password"></n-input>
                 </n-form-item>
 
                 <n-form-item label="是否接受随机队员">

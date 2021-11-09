@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { NCard, NTabs, NTabPane, NButton } from 'naive-ui';
+import { NCard, NTabs, NTabPane, NButton, useMessage } from 'naive-ui';
 import { RouterView, useRouter } from 'vue-router';
 
 const router = useRouter()
+const message = useMessage()
 
 // 根据是校友还是学生来选择不同的页面展示
 let userInfoRoute = ""
@@ -26,14 +27,24 @@ function changeTab(value: string) {
 }
 
 function refresh() {
-    router.replace("/loading")
+    if (localStorage.getItem("canLoadInfo") == null || localStorage.getItem("canLoadInfo") == "yes") {
+        localStorage.setItem("canLoadInfo", "no")
+        router.replace("/loading")
+        setTimeout(() => {
+            localStorage.setItem("canLoadInfo", "yes")
+        }, 1000)
+    } else {
+        message.warning("让生产队的驴休息一下吧")
+    }
 }
 </script>
 
 <template>
     <n-card title="毅行信息管理 &nbsp; 🚀" style="margin: 4% auto; width: 93%;">
         <template #header-extra>
-            <n-button @click="refresh" round><div style="margin-left: 8px">刷新 🔥</div></n-button>
+            <n-button @click="refresh" round>
+                <div style="margin-left: 8px">刷新 🔥</div>
+            </n-button>
         </template>
         <n-tabs @update:value="changeTab" type="line">
             <n-tab-pane name="personal" tab="个人信息">

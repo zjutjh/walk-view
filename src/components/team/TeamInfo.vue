@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import axios, { AxiosResponse } from 'axios';
-import { NCard, NTable, NButton, NSpace, useMessage } from 'naive-ui';
+import { NCard, NTable, NButton, NSpace, useMessage, useDialog } from 'naive-ui';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router'
 import MemberCard from './MemberCard.vue';
 import ServerConfig from '../../config/server'
+import { messageLight } from 'naive-ui/lib/message/styles';
 
 const router = useRouter()
 const message = useMessage()
+const dialog = useDialog()
+
+// 是否禁用提交按钮
+const disabled = ref(false)
 
 // 展示用的数据
 const teamData = ref(JSON.parse(<string>localStorage.getItem("team_data")))
@@ -21,6 +26,15 @@ const allowMatch = computed(() => {
         return "允许 ✅"
     else
         return "不允许 ❎"
+})
+
+// 是否提交
+const isSubmitted = computed(() => {
+    if (teamData.value["submitted"]) {
+        return "提交成功 ✅"
+    } else {
+        return "尚未提交 ❎"
+    }
 })
 
 // 毅行路线数据
@@ -45,9 +59,10 @@ function jumpToManageMember() {
     router.replace("/info/team/managemember")
 }
 
-function disbandTeam() {
+function disbandTeamAPI() {
     const disbandTeamUrl = ServerConfig.urlPrefix + ServerConfig.apiMap["team"]["disband"]
     axios.get(disbandTeamUrl, {
+        timeout: 3000,
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("jwt")
         }
@@ -64,9 +79,35 @@ function disbandTeam() {
     })
 }
 
+function disbandTeam() {
+    dialog.warning({
+        title: '警告',
+        content: '你确定解散团队？',
+        positiveText: '确定',
+        negativeText: '不确定',
+        onPositiveClick: () => {
+            disbandTeamAPI()
+        },
+        onNegativeClick: () => {
+            
+        }
+    })
+}
+
 function submitTeam() {
+    // 5s 禁用按钮
+    if (disabled.value) {
+        message.warning("请不要频繁点击按钮，造成服务器拥挤")
+        return
+    }
+    disabled.value = true
+    setTimeout(() => {
+        disabled.value = false
+    }, 3000)
+
     const submitTeamUrl = ServerConfig.urlPrefix + ServerConfig.apiMap["team"]["submit"]
     axios.get(submitTeamUrl, {
+        timeout: 3000,
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("jwt")
         }
@@ -86,6 +127,7 @@ function submitTeam() {
 function leaveTeam() {
     const leaveTeamUrl = ServerConfig.urlPrefix + ServerConfig.apiMap["team"]["leave"]
     axios.get(leaveTeamUrl, {
+        timeout: 3000,
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("jwt")
         }
@@ -99,6 +141,41 @@ function leaveTeam() {
         }
     }).catch(function (error) {
         message.error("服务器错误")
+    })
+}
+
+function rollbackTeamAPI() {
+    const rollbackTeamUrl = ServerConfig.urlPrefix + ServerConfig.apiMap["team"]["rollback"]
+    axios.get(rollbackTeamUrl, {
+        timeout: 3000,
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("jwt")
+        }
+    }).then(function (response: AxiosResponse){
+        const respData: any = response.data
+        if (respData["code"] == 200) {
+            message.success("撤回成功")
+            setTimeout(() => router.replace("/loading"), 1000)
+        } else {
+            message.error(respData["msg"])
+        }
+    }).catch(function (error) {
+        message.error("服务器错误")
+    })
+}
+
+function rollbackTeam() {
+    dialog.warning({
+        title: '警告',
+        content: '你确定撤销提交？',
+        positiveText: '确定',
+        negativeText: '不确定',
+        onPositiveClick: () => {
+            rollbackTeamAPI()
+        },
+        onNegativeClick: () => {
+            
+        }
     })
 }
 </script>
@@ -115,6 +192,13 @@ function leaveTeam() {
         </template>
         <n-table :bordered="true" :single-line="false">
             <tbody>
+                <tr>
+                    <td class="left-item">
+                        <strong>是否提交</strong>
+                    </td>
+                    <td class="right-item">{{ isSubmitted }}</td>
+                </tr>
+
                 <tr>
                     <td class="left-item">
                         <strong>团队名称</strong>
@@ -184,6 +268,12 @@ function leaveTeam() {
             :is-leader="false"
         ></member-card>
     </n-card>
+    <n-button
+        @click="rollbackTeam"
+        v-if="isLeader && teamData['submitted']"
+        style="width: 100%; margin-top: 20px;"
+        type="error"
+    >撤销团队</n-button>
     <n-button
         @click="submitTeam"
         v-if="isLeader && !teamData['submitted']"
