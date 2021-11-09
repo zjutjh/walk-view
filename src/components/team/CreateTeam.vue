@@ -69,9 +69,6 @@ function onPositiveClick() {
 function onNegativeClick() {
     showModal.value = false
 }
-function onNegativeClick() {
-    showModal.value = false
-}
 
 routeOptions.value = [{
     label: '朝晖全程',
