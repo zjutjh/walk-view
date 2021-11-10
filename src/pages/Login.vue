@@ -3,11 +3,18 @@ import { NSpace, NSpin, useDialog, useMessage } from 'naive-ui';
 import Server from "../config/server"
 import axios, { Axios, AxiosResponse } from 'axios'
 import { useRouter } from 'vue-router';
+import { onMounted } from '@vue/runtime-core';
 
 // 变量定义
 const dialog = useDialog()
 const router = useRouter()
 const message = useMessage()
+
+// 挂载函数
+onMounted(() => {
+    // 挂载的事情清理的一些数据
+    localStorage.removeItem("canLoadInfo")
+})
 
 // 函数定义
 function getQueryVariable(variable: string): string {
