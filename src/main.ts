@@ -1,49 +1,33 @@
-import 'vfonts/Lato.css';
 import 'vfonts/FiraCode.css';
+import 'vfonts/Lato.css';
 import { createApp } from 'vue';
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import App from './App.vue';
-import Login from '/src/pages/Login.vue';
-import Loading from '/src/pages/Loading.vue';
-import Register from '/src/pages/Register.vue';
-import Info from '/src/pages/Info.vue';
-import NotJoin from '/src/components/team/NotJoin.vue';
-import JoinTeam from '/src/components/team/JoinTeam.vue';
-import CreateTeam from '/src/components/team/CreateTeam.vue';
-import TeamInfo from '/src/components/team/TeamInfo.vue';
-import UpdateTeam from '/src/components/team/UpdateTeam.vue';
-import SubmitStudentInfo from '/src/components/user/SubmitStudentInfo.vue';
-import ShowStudentInfo from '/src/components/user/ShowStudentInfo.vue';
-import ShowTeacherInfo from '/src/components/user/ShowTeacherInfo.vue';
-import UpdateStudentInfo from '/src/pages/UpdateStudentInfo.vue';
-import UpdateTeacherInfo from '/src/pages/UpdateTeacherInfo.vue';
-import ManageMember from '/src/components/team/ManageMember.vue';
 
 // 设置前端路由
 const routes = [
-  { path: '/', component: Login }, // 根目录为登录页面
-  { path: '/register', component: Register }, // 报名页面
-  { path: '/update/student', component: UpdateStudentInfo },
-  { path: '/update/teacher', component: UpdateTeacherInfo },
-  { path: '/loading', component: Loading },
+  { path: '/', component: () => import('/src/pages/Loading.vue') }, // 根目录为登录页面
+  { path: '/register', component: () => import('/src/pages/Register.vue') }, // 报名页面
+  { path: '/update/student', component: () => import('/src/pages/UpdateStudentInfo.vue') },
+  { path: '/update/teacher', component: () => import('/src/pages/UpdateTeacherInfo.vue') },
+  { path: '/loading', component: () => import('/src/pages/Loading.vue') },
   {
     path: '/info',
-    component: Info,
+    component: () => import('/src/pages/Info.vue'),
     children: [
-      { path: 'user/showstudent', component: ShowStudentInfo },
-      { path: 'user/showteacher', component: ShowTeacherInfo },
-      { path: 'team/notjoin', component: NotJoin },
-      { path: 'team/join', component: JoinTeam },
-      { path: 'team/create', component: CreateTeam },
-      { path: 'team/teaminfo', component: TeamInfo },
-      { path: 'team/updateteam', component: UpdateTeam },
-      { path: 'team/submit', component: SubmitStudentInfo },
-      { path: 'team/managemember', component: ManageMember },
+      { path: 'user/showstudent', component: () => import('/src/components/user/ShowStudentInfo.vue') },
+      { path: 'user/showteacher', component: () => import('/src/components/user/ShowTeacherInfo.vue') },
+      { path: 'team/notjoin', component: () => import('/src/components/team/NotJoin.vue') },
+      { path: 'team/join', component: () => import('/src/components/team/JoinTeam.vue') },
+      { path: 'team/create', component: () => import('/src/components/team/CreateTeam.vue') },
+      { path: 'team/teaminfo', component: () => import('/src/components/team/TeamInfo.vue') },
+      { path: 'team/updateteam', component: () => import('/src/components/team/UpdateTeam.vue') },
+      { path: 'team/managemember', component: () => import('/src/components/team/ManageMember.vue') },
     ],
   },
 ];
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 });
 
