@@ -10,7 +10,7 @@ const router = useRouter()
 
 // 挂载函数
 onMounted(() => {
-  // 挂载的事情清理的一些数据
+  // 挂载的时候清理的一些数据
   localStorage.removeItem('canLoadInfo')
 
   // 尝试获取 url 中的 jwtToken
