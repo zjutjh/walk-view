@@ -1,111 +1,78 @@
 <script setup lang="ts">
-import { NSpace, NSpin, useDialog } from 'naive-ui';
-import Server from '../config/Server';
-import axios, { AxiosResponse } from 'axios';
-import { useRouter } from 'vue-router';
+import { NSpace, NSpin, useDialog } from 'naive-ui'
+import Server from '../config/Server'
+import axios, { AxiosResponse } from 'axios'
+import { useRouter } from 'vue-router'
+import { onMounted } from 'vue'
+import { storeUserInfo, storeTeamInfo } from '../utility'
 
 // 变量定义
-const dialog = useDialog();
-const router = useRouter();
+const dialog = useDialog()
+const router = useRouter()
 
-const jwt = localStorage.getItem('jwt');
-if (jwt === '') {
-  dialog.error({
-    title: '登录错误',
-    closable: false,
-    content: '请重新从微信公众号进入',
-    positiveText: '确定',
-  });
-} else {
-  const userInfoUrl = Server.urlPrefix + Server.apiMap['user']['info'];
-  axios
-    .get(userInfoUrl, {
-      timeout: 3000,
-      headers: {
-        Authorization: 'Bearer ' + jwt,
-      },
+onMounted(() => {
+  const jwt = localStorage.getItem('jwt')
+  if (jwt === '' || jwt === null) {
+    // 到了这个页面本地还没有 jwt token 的话
+    dialog.error({
+      title: '登录错误',
+      closable: false,
+      content: '请重新从微信公众号进入',
+      positiveText: '确定',
     })
-    .then(function (response: AxiosResponse) {
-      const respData: any = response.data;
-      if (respData['code'] === 200) {
+    return
+  }
+
+  // 开始获取个人信息
+  ;(async () => {
+    try {
+      // 获取个人信息
+      const userInfoUrl = Server.urlPrefix + Server.apiMap['user']['info'] // 个人信息后端接口
+      let userApiRespData: any = (
+        await axios.get(userInfoUrl, {
+          timeout: 3000,
+          headers: { Authorization: 'Bearer ' + jwt },
+        })
+      ).data
+
+      if (userApiRespData['code'] == 200) {
         // 存储用户信息
-        localStorage.setItem('name', respData['data']['name']);
-        localStorage.setItem('college', respData['data']['college']);
-        localStorage.setItem('stu_id', respData['data']['stu_id']);
-        localStorage.setItem('gender', respData['data']['gender']);
-        localStorage.setItem('campus', respData['data']['campus']);
-        localStorage.setItem('status', respData['data']['status']);
-        localStorage.setItem('create_op', respData['data']['create_op']);
-        localStorage.setItem('join_op', respData['data']['join_op']);
-        localStorage.setItem('team_id', respData['data']['team_id']);
-        localStorage.setItem('qq', respData['data']['contact']['qq']);
-        localStorage.setItem('wechat', respData['data']['contact']['wechat']);
-        localStorage.setItem('tel', respData['data']['contact']['tel']);
-
-        if (respData['data']['team_id'] != -1) {
-          // 如果这个人已经加入了团队
-          // 获取团队信息获取链接
-          const getTeamInfoUrl =
-            Server.urlPrefix + Server.apiMap['team']['info'];
-          axios
-            .get(getTeamInfoUrl, {
-              timeout: 3000,
-              headers: {
-                Authorization: 'Bearer ' + jwt,
-              },
-            })
-            .then(function (response: AxiosResponse) {
-              const respData: any = response.data;
-              localStorage.setItem(
-                'team_data',
-                JSON.stringify(respData['data'])
-              );
-            })
-            .catch(function (_) {
-              dialog.warning({
-                title: '登录错误',
-                content: '服务器错误, 请稍后重试',
-                closable: false,
-                positiveText: '确定',
-              });
-            });
-        }
-        router.replace('/info');
+        storeUserInfo(userApiRespData)
+        await storeTeamInfo(userApiRespData, jwt)
+        router.replace('/info')
+      } else if (userApiRespData['msg'] == 'time error') {
+        dialog.warning({
+          closable: false,
+          title: '尚未开始',
+          content: '报名尚未开始',
+          positiveText: '确定',
+        })
+      } else if (userApiRespData['msg'] == 'jwt error') {
+        // jwt 有问题就重新登录
+        const oauthUrl = Server.urlPrefix + Server.apiMap['basic']['oauth']
+        localStorage.removeItem('jwt')
+        window.location.replace(oauthUrl)
       } else {
-        if (respData['msg'] == 'time error') {
-          dialog.warning({
-            closable: false,
-            title: '尚未开始',
-            content: '报名尚未开始',
-            positiveText: '确定',
-          });
-        } else if (respData['msg'] == 'jwt error') {
-          // jwt 有问题就重新登录
-          const oauthUrl = Server.urlPrefix + Server.apiMap['basic']['oauth'];
-          localStorage.removeItem('jwt');
-
-          window.location.replace(oauthUrl);
-        } else {
-          // 获取用户信息错误
-          dialog.warning({
-            title: '没有用户信息',
-            content: '前往报名页面',
-            positiveText: '确定',
-            onPositiveClick: () => {
-              router.replace('/register');
-            },
-          });
-        }
+        // 获取用户信息错误
+        dialog.warning({
+          title: '没有用户信息',
+          content: '前往报名页面',
+          positiveText: '确定',
+          onPositiveClick: () => {
+            router.replace('/register')
+          },
+        })
       }
-    })
-    .catch(function (_) {
+    } catch (error) {
+      // 网络发生错误
       dialog.warning({
         title: '登录错误',
         content: '服务器错误, 请稍后重试',
         positiveText: '确定',
-      });
-    });
-}
+      })
+    }
+  })()
+})
 </script>
 
 <template>
