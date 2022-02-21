@@ -1,83 +1,44 @@
 <script setup lang="ts">
-import { NSpace, NSpin, useDialog, useMessage } from 'naive-ui';
-import Server from '../config/server';
-import axios, { Axios, AxiosResponse } from 'axios';
-import { useRouter } from 'vue-router';
-import { onMounted } from '@vue/runtime-core';
+import { NSpace, NSpin } from 'naive-ui'
+import { useRouter } from 'vue-router'
+import Server from '../config/Server'
+import { onMounted } from '@vue/runtime-core'
 
 // 变量定义
-const dialog = useDialog();
-const router = useRouter();
-const message = useMessage();
+const router = useRouter()
+
+// 函数定义
+function getQueryVariable(variable: string): string {
+  let query = window.location.search.substring(1)
+  let vars = query.split('&')
+  for (let i = 0; i < vars.length; i++) {
+    let pair = vars[i].split('=')
+    if (pair[0] == variable) {
+      return pair[1]
+    }
+  }
+  return ''
+}
 
 // 挂载函数
 onMounted(() => {
   // 挂载的事情清理的一些数据
-  localStorage.removeItem('canLoadInfo');
-});
+  localStorage.removeItem('canLoadInfo')
 
-// 函数定义
-function getQueryVariable(variable: string): string {
-  let query = window.location.search.substring(1);
-  let vars = query.split('&');
-  for (let i = 0; i < vars.length; i++) {
-    let pair = vars[i].split('=');
-    if (pair[0] == variable) {
-      return pair[1];
+  // 尝试获取 url 中的 jwtToken
+  const jwtToken = getQueryVariable('jwt').replaceAll('!', '.')
+
+  // 如果本地没有 token 就设置 token
+  if (localStorage.getItem('jwt') == null) {
+    if (jwtToken == '') {
+      const oauthUrl = Server.urlPrefix + Server.apiMap['basic']['oauth']
+      window.location.href = oauthUrl
+    } else {
+      localStorage.setItem('jwt', jwtToken)
     }
   }
-  return '';
-}
-
-// 获取微信 code
-const code = getQueryVariable('code');
-const loginUrl = Server.urlPrefix + Server.apiMap['basic']['login'];
-
-// 如果本地已经有 token 就直接跳转到加载信息页面
-if (localStorage.getItem('jwt') != null) {
-  router.replace('/loading');
-} else {
-  axios
-    .get(loginUrl, {
-      timeout: 3000,
-      params: {
-        code: code,
-      },
-    })
-    .then(function (response: AxiosResponse) {
-      const respData: any = response.data;
-      if (respData['code'] === 200) {
-        // 存下 jwt
-        const jwt = respData['data']['jwt'];
-        localStorage.setItem('jwt', jwt);
-
-        // 跳转到登录页面
-        router.replace('/loading');
-      } else if (respData['msg'] == 'time error') {
-        dialog.warning({
-          closable: false,
-          title: '尚未开始',
-          content: '报名尚未开始',
-          positiveText: '确定',
-        });
-      } else {
-        dialog.warning({
-          title: '登录错误',
-          closable: false,
-          content: '服务器错误, 请稍后重试',
-          positiveText: '确定',
-        });
-      }
-    })
-    .catch(function (error) {
-      dialog.warning({
-        title: '登录错误',
-        closable: false,
-        content: '服务器错误, 请稍后重试',
-        positiveText: '确定',
-      });
-    });
-}
+  router.replace('/loading')
+})
 </script>
 
 <template>

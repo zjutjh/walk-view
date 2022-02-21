@@ -11,7 +11,7 @@ import {
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import MemberCard from './MemberCard.vue';
-import ServerConfig from '../../config/server';
+import ServerConfig from '../../config/Server';
 import { messageLight } from 'naive-ui/lib/message/styles';
 
 const router = useRouter();

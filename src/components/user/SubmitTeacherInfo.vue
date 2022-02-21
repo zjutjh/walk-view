@@ -10,7 +10,7 @@ import {
   useMessage,
 } from 'naive-ui';
 import { ref } from 'vue';
-import Server from '../../config/server';
+import Server from '../../config/Server';
 import axios, { AxiosResponse } from 'axios';
 import { useRouter } from 'vue-router';
 

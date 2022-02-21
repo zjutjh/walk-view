@@ -6,7 +6,7 @@ import App from './App.vue';
 
 // 设置前端路由
 const routes = [
-  { path: '/', component: () => import('/src/pages/Loading.vue') }, // 根目录为登录页面
+  { path: '/', component: () => import('/src/pages/Login.vue') }, // 根目录为登录页面
   { path: '/register', component: () => import('/src/pages/Register.vue') }, // 报名页面
   { path: '/update/student', component: () => import('/src/pages/UpdateStudentInfo.vue') },
   { path: '/update/teacher', component: () => import('/src/pages/UpdateTeacherInfo.vue') },

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NSpace, NSpin, useDialog, useMessage } from 'naive-ui';
-import Server from '../config/server';
+import Server from '../config/Server';
 import axios, { Axios, AxiosResponse } from 'axios';
 import { useRouter } from 'vue-router';
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NSpace, NButton, NCard, useMessage } from 'naive-ui';
-import ServerConfig from '../../config/server';
+import ServerConfig from '../../config/Server';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 

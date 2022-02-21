@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { NMessageProvider, NCard, NPageHeader, NSelect } from 'naive-ui';
 import { SelectMixedOption } from 'naive-ui/lib/select/src/interface';
-import Server from '../config/server';
+import Server from '../config/Server';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios, { Axios, AxiosResponse } from 'axios';
