@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { NSpace, NSpin, useDialog, useMessage } from 'naive-ui';
+import { NSpace, NSpin, useDialog } from 'naive-ui';
 import Server from '../config/Server';
-import axios, { Axios, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useRouter } from 'vue-router';
 
 // 变量定义
 const dialog = useDialog();
 const router = useRouter();
-const message = useMessage();
 
 const jwt = localStorage.getItem('jwt');
 if (jwt === '') {
@@ -62,7 +61,7 @@ if (jwt === '') {
                 JSON.stringify(respData['data'])
               );
             })
-            .catch(function (error) {
+            .catch(function (_) {
               dialog.warning({
                 title: '登录错误',
                 content: '服务器错误, 请稍后重试',
@@ -99,7 +98,7 @@ if (jwt === '') {
         }
       }
     })
-    .catch(function (error) {
+    .catch(function (_) {
       dialog.warning({
         title: '登录错误',
         content: '服务器错误, 请稍后重试',
