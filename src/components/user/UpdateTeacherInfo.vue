@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { NMessageProvider, NCard, NPageHeader } from 'naive-ui'
 import Server from '../../config/Server'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import axios, { Axios, AxiosResponse } from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { NForm, NSpace, NInput, NFormItem, NButton, NRadioGroup, NRadioButton, useMessage } from 'naive-ui'
 
 const formRef = ref()
@@ -50,7 +49,7 @@ const rules = ref({
   },
   id: {
     required: true,
-    validator(rule: any, value: any) {
+    validator(_: any, value: any) {
       if (!value) {
         return new Error('请输入' + formValue.value.home)
       } else if (formValue.value.home == '身份证号') {
