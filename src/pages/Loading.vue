@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { NSpace, NSpin, useDialog } from 'naive-ui'
 import Server from '../config/Server'
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { onMounted } from 'vue'
 import { storeUserInfo, storeTeamInfo } from '../utility'
