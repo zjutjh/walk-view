@@ -4,7 +4,7 @@ import Server from '../../config/Server'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios, { Axios, AxiosResponse } from 'axios'
-import { NForm, NInput, NFormItem, NButton, NRadioGroup, NRadioButton, useMessage } from 'naive-ui'
+import { NForm, NSpace, NInput, NFormItem, NButton, NRadioGroup, NRadioButton, useMessage } from 'naive-ui'
 
 const formRef = ref()
 const message = useMessage()
@@ -109,7 +109,7 @@ const rules = ref({
 })
 
 function goBack() {
-  router.replace('/info')
+  router.replace('/info/user/showteacher')
 }
 
 function submit() {
@@ -176,10 +176,17 @@ function submit() {
     <n-form-item label="QQ号(可选)" path="contact.qq">
       <n-input placeholder="请输入QQ号" v-model:value="formValue.contact.qq" />
     </n-form-item>
-    <n-form-item>
-      <n-button @click="submit" attr-type="button" style="margin: auto; width: 100%" type="primary"
-        >提交</n-button
-      >
-    </n-form-item>
+
+    <n-space :vertical="true" :size="25">
+      <n-button class="update-info-button" @click="submit" attr-type="button" type="primary">提交</n-button>
+      <n-button class="update-info-button" @click="goBack" attr-type="button"> 返回 </n-button>
+    </n-space>
   </n-form>
 </template>
+
+<style>
+.update-info-button {
+  margin: auto;
+  width: 100%;
+}
+</style>
