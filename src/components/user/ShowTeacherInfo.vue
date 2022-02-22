@@ -25,7 +25,7 @@ const joinOp = ref(localStorage.getItem('join_op'));
 const createOp = ref(localStorage.getItem('create_op'));
 
 function jumpToUpdateTeacherInfo() {
-  router.replace('/update/teacher');
+  router.replace('/info/update/teacher');
 }
 </script>
 
