@@ -26,11 +26,11 @@ function removeMember(openID: string | undefined) {
         Authorization: 'Bearer ' + localStorage.getItem('jwt'),
       },
     })
-    .then(function (response) {
+    .then(function (_) {
       message.success('删除队员成功');
       setTimeout(() => router.replace('/loading'), 1000);
     })
-    .catch(function (error) {
+    .catch(function (_) {
       message.error('网络错误，请检查网络');
     });
 }
