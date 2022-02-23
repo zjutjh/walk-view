@@ -54,11 +54,11 @@ const teamRoute = computed(() => {
 });
 
 function jumpToUpdateTeam() {
-  router.replace('/info/team/updateteam');
+  router.push('/info/team/updateteam');
 }
 
 function jumpToManageMember() {
-  router.replace('/info/team/managemember');
+  router.push('/info/team/managemember');
 }
 
 function disbandTeamAPI() {
@@ -75,7 +75,7 @@ function disbandTeamAPI() {
       const respData: any = response.data;
       if (respData['code'] == 200) {
         message.success('解散成功');
-        setTimeout(() => router.replace('/loading'), 1000);
+        setTimeout(() => router.push('/loading'), 1000);
       } else {
         message.error(respData['msg']);
       }
@@ -122,7 +122,7 @@ function submitTeam() {
       const respData: any = response.data;
       if (respData['code'] == 200) {
         message.success('提交队伍成功');
-        setTimeout(() => router.replace('/loading'), 1000);
+        setTimeout(() => router.push('/loading'), 1000);
       } else {
         message.error(respData['msg']);
       }
@@ -146,7 +146,7 @@ function leaveTeam() {
       const respData: any = response.data;
       if (respData['code'] == 200) {
         message.success('退出成功');
-        setTimeout(() => router.replace('/loading'), 1000);
+        setTimeout(() => router.push('/loading'), 1000);
       } else {
         message.error(respData['msg']);
       }
@@ -170,7 +170,7 @@ function rollbackTeamAPI() {
       const respData: any = response.data;
       if (respData['code'] == 200) {
         message.success('撤回成功');
-        setTimeout(() => router.replace('/loading'), 1000);
+        setTimeout(() => router.push('/loading'), 1000);
       } else {
         message.error(respData['msg']);
       }

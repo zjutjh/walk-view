@@ -1,5 +1,5 @@
-import Server from "./config/Server"
-import axios from "axios"
+import Server from './config/Server'
+import axios from 'axios'
 
 export function getQueryVariable(variable: string): string {
   let query = window.location.search.substring(1)
@@ -13,6 +13,7 @@ export function getQueryVariable(variable: string): string {
   return ''
 }
 
+// 加载时用来存储个人信息的函数
 export function storeUserInfo(respData: any) {
   localStorage.setItem('name', respData['data']['name'])
   localStorage.setItem('college', respData['data']['college'])
@@ -28,6 +29,7 @@ export function storeUserInfo(respData: any) {
   localStorage.setItem('tel', respData['data']['contact']['tel'])
 }
 
+// 加载并存储团队信息的函数
 export async function storeTeamInfo(respData: any, jwt: string) {
   const getTeamInfoUrl = Server.urlPrefix + Server.apiMap['team']['info']
   const response = await axios.get(getTeamInfoUrl, {
@@ -39,4 +41,41 @@ export async function storeTeamInfo(respData: any, jwt: string) {
 
   respData = response.data
   localStorage.setItem('team_data', JSON.stringify(respData['data']))
+}
+
+// 校验一个 key 是否在 object 中的函数
+export function isValidKey(key: string | number | symbol, object: object): key is keyof object {
+  return key in object
+}
+
+// 判断是否是老师
+export function isTeacher(): boolean {
+  return localStorage.getItem('campus') === '5'
+}
+
+// 查询 info 页面应该显示哪个 tab
+export function defaultTab(): string {
+  let parentPathOfLoading: string
+  if (localStorage.getItem('parentPathOfLoading') === null) {
+    parentPathOfLoading = '/'
+  } else {
+    parentPathOfLoading = localStorage.getItem('parentPathOfLoading') as string
+  }
+
+  const defaultTabTable = {
+    '/info/user/showteacher': 'user',
+    '/info/team/teaminfo': 'team',
+    '/info/team/updateteam': 'team',
+    '/info/team/managemember': 'team',
+    '/info/update/teacher': 'user',
+    '/info/update/student': 'user',
+    '/': 'user',
+  }
+
+  // 根据 loading 页面的父页面来选择默认 tab
+  if (isValidKey(parentPathOfLoading, defaultTabTable)) {
+    return defaultTabTable[parentPathOfLoading]
+  } else {
+    return ''
+  }
 }

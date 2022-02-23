@@ -11,7 +11,7 @@ const router = useRouter();
 const teamData = ref(JSON.parse(<string>localStorage.getItem('team_data')));
 
 function goBack() {
-  router.replace('/info/team/teaminfo');
+  router.push('/info/team/teaminfo');
 }
 </script>
 

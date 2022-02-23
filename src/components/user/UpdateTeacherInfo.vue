@@ -108,7 +108,7 @@ const rules = ref({
 })
 
 function goBack() {
-  router.replace('/info/user/showteacher')
+  router.push('/info/user/showteacher')
 }
 
 function submit() {

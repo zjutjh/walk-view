@@ -161,7 +161,7 @@ function createTeamAPI() {
         // 队伍创建成功
         localStorage.setItem('team_id', respData['data']['team_id']);
         message.success('创建成功');
-        setTimeout(() => router.replace('/loading'));
+        setTimeout(() => router.push('/loading'));
       } else {
         message.error(respData['msg']);
       }

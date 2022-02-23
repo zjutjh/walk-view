@@ -137,7 +137,7 @@ function updateTeamAPI() {
       if (respData['code'] == 200) {
         // 队伍创建成功
         message.success('更新成功');
-        setTimeout(() => router.replace('/loading'));
+        setTimeout(() => router.push('/loading'));
       } else {
         message.error(respData['msg']);
       }

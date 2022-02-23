@@ -1,43 +1,52 @@
 <script setup lang="ts">
-import { NCard, NTabs, NTabPane, NButton, useMessage } from 'naive-ui';
-import { RouterView, useRouter } from 'vue-router';
+import { NCard, NTabs, NTabPane, NButton, useMessage } from 'naive-ui'
+import { computed, onMounted, ref } from 'vue'
+import { RouterView, useRouter } from 'vue-router'
+import { isTeacher, defaultTab } from '../utility'
 
-const router = useRouter();
-const message = useMessage();
+const router = useRouter()
+const message = useMessage()
 
-// 根据是校友还是学生来选择不同的页面展示
-let userInfoRoute = '';
-if (localStorage.getItem('campus') === '5') {
-  userInfoRoute = '/info/user/showteacher'; // 教职工信息展示
-} else {
-  userInfoRoute = '/info/user/showstudent'; // 学生信息展示
-}
+// 该页面默认显示的 tab
+const defaultTabName = ref(defaultTab())
+// 用户信息页面默认要展示的是老师页面还是学生页面
+const userInfoRoute = isTeacher() ? '/info/user/showteacher' : '/info/user/showstudent'
 
-router.replace(userInfoRoute); // 默认展示个人信息
+// 设置默认 tab 下显示的页面
+onMounted(() => {
+  if (defaultTab() == 'team') {
+    if (localStorage.getItem('team_id') == '-1') {
+      router.push('/info/team/notjoin')
+    } else {
+      router.push('/info/team/teaminfo')
+    }
+  } else if (defaultTab() === 'user') {
+    router.push(userInfoRoute)
+  }
+})
+
+// 在修改以后设置 tab 应该显示的页面
 function changeTab(value: string) {
   if (value === 'team') {
     if (localStorage.getItem('team_id') == '-1') {
-      router.replace('/info/team/notjoin');
+      router.push('/info/team/notjoin')
     } else {
-      router.replace('/info/team/teaminfo');
+      router.push('/info/team/teaminfo')
     }
-  } else if (value === 'personal') {
-    router.replace(userInfoRoute);
+  } else if (value === 'user') {
+    router.push(userInfoRoute)
   }
 }
 
 function refresh() {
-  if (
-    localStorage.getItem('canLoadInfo') == null ||
-    localStorage.getItem('canLoadInfo') == 'yes'
-  ) {
-    localStorage.setItem('canLoadInfo', 'no');
-    router.replace('/loading');
+  if (localStorage.getItem('canLoadInfo') == null || localStorage.getItem('canLoadInfo') == 'yes') {
+    localStorage.setItem('canLoadInfo', 'no')
+    router.push('/loading')
     setTimeout(() => {
-      localStorage.setItem('canLoadInfo', 'yes');
-    }, 1000);
+      localStorage.setItem('canLoadInfo', 'yes')
+    }, 1000)
   } else {
-    message.warning('让生产队的驴休息一下吧');
+    message.warning('让生产队的驴休息一下吧')
   }
 }
 </script>
@@ -49,8 +58,8 @@ function refresh() {
         <div style="margin-left: 8px">刷新 🔥</div>
       </n-button>
     </template>
-    <n-tabs @update:value="changeTab" type="line">
-      <n-tab-pane name="personal" tab="个人信息">
+    <n-tabs @update:value="changeTab" :default-value="defaultTabName" type="line">
+      <n-tab-pane name="user" tab="个人信息">
         <router-view></router-view>
       </n-tab-pane>
       <n-tab-pane name="team" tab="团队信息">

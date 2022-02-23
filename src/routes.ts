@@ -1,7 +1,15 @@
-export const routes = [
+import { RouteRecordRaw } from 'vue-router'
+
+export const routes: RouteRecordRaw[] = [
   { path: '/', component: () => import('/src/pages/Login.vue') }, // 根目录为登录页面
   { path: '/register', component: () => import('/src/pages/Register.vue') }, // 报名页面
-  { path: '/loading', component: () => import('/src/pages/Loading.vue') },
+  {
+    path: '/loading',
+    component: () => import('/src/pages/Loading.vue'),
+    beforeEnter: (_, from) => {
+      localStorage.setItem('parentPathOfLoading', from.fullPath)
+    },
+  },
   {
     path: '/info',
     component: () => import('/src/pages/Info.vue'),

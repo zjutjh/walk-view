@@ -222,7 +222,7 @@ const rules = ref({
 });
 
 function goBack() {
-  router.replace('/info');
+  router.push('/info');
 }
 
 function submit() {

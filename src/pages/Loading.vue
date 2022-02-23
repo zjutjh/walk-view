@@ -59,7 +59,7 @@ onMounted(() => {
           content: '前往报名页面',
           positiveText: '确定',
           onPositiveClick: () => {
-            router.replace('/register')
+            router.push('/register')
           },
         })
       }

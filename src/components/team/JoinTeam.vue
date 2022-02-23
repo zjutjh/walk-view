@@ -45,7 +45,7 @@ const showModal = ref(false);
 
 function onPositiveClick() {
   showModal.value = false;
-  router.replace('/loading');
+  router.push('/loading');
 }
 
 function joinTeam() {
@@ -69,7 +69,7 @@ function joinTeam() {
       const respData: any = response.data;
       if (respData['code'] == 200) {
         message.success('加入成功');
-        setTimeout(() => router.replace('/loading'), 1000);
+        setTimeout(() => router.push('/loading'), 1000);
       } else {
         message.error(respData['msg']);
       }

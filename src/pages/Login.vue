@@ -26,7 +26,7 @@ onMounted(() => {
       localStorage.setItem('jwt', jwtToken)
     }
   }
-  router.replace('/loading')
+  router.push('/loading')
 })
 </script>
 

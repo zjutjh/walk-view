@@ -35,7 +35,7 @@ const campus = computed(() => {
 })
 
 function jumpToUpdateStudentInfo() {
-  router.replace('/info/update/student')
+  router.push('/info/update/student')
 }
 </script>
 
