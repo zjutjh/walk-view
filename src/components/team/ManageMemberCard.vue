@@ -6,7 +6,7 @@ import { useRouter } from 'vue-router';
 
 const message = useMessage();
 const router = useRouter();
-const props = defineProps({
+defineProps({
   name: String,
   isLeader: Boolean,
   tel: String,
