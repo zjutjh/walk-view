@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import Server from '../../config/Server'
+import Server from '../../../config/Server'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { getUserData } from '../../utility'
+import { getUserData } from '../../../utility'
 import axios, { AxiosResponse } from 'axios'
 import { NForm, NSpace, NInput, NFormItem, NButton, NRadioGroup, NRadioButton, useMessage } from 'naive-ui'
 

@@ -8,8 +8,8 @@ import {
   NModal,
   NScrollbar,
 } from 'naive-ui';
-import RegisterStudentInfo from '/src/components/user/RegisterStudentInfo.vue';
-import RegisterTeacherInfo from '/src/components/user/RegisterTeacherInfo.vue';
+import RegisterStudentInfo from '/src/components/user/register/RegisterStudentInfo.vue';
+import RegisterTeacherInfo from '/src/components/user/register/RegisterTeacherInfo.vue';
 
 import { ref } from 'vue';
 

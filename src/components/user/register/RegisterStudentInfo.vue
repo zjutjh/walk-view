@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import axios, { Axios, AxiosResponse } from 'axios';
 import {
-  NCard,
   NForm,
   NInput,
   NFormItem,
@@ -8,18 +8,113 @@ import {
   NRadioGroup,
   NRadioButton,
   useMessage,
+  NSelect,
 } from 'naive-ui';
+import { SelectMixedOption } from 'naive-ui/lib/select/src/interface';
+import Server from '../../../config/Server';
 import { ref } from 'vue';
-import Server from '../../config/Server';
-import axios, { AxiosResponse } from 'axios';
 import { useRouter } from 'vue-router';
 
 const formRef = ref();
 const message = useMessage();
 const router = useRouter();
+let collegeOptions = ref<SelectMixedOption[]>();
+collegeOptions.value = [
+  {
+    label: '健行学院',
+    value: '健行学院',
+  },
+  {
+    label: '健行书院预科班',
+    value: '健行书院预科班',
+  },
+  {
+    label: '化学工程学院',
+    value: '化学工程学院',
+  },
+  {
+    label: '生物工程学院',
+    value: '生物工程学院',
+  },
+  {
+    label: '药学院、绿色制药协同创新中心',
+    value: '药学院、绿色制药协同创新中心',
+  },
+  {
+    label: '环境学院',
+    value: '环境学院',
+  },
+  {
+    label: '材料科学与工程学院',
+    value: '材料科学与工程学院',
+  },
+  {
+    label: '食品科学与工程学院',
+    value: '食品科学与工程学院',
+  },
+  {
+    label: '机械工程学院',
+    value: '机械工程学院',
+  },
+  {
+    label: '信息工程学院',
+    value: '信息工程学院',
+  },
+  {
+    label: '计算机科学与技术学院',
+    value: '计算机科学与技术学院',
+  },
+  {
+    label: '土木工程学院',
+    value: '土木工程学院',
+  },
+  {
+    label: '理学院',
+    value: '理学院',
+  },
+  {
+    label: '管理学院',
+    value: '管理学院',
+  },
+  {
+    label: '经济学院',
+    value: '经济学院',
+  },
+  {
+    label: '教育科学与技术学院',
+    value: '教育科学与技术学院',
+  },
+  {
+    label: '外国语学院',
+    value: '外国语学院',
+  },
+  {
+    label: '人文学院',
+    value: '人文学院',
+  },
+  {
+    label: '设计与建筑学院',
+    value: '设计与建筑学院',
+  },
+  {
+    label: '法学院',
+    value: '法学院',
+  },
+  {
+    label: '马克思主义学院、公共管理学院',
+    value: '马克思主义学院、公共管理学院',
+  },
+  {
+    label: '国际学院',
+    value: '国际学院',
+  },
+];
 const formValue = ref({
   name: '',
   gender: -1,
+  college: null,
+  campus: -1,
+  stu_id: '',
   home: '身份证号',
   id: '',
   contact: {
@@ -37,6 +132,28 @@ const rules = ref({
   gender: {
     required: true,
     message: '请选择性别',
+    trigger: ['input', 'blur'],
+  },
+  stu_id: {
+    required: true,
+    validator(rule: any, value: any) {
+      if (!value) {
+        return new Error('请输入学号');
+      } else if (!/^[0-9a-zA-Z_]{1,}$/.test(value)) {
+        return new Error('学号格式不正确');
+      }
+      return true;
+    },
+    trigger: ['input', 'blur'],
+  },
+  college: {
+    required: true,
+    message: '请选择学院',
+    trigger: ['input', 'blur'],
+  },
+  campus: {
+    required: true,
+    message: '请选择校区',
     trigger: ['input', 'blur'],
   },
   home: {
@@ -105,14 +222,16 @@ const rules = ref({
 });
 
 function submit() {
+  // 对数据进行检查
   formRef.value.validate((errors: any) => {
     if (!errors) {
       // 提交数据
+      formValue.value.campus = Number(formValue.value.campus);
       formValue.value.gender = Number(formValue.value.gender);
-      const submitTeacherUrl =
-        Server.urlPrefix + Server.apiMap['register']['teacher'];
+      const submitStudentUrl =
+        Server.urlPrefix + Server.apiMap['register']['student'];
       axios
-        .post(submitTeacherUrl, formValue.value, {
+        .post(submitStudentUrl, formValue.value, {
           timeout: 3000,
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('jwt'),
@@ -151,6 +270,27 @@ function submit() {
         <n-radio-button value="2">女</n-radio-button>
       </n-radio-group>
     </n-form-item>
+
+    <n-form-item label="学院" path="college">
+      <n-select
+        v-model:value="formValue.college"
+        placeholder="请选择学院"
+        :options="collegeOptions"
+      ></n-select>
+    </n-form-item>
+
+    <n-form-item label="校区" path="campus">
+      <n-radio-group v-model:value="formValue.campus">
+        <n-radio-button value="1">朝晖</n-radio-button>
+        <n-radio-button value="2">屏峰</n-radio-button>
+        <n-radio-button value="3">莫干山</n-radio-button>
+      </n-radio-group>
+    </n-form-item>
+
+    <n-form-item label="学号" path="stu_id">
+      <n-input placeholder="请输入学号" v-model:value="formValue.stu_id" />
+    </n-form-item>
+
     <n-form-item label="故乡" path="home">
       <n-radio-group v-model:value="formValue.home">
         <n-radio-button value="身份证号">内陆</n-radio-button>
@@ -159,12 +299,14 @@ function submit() {
         <n-radio-button value="护照">国际</n-radio-button>
       </n-radio-group>
     </n-form-item>
+
     <n-form-item :label="formValue.home" path="id">
       <n-input
         :placeholder="'请输入' + formValue.home"
         v-model:value="formValue.id"
       />
     </n-form-item>
+
     <n-form-item label="电话号码" path="contact.tel">
       <n-input
         placeholder="请输入电话号码"

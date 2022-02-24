@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { NButton } from 'naive-ui'
 import { useRouter } from 'vue-router'
-import { isTeacher } from '../../utility'
+import { isTeacher } from '../../../utility'
 import ContactInfo from './ContactInfo.vue'
 import OpportunityInfo from './OpportunityInfo.vue'
 import StudentBasicInfo from './StudentBasicInfo.vue'

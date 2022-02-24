@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { getUserData } from '../../utility'
+import { getUserData } from '../../../utility'
 import { NCard, NTable } from 'naive-ui';
 
 const userData = ref(getUserData())
