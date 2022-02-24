@@ -1,69 +1,62 @@
 <script setup lang="ts">
-import axios, { AxiosResponse } from 'axios';
-import {
-  NCard,
-  NTable,
-  NButton,
-  NSpace,
-  useMessage,
-  useDialog,
-} from 'naive-ui';
-import { computed, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import MemberCard from './MemberCard.vue';
-import ServerConfig from '../../config/Server';
-import { messageLight } from 'naive-ui/lib/message/styles';
+import axios, { AxiosResponse } from 'axios'
+import { NCard, NTable, NButton, NSpace, useMessage, useDialog } from 'naive-ui'
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import MemberCard from './MemberCard.vue'
+import ServerConfig from '../../config/Server'
+import { getTeamData, getUserData } from '../../utility'
 
-const router = useRouter();
-const message = useMessage();
-const dialog = useDialog();
+const router = useRouter()
+const message = useMessage()
+const dialog = useDialog()
 
 // 是否禁用提交按钮
-const disabled = ref(false);
+const disabled = ref(false)
 
 // 展示用的数据
-const teamData = ref(JSON.parse(<string>localStorage.getItem('team_data')));
+const teamData = ref(getTeamData())
 
 // 是否是队长
-const isLeader = computed(() =>
-  localStorage.getItem('status') == '2' ? true : false
-);
+const isLeader = computed(() => {
+  const userData = getUserData()
+  return userData['status'] == '2' ? true : false
+})
 
 // 是否能允许随机
 const allowMatch = computed(() => {
-  if (teamData.value['allow_match'] == true) return '允许 ✅';
-  else return '不允许 ❎';
-});
+  if (teamData.value['allow_match'] == true) return '允许 ✅'
+  else return '不允许 ❎'
+})
 
 // 是否提交
 const isSubmitted = computed(() => {
   if (teamData.value['submitted']) {
-    return '提交成功 ✅';
+    return '提交成功 ✅'
   } else {
-    return '尚未提交 ❎';
+    return '尚未提交 ❎'
   }
-});
+})
 
 // 毅行路线数据
 const teamRoute = computed(() => {
-  if (teamData.value['route'] == 1) return '朝晖全程';
-  else if (teamData.value['route'] == 2) return '屏峰半程';
-  else if (teamData.value['route'] == 3) return '屏峰全程';
-  else if (teamData.value['route'] == 4) return '莫干山半程';
-  else if (teamData.value['route'] == 5) return '莫干山全程';
-});
+  if (teamData.value['route'] == 1) return '朝晖全程'
+  else if (teamData.value['route'] == 2) return '屏峰半程'
+  else if (teamData.value['route'] == 3) return '屏峰全程'
+  else if (teamData.value['route'] == 4) return '莫干山半程'
+  else if (teamData.value['route'] == 5) return '莫干山全程'
+})
 
 function jumpToUpdateTeam() {
-  router.push('/info/team/updateteam');
+  router.push('/info/team/updateteam')
 }
 
 function jumpToManageMember() {
-  router.push('/info/team/managemember');
+  router.push('/info/team/managemember')
 }
 
 function disbandTeamAPI() {
-  const disbandTeamUrl =
-    ServerConfig.urlPrefix + ServerConfig.apiMap['team']['disband'];
+  const disbandTeamUrl = ServerConfig.urlPrefix + ServerConfig.apiMap['team']['disband']
   axios
     .get(disbandTeamUrl, {
       timeout: 3000,
@@ -72,17 +65,17 @@ function disbandTeamAPI() {
       },
     })
     .then(function (response: AxiosResponse) {
-      const respData: any = response.data;
+      const respData: any = response.data
       if (respData['code'] == 200) {
-        message.success('解散成功');
-        setTimeout(() => router.push('/loading'), 1000);
+        message.success('解散成功')
+        setTimeout(() => router.push('/loading'), 1000)
       } else {
-        message.error(respData['msg']);
+        message.error(respData['msg'])
       }
     })
     .catch(function (error) {
-      message.error('网络错误，请检查网络');
-    });
+      message.error('网络错误，请检查网络')
+    })
 }
 
 function disbandTeam() {
@@ -92,25 +85,24 @@ function disbandTeam() {
     positiveText: '确定',
     negativeText: '不确定',
     onPositiveClick: () => {
-      disbandTeamAPI();
+      disbandTeamAPI()
     },
     onNegativeClick: () => {},
-  });
+  })
 }
 
 function submitTeam() {
   // 5s 禁用按钮
   if (disabled.value) {
-    message.warning('请不要频繁点击按钮，造成服务器拥挤');
-    return;
+    message.warning('请不要频繁点击按钮，造成服务器拥挤')
+    return
   }
-  disabled.value = true;
+  disabled.value = true
   setTimeout(() => {
-    disabled.value = false;
-  }, 3000);
+    disabled.value = false
+  }, 3000)
 
-  const submitTeamUrl =
-    ServerConfig.urlPrefix + ServerConfig.apiMap['team']['submit'];
+  const submitTeamUrl = ServerConfig.urlPrefix + ServerConfig.apiMap['team']['submit']
   axios
     .get(submitTeamUrl, {
       timeout: 3000,
@@ -119,22 +111,21 @@ function submitTeam() {
       },
     })
     .then(function (response: AxiosResponse) {
-      const respData: any = response.data;
+      const respData: any = response.data
       if (respData['code'] == 200) {
-        message.success('提交队伍成功');
-        setTimeout(() => router.push('/loading'), 1000);
+        message.success('提交队伍成功')
+        setTimeout(() => router.push('/loading'), 1000)
       } else {
-        message.error(respData['msg']);
+        message.error(respData['msg'])
       }
     })
     .catch(function (error) {
-      message.error('网络错误，请检查网络');
-    });
+      message.error('网络错误，请检查网络')
+    })
 }
 
 function leaveTeam() {
-  const leaveTeamUrl =
-    ServerConfig.urlPrefix + ServerConfig.apiMap['team']['leave'];
+  const leaveTeamUrl = ServerConfig.urlPrefix + ServerConfig.apiMap['team']['leave']
   axios
     .get(leaveTeamUrl, {
       timeout: 3000,
@@ -143,22 +134,21 @@ function leaveTeam() {
       },
     })
     .then(function (response: AxiosResponse) {
-      const respData: any = response.data;
+      const respData: any = response.data
       if (respData['code'] == 200) {
-        message.success('退出成功');
-        setTimeout(() => router.push('/loading'), 1000);
+        message.success('退出成功')
+        setTimeout(() => router.push('/loading'), 1000)
       } else {
-        message.error(respData['msg']);
+        message.error(respData['msg'])
       }
     })
     .catch(function (error) {
-      message.error('服务器错误');
-    });
+      message.error('服务器错误')
+    })
 }
 
 function rollbackTeamAPI() {
-  const rollbackTeamUrl =
-    ServerConfig.urlPrefix + ServerConfig.apiMap['team']['rollback'];
+  const rollbackTeamUrl = ServerConfig.urlPrefix + ServerConfig.apiMap['team']['rollback']
   axios
     .get(rollbackTeamUrl, {
       timeout: 3000,
@@ -167,17 +157,17 @@ function rollbackTeamAPI() {
       },
     })
     .then(function (response: AxiosResponse) {
-      const respData: any = response.data;
+      const respData: any = response.data
       if (respData['code'] == 200) {
-        message.success('撤回成功');
-        setTimeout(() => router.push('/loading'), 1000);
+        message.success('撤回成功')
+        setTimeout(() => router.push('/loading'), 1000)
       } else {
-        message.error(respData['msg']);
+        message.error(respData['msg'])
       }
     })
     .catch(function (error) {
-      message.error('服务器错误');
-    });
+      message.error('服务器错误')
+    })
 }
 
 function rollbackTeam() {
@@ -187,21 +177,17 @@ function rollbackTeam() {
     positiveText: '确定',
     negativeText: '不确定',
     onPositiveClick: () => {
-      rollbackTeamAPI();
+      rollbackTeamAPI()
     },
     onNegativeClick: () => {},
-  });
+  })
 }
 </script>
 
 <template>
   <n-card title="👟 &nbsp; 基本信息" embedded :bordered="false" size="small">
     <template #header-extra>
-      <n-button
-        v-if="isLeader && !teamData['submitted']"
-        @click="jumpToUpdateTeam"
-        size="small"
-        round
+      <n-button v-if="isLeader && !teamData['submitted']" @click="jumpToUpdateTeam" size="small" round
         >修改信息</n-button
       >
     </template>
@@ -254,11 +240,7 @@ function rollbackTeam() {
 
   <n-card title="🧑‍🎓 &nbsp; 队员信息" embedded :bordered="false" size="small">
     <template #header-extra>
-      <n-button
-        v-if="isLeader && !teamData['submitted']"
-        @click="jumpToManageMember"
-        size="small"
-        round
+      <n-button v-if="isLeader && !teamData['submitted']" @click="jumpToManageMember" size="small" round
         >管理团队</n-button
       >
     </template>

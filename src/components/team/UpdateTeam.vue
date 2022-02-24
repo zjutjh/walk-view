@@ -15,6 +15,7 @@ import {
 import { SelectMixedOption } from 'naive-ui/lib/select/src/interface';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { getTeamData } from '../../utility';
 
 let campus = ref(null);
 let showRouteOptions = ref(false);
@@ -75,31 +76,31 @@ function onNegativeClick() {
 routeOptions.value = [
   {
     label: '朝晖全程',
-    value: '1',
+    value: 1,
   },
   {
     label: '屏峰半程',
-    value: '2',
+    value: 2,
   },
   {
     label: '屏峰全程',
-    value: '3',
+    value: 3,
   },
   {
     label: '莫干山半程',
-    value: '4',
+    value: 4,
   },
   {
     label: '莫干山全程',
-    value: '5',
+    value: 5,
   },
 ];
 
-const teamData: any = JSON.parse(<string>localStorage.getItem('team_data'));
+const teamData: any = getTeamData();
 const formValue = ref({
   name: teamData['name'],
   password: teamData['password'],
-  route: null,
+  route: teamData['route'],
   allow_match: teamData['allow_match'] ? '1' : '0',
 });
 const showModal = ref(false);
