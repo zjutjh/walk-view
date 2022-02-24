@@ -8,8 +8,8 @@ import {
   NModal,
   NScrollbar,
 } from 'naive-ui';
-import SubmitStudentInfo from '/src/components/user/SubmitStudentInfo.vue';
-import SubmitTeacherInfo from '/src/components/user/SubmitTeacherInfo.vue';
+import RegisterStudentInfo from '/src/components/user/RegisterStudentInfo.vue';
+import RegisterTeacherInfo from '/src/components/user/RegisterTeacherInfo.vue';
 
 import { ref } from 'vue';
 
@@ -145,11 +145,11 @@ function onPositiveClick() {
     <n-card title="报名信息 &nbsp; 💻" style="margin: 4% auto; width: 93%">
       <n-tabs default-value="student">
         <n-tab-pane name="student" tab="学生报名">
-          <submit-student-info></submit-student-info>
+          <register-student-info></register-student-info>
         </n-tab-pane>
 
         <n-tab-pane name="teacher" tab="教职工报名">
-          <submit-teacher-info></submit-teacher-info>
+          <register-teacher-info></register-teacher-info>
         </n-tab-pane>
       </n-tabs>
     </n-card>

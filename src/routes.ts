@@ -14,8 +14,7 @@ export const routes: RouteRecordRaw[] = [
     path: '/info',
     component: () => import('/src/pages/Info.vue'),
     children: [
-      { path: 'user/showstudent', component: () => import('/src/components/user/ShowStudentInfo.vue') },
-      { path: 'user/showteacher', component: () => import('/src/components/user/ShowTeacherInfo.vue') },
+      { path: 'user/showinfo', component: () => import('/src/components/user/UserInfo.vue') },
       { path: 'update/student', component: () => import('/src/components/user/UpdateStudentInfo.vue') },
       { path: 'update/teacher', component: () => import('/src/components/user/UpdateTeacherInfo.vue') },
       { path: 'team/notjoin', component: () => import('/src/components/team/NotJoin.vue') },

@@ -2,7 +2,7 @@
 import { NCard, NTabs, NTabPane, NButton, useMessage } from 'naive-ui'
 import { onMounted, ref } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
-import { isTeacher, defaultTab } from '../utility'
+import { defaultTab } from '../utility'
 
 const router = useRouter()
 const message = useMessage()
@@ -10,7 +10,7 @@ const message = useMessage()
 // 该页面默认显示的 tab
 const defaultTabName = ref(defaultTab())
 // 用户信息页面默认要展示的是老师页面还是学生页面
-const userInfoRoute = isTeacher() ? '/info/user/showteacher' : '/info/user/showstudent'
+const userInfoRoute = '/info/user/showinfo'
 
 // 设置默认 tab 下显示的页面
 onMounted(() => {

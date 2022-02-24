@@ -217,7 +217,7 @@ const rules = ref({
 })
 
 function goBack() {
-  router.push('/info/user/showstudent')
+  router.push('/info/user/showinfo')
 }
 
 function submit() {
