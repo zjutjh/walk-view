@@ -1,31 +1,14 @@
 <script setup lang="ts">
-import { NTable, NPopover, NButton, NCard } from 'naive-ui';
-import { computed, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { NTable, NPopover, NButton, NCard } from 'naive-ui'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { getUserData, parseGender } from '../../utility'
 
-const router = useRouter();
-
-// 从本地缓存中读取用户信息
-const name = ref(localStorage.getItem('name'));
-const gender = computed(() =>
-  localStorage.getItem('gender') == '1' ? '男' : '女'
-);
-const tel = ref(localStorage.getItem('tel'));
-const qq = computed(() => {
-  const qqStr = localStorage.getItem('qq');
-  if (qqStr == '') return '无';
-  else return qqStr;
-});
-const wechat = computed(() => {
-  const wechatStr = localStorage.getItem('wechat');
-  if (wechatStr == '') return '无';
-  else return wechatStr;
-});
-const joinOp = ref(localStorage.getItem('join_op'));
-const createOp = ref(localStorage.getItem('create_op'));
+const router = useRouter()
+const userData = ref(getUserData())
 
 function jumpToUpdateTeacherInfo() {
-  router.push('/info/update/teacher');
+  router.push('/info/update/teacher')
 }
 </script>
 
@@ -37,14 +20,14 @@ function jumpToUpdateTeacherInfo() {
           <td class="left-item">
             <strong>姓名</strong>
           </td>
-          <td class="right-item">{{ name }}</td>
+          <td class="right-item">{{ userData['name'] }}</td>
         </tr>
 
         <tr>
           <td class="left-item">
             <strong>性别</strong>
           </td>
-          <td class="right-item">{{ gender }}</td>
+          <td class="right-item">{{ parseGender(userData['gender']) }}</td>
         </tr>
       </tbody>
     </n-table>
@@ -57,21 +40,21 @@ function jumpToUpdateTeacherInfo() {
           <td class="left-item">
             <strong>电话</strong>
           </td>
-          <td class="right-item">{{ tel }}</td>
+          <td class="right-item">{{ userData['contact']['tel'] }}</td>
         </tr>
 
         <tr>
           <td class="left-item">
             <strong>微信</strong>
           </td>
-          <td class="right-item">{{ wechat }}</td>
+          <td class="right-item">{{ userData['contact']['wechat'] }}</td>
         </tr>
 
         <tr>
           <td class="left-item">
             <strong>QQ</strong>
           </td>
-          <td class="right-item">{{ qq }}</td>
+          <td class="right-item">{{ userData['contact']['qq'] }}</td>
         </tr>
       </tbody>
     </n-table>
@@ -94,23 +77,20 @@ function jumpToUpdateTeacherInfo() {
           <td class="left-item">
             <strong>创建团队</strong>
           </td>
-          <td class="right-item">{{ createOp }}</td>
+          <td class="right-item">{{ userData['create_op'] }}</td>
         </tr>
 
         <tr>
           <td class="left-item">
             <strong>加入团队</strong>
           </td>
-          <td class="right-item">{{ joinOp }}</td>
+          <td class="right-item">{{ userData['join_op'] }}</td>
         </tr>
       </tbody>
     </n-table>
   </n-card>
 
-  <n-button
-    style="margin-top: 20px; width: 100%"
-    type="primary"
-    @click="jumpToUpdateTeacherInfo"
+  <n-button style="margin-top: 20px; width: 100%" type="primary" @click="jumpToUpdateTeacherInfo"
     >修改信息</n-button
   >
 </template>

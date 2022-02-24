@@ -15,18 +15,7 @@ export function getQueryVariable(variable: string): string {
 
 // 加载时用来存储个人信息的函数
 export function storeUserInfo(respData: any) {
-  localStorage.setItem('name', respData['data']['name'])
-  localStorage.setItem('college', respData['data']['college'])
-  localStorage.setItem('stu_id', respData['data']['stu_id'])
-  localStorage.setItem('gender', respData['data']['gender'])
-  localStorage.setItem('campus', respData['data']['campus'])
-  localStorage.setItem('status', respData['data']['status'])
-  localStorage.setItem('create_op', respData['data']['create_op'])
-  localStorage.setItem('join_op', respData['data']['join_op'])
-  localStorage.setItem('team_id', respData['data']['team_id'])
-  localStorage.setItem('qq', respData['data']['contact']['qq'])
-  localStorage.setItem('wechat', respData['data']['contact']['wechat'])
-  localStorage.setItem('tel', respData['data']['contact']['tel'])
+  localStorage.setItem('user_data', JSON.stringify(respData['data']))
 }
 
 // 加载并存储团队信息的函数
@@ -50,7 +39,8 @@ export function isValidKey(key: string | number | symbol, object: object): key i
 
 // 判断是否是老师
 export function isTeacher(): boolean {
-  return localStorage.getItem('campus') === '5'
+  const userData = getUserData()
+  return userData['campus'] === 5
 }
 
 // 查询 info 页面应该显示哪个 tab
@@ -76,5 +66,29 @@ export function defaultTab(): string {
     return defaultTabTable[parentPathOfLoading]
   } else {
     return 'user'
+  }
+}
+
+export function getUserData(): any {
+  return JSON.parse(localStorage.getItem('user_data') as string)
+}
+
+export function getTeamData(): any {
+  return JSON.parse(localStorage.getItem('team_data') as string)
+}
+
+export function parseGender(genderNumber: number): string {
+  return genderNumber == 1 ? '男' : '女'
+}
+
+export function parseCampus(campusNumber: number): string {
+  if (campusNumber == 1) {
+    return '朝晖校区'
+  } else if (campusNumber == 2) {
+    return '屏峰校区'
+  } else if (campusNumber == 3) {
+    return '莫干山校区'
+  } else {
+    return ''
   }
 }

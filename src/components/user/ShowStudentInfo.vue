@@ -1,38 +1,11 @@
 <script setup lang="ts">
 import { NTable, NPopover, NButton, NCard } from 'naive-ui'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { getUserData, parseCampus, parseGender } from '../../utility'
 
 const router = useRouter()
-
-// 从本地缓存中读取用户信息
-const name = ref(localStorage.getItem('name'))
-const gender = computed(() => (localStorage.getItem('gender') == '1' ? '男' : '女'))
-const college = ref(localStorage.getItem('college'))
-const stuID = ref(localStorage.getItem('stu_id'))
-const tel = ref(localStorage.getItem('tel'))
-const qq = computed(() => {
-  const qqStr = localStorage.getItem('qq')
-  if (qqStr == '') return '无'
-  else return qqStr
-})
-const wechat = computed(() => {
-  const wechatStr = localStorage.getItem('wechat')
-  if (wechatStr == '') return '无'
-  else return wechatStr
-})
-const joinOp = ref(localStorage.getItem('join_op'))
-const createOp = ref(localStorage.getItem('create_op'))
-const campus = computed(() => {
-  const campusNum = localStorage.getItem('campus')
-  if (campusNum == '1') {
-    return '朝晖校区'
-  } else if (campusNum == '2') {
-    return '屏峰校区'
-  } else if (campusNum == '3') {
-    return '莫干山校区'
-  }
-})
+const userData = ref(getUserData())
 
 function jumpToUpdateStudentInfo() {
   router.push('/info/update/student')
@@ -45,27 +18,27 @@ function jumpToUpdateStudentInfo() {
       <tbody>
         <tr>
           <td class="left-item"><strong>姓名</strong></td>
-          <td class="right-item">{{ name }}</td>
+          <td class="right-item">{{ userData['name'] }}</td>
         </tr>
 
         <tr>
           <td class="left-item"><strong>性别</strong></td>
-          <td class="right-item">{{ gender }}</td>
+          <td class="right-item">{{ parseGender(userData['gender']) }}</td>
         </tr>
 
         <tr>
           <td class="left-item"><strong>学院</strong></td>
-          <td class="right-item">{{ college }}</td>
+          <td class="right-item">{{ userData['college'] }}</td>
         </tr>
 
         <tr>
           <td class="left-item"><strong>学号</strong></td>
-          <td class="right-item">{{ stuID }}</td>
+          <td class="right-item">{{ userData['stu_id'] }}</td>
         </tr>
 
         <tr>
           <td class="left-item"><strong>校区</strong></td>
-          <td class="right-item">{{ campus }}</td>
+          <td class="right-item">{{ parseCampus(userData['campus']) }}</td>
         </tr>
       </tbody>
     </n-table>
@@ -76,17 +49,17 @@ function jumpToUpdateStudentInfo() {
       <tbody>
         <tr>
           <td class="left-item"><strong>电话</strong></td>
-          <td class="right-item">{{ tel }}</td>
+          <td class="right-item">{{ userData['contact']['tel'] }}</td>
         </tr>
 
         <tr>
           <td class="left-item"><strong>微信</strong></td>
-          <td class="right-item">{{ wechat }}</td>
+          <td class="right-item">{{ userData['contact']['wechat'] }}</td>
         </tr>
 
         <tr>
           <td class="left-item"><strong>QQ</strong></td>
-          <td class="right-item">{{ qq }}</td>
+          <td class="right-item">{{ userData['contact']['qq'] }}</td>
         </tr>
       </tbody>
     </n-table>
@@ -107,12 +80,12 @@ function jumpToUpdateStudentInfo() {
       <tbody>
         <tr>
           <td class="left-item"><strong>创建团队</strong></td>
-          <td class="right-item">{{ createOp }}</td>
+          <td class="right-item">{{ userData['create_op'] }}</td>
         </tr>
 
         <tr>
           <td class="left-item"><strong>加入团队</strong></td>
-          <td class="right-item">{{ joinOp }}</td>
+          <td class="right-item">{{ userData['join_op'] }}</td>
         </tr>
       </tbody>
     </n-table>

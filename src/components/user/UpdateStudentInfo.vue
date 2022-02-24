@@ -1,24 +1,19 @@
 <script setup lang="ts">
-import { NMessageProvider, NCard, NPageHeader, NSelect } from 'naive-ui';
-import { SelectMixedOption } from 'naive-ui/lib/select/src/interface';
-import Server from '../../config/Server';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import axios, { Axios, AxiosResponse } from 'axios';
-import {
-  NForm,
-  NInput,
-  NFormItem,
-  NButton,
-  NRadioGroup,
-  NRadioButton,
-  useMessage,
-} from 'naive-ui';
+import { NSpace, NSelect } from 'naive-ui'
+import { SelectMixedOption } from 'naive-ui/lib/select/src/interface'
+import Server from '../../config/Server'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import axios, { Axios, AxiosResponse } from 'axios'
+import { getUserData } from '../../utility'
+import { NForm, NInput, NFormItem, NButton, NRadioGroup, NRadioButton, useMessage } from 'naive-ui'
 
-const formRef = ref();
-const message = useMessage();
-const router = useRouter();
-let collegeOptions = ref<SelectMixedOption[]>();
+const formRef = ref()
+const message = useMessage()
+const router = useRouter()
+const userData = getUserData()
+
+let collegeOptions = ref<SelectMixedOption[]>()
 collegeOptions.value = [
   {
     label: '健行学院',
@@ -108,21 +103,23 @@ collegeOptions.value = [
     label: '国际学院',
     value: '国际学院',
   },
-];
+]
+
 const formValue = ref({
-  name: localStorage.getItem('name'),
-  gender: -1,
-  college: null,
-  campus: -1,
-  stu_id: localStorage.getItem('stu_id'),
+  name: userData['name'],
+  gender: userData['gender'],
+  college: userData['college'],
+  campus: userData['campus'],
+  stu_id: userData['stu_id'],
   home: '身份证号',
   id: '',
   contact: {
-    tel: localStorage.getItem('tel'),
-    wechat: localStorage.getItem('wechat'),
-    qq: localStorage.getItem('qq'),
+    tel: userData['contact']['tel'],
+    wechat: userData['contact']['wechat'],
+    qq: userData['contact']['qq'],
   },
-});
+})
+
 const rules = ref({
   name: {
     required: true,
@@ -132,17 +129,16 @@ const rules = ref({
   gender: {
     required: true,
     message: '请选择性别',
-    trigger: ['input', 'blur'],
   },
   stu_id: {
     required: true,
     validator(rule: any, value: any) {
       if (!value) {
-        return new Error('请输入学号');
+        return new Error('请输入学号')
       } else if (!/^[0-9a-zA-Z_]{1,}$/.test(value)) {
-        return new Error('学号格式不正确');
+        return new Error('学号格式不正确')
       }
-      return true;
+      return true
     },
     trigger: ['input', 'blur'],
   },
@@ -154,7 +150,6 @@ const rules = ref({
   campus: {
     required: true,
     message: '请选择校区',
-    trigger: ['input', 'blur'],
   },
   home: {
     required: true,
@@ -165,22 +160,22 @@ const rules = ref({
     required: true,
     validator(rule: any, value: any) {
       if (!value) {
-        return new Error('请输入' + formValue.value.home);
+        return new Error('请输入' + formValue.value.home)
       } else if (formValue.value.home == '身份证号') {
         if (
           !/^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(
             value
           )
         ) {
-          return new Error(formValue.value.home + '格式不正确');
+          return new Error(formValue.value.home + '格式不正确')
         }
       } else if (formValue.value.home == '港澳身份证') {
         if (!/^([A-Z]\d{6,10}(\(\w{1}\))?)$/.test(value)) {
-          return new Error(formValue.value.home + '格式不正确');
+          return new Error(formValue.value.home + '格式不正确')
         }
       } else if (formValue.value.home == '台湾身份证') {
         if (!/^\d{8}|^[a-zA-Z0-9]{10}|^\d{18}$/.test(value)) {
-          return new Error(formValue.value.home + '格式不正确');
+          return new Error(formValue.value.home + '格式不正确')
         }
       } else if (formValue.value.home == '台湾身份证') {
         if (
@@ -188,10 +183,10 @@ const rules = ref({
             value
           )
         ) {
-          return new Error(formValue.value.home + '格式不正确');
+          return new Error(formValue.value.home + '格式不正确')
         }
       }
-      return true;
+      return true
     },
     trigger: ['input', 'blur'],
   },
@@ -200,11 +195,11 @@ const rules = ref({
       required: true,
       validator(rule: any, value: any) {
         if (!value) {
-          return new Error('请输入电话号码');
+          return new Error('请输入电话号码')
         } else if (!/^1(3|4|5|6|7|8|9)\d{9}$/.test(value)) {
-          return new Error('手机号格式不正确');
+          return new Error('手机号格式不正确')
         }
-        return true;
+        return true
       },
       trigger: ['input', 'blur'],
     },
@@ -219,10 +214,10 @@ const rules = ref({
       trigger: ['input', 'blur'],
     },
   },
-});
+})
 
 function goBack() {
-  router.push('/info');
+  router.push('/info/user/showstudent')
 }
 
 function submit() {
@@ -230,10 +225,9 @@ function submit() {
   formRef.value.validate((errors: any) => {
     if (!errors) {
       // 提交数据
-      formValue.value.campus = Number(formValue.value.campus);
-      formValue.value.gender = Number(formValue.value.gender);
-      const submitStudentUrl =
-        Server.urlPrefix + Server.apiMap['user']['update'];
+      formValue.value.campus = Number(formValue.value.campus)
+      formValue.value.gender = Number(formValue.value.gender)
+      const submitStudentUrl = Server.urlPrefix + Server.apiMap['user']['update']
       axios
         .post(submitStudentUrl, formValue.value, {
           timeout: 3000,
@@ -242,108 +236,82 @@ function submit() {
           },
         })
         .then(function (response: AxiosResponse) {
-          const responseData: any = response.data;
+          const responseData: any = response.data
           if (responseData['code'] == 200) {
-            message.success('修改成功');
-            setTimeout(() => router.push('/loading'), 1000); // 跳转到加载信息页面
+            message.success('修改成功')
+            setTimeout(() => router.push('/loading'), 1000) // 跳转到加载信息页面
           } else {
-            message.error(responseData['msg']); // 报错信息
+            message.error(responseData['msg']) // 报错信息
           }
-        });
+        })
     } else {
-      message.error('请正确输入数据');
+      message.error('请正确输入数据')
     }
-  });
+  })
 }
 </script>
 
 <template>
-  <n-card style="margin: 4% auto; width: 93%">
-    <n-page-header
-      style="margin-bottom: 30px"
-      title="返回信息页面"
-      @back="goBack"
-    ></n-page-header>
-    <n-form
-      :model="formValue"
-      :rules="rules"
-      ref="formRef"
-      style="margin: 10px auto 0"
-    >
-      <n-form-item label="姓名" path="name">
-        <n-input placeholder="请输入姓名" v-model:value="formValue.name" />
-      </n-form-item>
+  <n-form :model="formValue" :rules="rules" ref="formRef" style="margin: 10px auto 0">
+    <n-form-item label="姓名" path="name">
+      <n-input placeholder="请输入姓名" v-model:value="formValue.name" />
+    </n-form-item>
 
-      <n-form-item label="性别" path="gender">
-        <n-radio-group v-model:value="formValue.gender">
-          <n-radio-button value="1">男</n-radio-button>
-          <n-radio-button value="2">女</n-radio-button>
-        </n-radio-group>
-      </n-form-item>
+    <n-form-item label="性别" path="gender">
+      <n-radio-group v-model:value="formValue.gender">
+        <n-radio-button :value="1">男</n-radio-button>
+        <n-radio-button :value="2">女</n-radio-button>
+      </n-radio-group>
+    </n-form-item>
 
-      <n-form-item label="学院" path="college">
-        <n-select
-          v-model:value="formValue.college"
-          placeholder="请选择学院"
-          :options="collegeOptions"
-        ></n-select>
-      </n-form-item>
+    <n-form-item label="学院" path="college">
+      <n-select
+        v-model:value="formValue.college"
+        placeholder="请选择学院"
+        :options="collegeOptions"
+      ></n-select>
+    </n-form-item>
 
-      <n-form-item label="校区" path="campus">
-        <n-radio-group v-model:value="formValue.campus">
-          <n-radio-button value="1">朝晖</n-radio-button>
-          <n-radio-button value="2">屏峰</n-radio-button>
-          <n-radio-button value="3">莫干山</n-radio-button>
-        </n-radio-group>
-      </n-form-item>
+    <n-form-item label="校区" path="campus">
+      <n-radio-group v-model:value="formValue.campus">
+        <n-radio-button :value="1">朝晖</n-radio-button>
+        <n-radio-button :value="2">屏峰</n-radio-button>
+        <n-radio-button :value="3">莫干山</n-radio-button>
+      </n-radio-group>
+    </n-form-item>
 
-      <n-form-item label="学号" path="stu_id">
-        <n-input placeholder="请输入学号" v-model:value="formValue.stu_id" />
-      </n-form-item>
+    <n-form-item label="学号" path="stu_id">
+      <n-input placeholder="请输入学号" v-model:value="formValue.stu_id" />
+    </n-form-item>
 
-      <n-form-item label="故乡" path="home">
-        <n-radio-group v-model:value="formValue.home">
-          <n-radio-button value="身份证号">内陆</n-radio-button>
-          <n-radio-button value="港澳身份证">港澳</n-radio-button>
-          <n-radio-button value="台湾身份证">台湾</n-radio-button>
-          <n-radio-button value="护照">国际</n-radio-button>
-        </n-radio-group>
-      </n-form-item>
+    <n-form-item label="故乡" path="home">
+      <n-radio-group v-model:value="formValue.home">
+        <n-radio-button value="身份证号">内陆</n-radio-button>
+        <n-radio-button value="港澳身份证">港澳</n-radio-button>
+        <n-radio-button value="台湾身份证">台湾</n-radio-button>
+        <n-radio-button value="护照">国际</n-radio-button>
+      </n-radio-group>
+    </n-form-item>
 
-      <n-form-item :label="formValue.home" path="id">
-        <n-input
-          :placeholder="'请输入' + formValue.home"
-          v-model:value="formValue.id"
-        />
-      </n-form-item>
+    <n-form-item :label="formValue.home" path="id">
+      <n-input :placeholder="'请输入' + formValue.home" v-model:value="formValue.id" />
+    </n-form-item>
 
-      <n-form-item label="电话号码" path="contact.tel">
-        <n-input
-          placeholder="请输入电话号码"
-          v-model:value="formValue.contact.tel"
-        />
-      </n-form-item>
-      <n-form-item label="微信号(可选)" path="contact.wechat">
-        <n-input
-          placeholder="请输入微信号"
-          v-model:value="formValue.contact.wechat"
-        />
-      </n-form-item>
-      <n-form-item label="QQ号(可选)" path="contact.qq">
-        <n-input
-          placeholder="请输入QQ号"
-          v-model:value="formValue.contact.qq"
-        />
-      </n-form-item>
-      <n-form-item>
-        <n-button
-          @click="submit"
-          attr-type="button"
-          style="margin: auto; width: 100%"
-          type="primary"
-          >提交</n-button
-        >
-      </n-form-item>
-    </n-form>
-  </n-card>
+    <n-form-item label="电话号码" path="contact.tel">
+      <n-input placeholder="请输入电话号码" v-model:value="formValue.contact.tel" />
+    </n-form-item>
+    <n-form-item label="微信号(可选)" path="contact.wechat">
+      <n-input placeholder="请输入微信号" v-model:value="formValue.contact.wechat" />
+    </n-form-item>
+    <n-form-item label="QQ号(可选)" path="contact.qq">
+      <n-input placeholder="请输入QQ号" v-model:value="formValue.contact.qq" />
+    </n-form-item>
+
+    <n-space :vertical="true" :size="25">
+      <n-button @click="submit" attr-type="button" style="margin: auto; width: 100%" type="primary"
+        >提交</n-button
+      >
+      <n-button @click="goBack" attr-type="button" style="margin: auto; width: 100%">返回</n-button>
+    </n-space>
+  </n-form>
 </template>

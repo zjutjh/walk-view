@@ -2,25 +2,29 @@
 import Server from '../../config/Server'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { getUserData } from '../../utility'
 import axios, { AxiosResponse } from 'axios'
 import { NForm, NSpace, NInput, NFormItem, NButton, NRadioGroup, NRadioButton, useMessage } from 'naive-ui'
 
 const formRef = ref()
 const message = useMessage()
 const router = useRouter()
+const userData = getUserData()
+
 const formValue = ref({
-  name: localStorage.getItem('name'),
-  gender: -1,
-  campus: 5,
-  stu_id: '',
+  name: userData['name'],
+  gender: userData['gender'],
+  campus: userData['campus'],
+  stu_id: userData['stu_id'],
   home: '身份证号',
   id: '',
   contact: {
-    tel: localStorage.getItem('tel'),
-    wechat: localStorage.getItem('wechat'),
-    qq: localStorage.getItem('qq'),
+    tel: userData['contact']['tel'],
+    wechat: userData['contact']['wechat'],
+    qq: userData['contact']['qq'],
   },
 })
+
 const rules = ref({
   name: {
     required: true,
@@ -30,7 +34,6 @@ const rules = ref({
   gender: {
     required: true,
     message: '请选择性别',
-    trigger: ['input', 'blur'],
   },
   stu_id: {
     required: true,
@@ -150,8 +153,8 @@ function submit() {
 
     <n-form-item label="性别" path="gender">
       <n-radio-group v-model:value="formValue.gender">
-        <n-radio-button value="1">男</n-radio-button>
-        <n-radio-button value="2">女</n-radio-button>
+        <n-radio-button :value="1">男</n-radio-button>
+        <n-radio-button :value="2">女</n-radio-button>
       </n-radio-group>
     </n-form-item>
     <n-form-item label="故乡" path="home">

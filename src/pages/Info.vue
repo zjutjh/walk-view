@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NCard, NTabs, NTabPane, NButton, useMessage } from 'naive-ui'
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
 import { isTeacher, defaultTab } from '../utility'
 
