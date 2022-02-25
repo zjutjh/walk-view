@@ -68,6 +68,13 @@ function jumpToUpdateTeam() {
 
         <tr>
           <td class="left-item">
+            <strong>团队口号</strong>
+          </td>
+          <td class="right-item">{{ teamData['slogan'] }}</td>
+        </tr>
+
+        <tr>
+          <td class="left-item">
             <strong>团队编号</strong>
           </td>
           <td class="right-item">{{ teamData['id'] }}</td>
