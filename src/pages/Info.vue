@@ -2,10 +2,11 @@
 import { NCard, NTabs, NTabPane, NButton, useMessage } from 'naive-ui'
 import { onMounted, ref } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
-import { defaultTab } from '../utility'
+import { defaultTab, getUserData } from '../utility'
 
 const router = useRouter()
 const message = useMessage()
+const userData = getUserData()
 
 // 该页面默认显示的 tab
 const defaultTabName = ref(defaultTab())
@@ -15,7 +16,7 @@ const userInfoRoute = '/info/user/showinfo'
 // 设置默认 tab 下显示的页面
 onMounted(() => {
   if (defaultTab() == 'team') {
-    if (localStorage.getItem('team_id') == '-1') {
+    if (userData['team_id'] < 0) {
       router.push('/info/team/notjoin')
     } else {
       router.push('/info/team/teaminfo')
@@ -28,7 +29,7 @@ onMounted(() => {
 // 在修改以后设置 tab 应该显示的页面
 function changeTab(value: string) {
   if (value === 'team') {
-    if (localStorage.getItem('team_id') == '-1') {
+    if (userData['team_id'] < 0) {
       router.push('/info/team/notjoin')
     } else {
       router.push('/info/team/teaminfo')
