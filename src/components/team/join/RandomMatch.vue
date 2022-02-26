@@ -1,36 +1,25 @@
 <script setup lang="ts">
-import axios, { AxiosResponse } from 'axios'
-import { NSelect, NButton, NSpace, useMessage, NModal } from 'naive-ui'
-import { ref } from 'vue'
+import axios from 'axios'
+import { NSelect, NButton, NSpace, NGrid, NGridItem, useMessage, NModal } from 'naive-ui'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import ServerConfig from '../../../config/Server'
+import RandomList from './RandomList.vue'
 
 const router = useRouter()
 const message = useMessage()
-const route = ref(null)
-const routeOptions = [
-  {
-    label: '朝晖校区',
-    value: '1',
-  },
-  {
-    label: '屏峰半程',
-    value: '2',
-  },
-  {
-    label: '屏峰全程',
-    value: '3',
-  },
-  {
-    label: '莫干山半程',
-    value: '4',
-  },
-  {
-    label: '莫干山全程',
-    value: '5',
-  },
-]
+const route = ref(1)
 const showModal = ref(false)
+const routeOptions = ref([
+  { label: '朝晖全程', value: 1 },
+  { label: '屏峰半程', value: 2 },
+  { label: '屏峰全程', value: 3 },
+  { label: '莫干山半程', value: 4 },
+  { label: '莫干山全程', value: 5 },
+])
+
+let randomTeamList = ref(null)
+let isWaiting = ref(true)
 
 function onPositiveClick() {
   showModal.value = false
@@ -41,36 +30,57 @@ function goBack() {
   router.push('/info/team/notjoin')
 }
 
-function randMatch() {
-  const randMatchUrl = ServerConfig.urlPrefix + ServerConfig.apiMap['team']['match']
-  axios
-    .get(randMatchUrl, {
-      params: {
-        route: route.value,
-      },
+async function getRandomList() {
+  const randMatchUrl = ServerConfig.urlPrefix + ServerConfig.apiMap['team']['randomList']
+  const getRandomListData = { route: route.value }
+  try {
+    const response = await axios.post(randMatchUrl, getRandomListData, {
+      headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt') },
       timeout: 3000,
-      headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
-      },
     })
-    .then(function (response: AxiosResponse) {
-      const respData: any = response.data
-      if (respData['code'] == 200) {
-        showModal.value = true
-      } else {
-        message.warning(respData['msg'])
-      }
-    })
-    .catch(function (_) {
-      message.error('网络错误，请重试')
-    })
+
+    const respData: any = response.data
+    return respData['data']
+  } catch (_) {
+    message.error('网络错误，请重试')
+  }
 }
+
+async function refreshList() {
+  isWaiting.value = true
+  randomTeamList.value = await getRandomList()
+  // 让动画晚结束一些
+  setTimeout(() => {
+    isWaiting.value = false
+  }, 200)
+}
+
+onMounted(() => {
+  // 挂载组件的时候获取一次列表
+  ;(async () => {
+    isWaiting.value = true
+    randomTeamList.value = await getRandomList()
+    // 让动画晚结束一些
+    setTimeout(() => {
+      isWaiting.value = false
+    }, 200)
+  })()
+})
 </script>
 
 <template>
-  <n-space style="margin-top: 10px" :size="30" :vertical="true">
-    <n-select placeholder="请选择你的路线" v-model:value="route" :options="routeOptions"></n-select>
-    <n-button @click="randMatch" style="width: 100%" type="primary">随机匹配</n-button>
+  <n-space style="margin-top: 10px" :vertical="true">
+    <n-grid :x-gap="8">
+      <n-grid-item :span="18">
+        <n-select v-model:value="route" :options="routeOptions"></n-select>
+      </n-grid-item>
+      <n-grid-item>
+        <n-button @click="refreshList" :type="'primary'">换一换</n-button>
+      </n-grid-item>
+    </n-grid>
+
+    <random-list :is-waiting="isWaiting" :random-team-list="randomTeamList"></random-list>
+
     <n-button @click="goBack" style="width: 100%">返回上一步</n-button>
   </n-space>
 

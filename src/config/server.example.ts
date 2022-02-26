@@ -23,6 +23,7 @@ export default {
       submit: '/team/submit',
       match: '/team/match',
       leave: '/team/leave',
+      randomList: '/team/random-list',
     },
   },
 };
