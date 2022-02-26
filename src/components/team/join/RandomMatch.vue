@@ -20,6 +20,7 @@ const routeOptions = ref([
 
 let randomTeamList = ref(null)
 let isWaiting = ref(true)
+let canRefresh = true
 
 function onPositiveClick() {
   showModal.value = false
@@ -47,12 +48,24 @@ async function getRandomList() {
 }
 
 async function refreshList() {
+  if (!canRefresh) {
+    message.warning("让生产队的驴休息一下吧")
+    return
+  }
+
   isWaiting.value = true
   randomTeamList.value = await getRandomList()
+  
   // 让动画晚结束一些
   setTimeout(() => {
     isWaiting.value = false
   }, 200)
+
+  // 让这个用户在获取到一次信息以后 1 s 内无法获取第二次信息
+  canRefresh = false
+  setTimeout(() => {
+    canRefresh = true
+  }, 1000)
 }
 
 onMounted(() => {
