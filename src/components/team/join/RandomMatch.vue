@@ -79,9 +79,9 @@ onMounted(() => {
       </n-grid-item>
     </n-grid>
 
-    <random-list :is-waiting="isWaiting" :random-team-list="randomTeamList"></random-list>
+    <random-list id="random-list" :is-waiting="isWaiting" :random-team-list="randomTeamList" />
 
-    <n-button @click="goBack" style="width: 100%">返回上一步</n-button>
+    <n-button id="return-button" @click="goBack" style="width: 100%">返回上一步</n-button>
   </n-space>
 
   <n-modal
@@ -96,4 +96,12 @@ onMounted(() => {
   />
 </template>
 
-<style></style>
+<style>
+#random-list {
+  margin-top: 10px;
+}
+
+#return-button {
+  margin-top: 10px;
+}
+</style>
