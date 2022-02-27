@@ -60,6 +60,8 @@ export function defaultTab(): string {
     '/info/update/teacher': 'user',
     '/info/update/student': 'user',
     '/info/team/notjoin': 'team',
+    '/info/team/join': 'team',
+    '/info/team/create': 'team',
   }
 
   // 根据 loading 页面的父页面来选择默认 tab
