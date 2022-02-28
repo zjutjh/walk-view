@@ -3,6 +3,7 @@ import { NCard, NTabs, NTabPane, NButton, useMessage } from 'naive-ui'
 import { onMounted, ref } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
 import { defaultTab, getUserData } from '../utility'
+import MessageList from '../components/message/MessageList.vue';
 
 const router = useRouter()
 const message = useMessage()
@@ -59,12 +60,24 @@ function refresh() {
         <div style="margin-left: 8px">刷新 🔥</div>
       </n-button>
     </template>
-    <n-tabs @update:value="changeTab" :default-value="defaultTabName" type="line">
+
+    <n-tabs
+      justify-content="space-evenly"
+      @update:value="changeTab"
+      :default-value="defaultTabName"
+      type="line"
+    >
       <n-tab-pane name="user" tab="个人信息">
         <router-view></router-view>
       </n-tab-pane>
+
       <n-tab-pane name="team" tab="团队信息">
         <router-view></router-view>
+      </n-tab-pane>
+
+      <n-tab-pane name="message" tab="消息列表"> 
+        <!-- TODO 如果没有消息就显示空消息状态, loading 页面上获取消息列表 -->
+        <message-list></message-list>
       </n-tab-pane>
     </n-tabs>
   </n-card>
