@@ -21,7 +21,7 @@ export default {
       remove: '/team/remove',
       disband: '/team/disband',
       submit: '/team/submit',
-      match: '/team/match',
+      randomJoin: '/team/random-join',
       leave: '/team/leave',
       randomList: '/team/random-list',
     },

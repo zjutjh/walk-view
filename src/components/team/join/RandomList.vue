@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { NCard, NScrollbar, NEmpty, NSpin } from 'naive-ui'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import TeamItem from './TeamItem.vue'
 
 const props = defineProps<{
@@ -15,24 +15,21 @@ const hasResult = computed(() => {
 </script>
 
 <template>
-  <n-card id="list-card-border" :size="'small'">
-    <n-empty id="empty-state" v-if="!hasResult && !isWaiting" size="large" description="没有结果" />
+  <n-empty id="empty-state" v-if="!hasResult && !isWaiting" size="large" description="没有结果" />
 
-    <n-scrollbar v-if="hasResult && !isWaiting" style="max-height: 380px">
-      <team-item
-        v-for="team in randomTeamList['teams']"
-        :team-id="team['id']"
-        :name="team['name']"
-        :slogan="team['slogan']"
-        :num="team['num']"
-      />
-    </n-scrollbar>
+  <team-item
+    v-if="hasResult && !isWaiting"
+    v-for="team in randomTeamList['teams']"
+    :team-id="team['id']"
+    :name="team['name']"
+    :slogan="team['slogan']"
+    :num="team['num']"
+  />
 
-    <div v-if="isWaiting" id="loading-state">
-      <n-spin :size="'large'"/>
-      <div id="loading-text">加载中</div>
-    </div>
-  </n-card>
+  <div v-if="isWaiting" id="loading-state">
+    <n-spin :size="'large'" />
+    <div id="loading-text">加载中</div>
+  </div>
 </template>
 
 <style>

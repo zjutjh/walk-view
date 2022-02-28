@@ -1,16 +1,41 @@
 <script lang="ts" setup>
-import { NThing, NTag, NButton } from 'naive-ui'
+import axios from 'axios'
+import { NThing, NTag, NCard, NButton, useMessage } from 'naive-ui'
+import { useRouter } from 'vue-router';
+import Server from '../../../config/Server'
 
-defineProps<{
+const router = useRouter()
+const message = useMessage()
+const props = defineProps<{
   teamId: number
   name: string
   slogan: string
   num: number
 }>()
+
+function randomJoin() {
+  const randommJoinUrl = Server['urlPrefix'] + Server['apiMap']['team']['randomJoin']
+  const reqData = {
+    id: props.teamId,
+  }
+
+  ;(async () => {
+    const response = axios.post(randommJoinUrl, reqData, {
+      headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt') },
+      timeout: 3000,
+    })
+
+    const respData: any = (await response).data
+    if (respData["code"] == 200) {
+      message.success("加入成功")
+      router.push("/loading")
+    }
+  })()
+}
 </script>
 
 <template>
-  <div id="team-container">
+ <n-card id="team-item" embedded>
     <n-thing>
       <template #header>{{ name }}</template>
 
@@ -23,19 +48,15 @@ defineProps<{
       </template>
 
       <template #action>
-        <n-button :type="'primary'" id="join-button" ghost>申请加入</n-button>
+        <n-button :type="'primary'" id="join-button" @click="randomJoin" ghost>申请加入</n-button>
       </template>
     </n-thing>
-  </div>
+ </n-card>
 </template>
 
 <style>
-#team-container {
-  border-bottom: thin solid #dadada;
-  margin-bottom: 10px;
-  padding-bottom: 13px;
-  padding-left: 10px;
-  padding-right: 15px;
+#team-item {
+  margin-top: 20px;
 }
 
 #join-button {

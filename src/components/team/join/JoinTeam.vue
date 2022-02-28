@@ -5,7 +5,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import ServerConfig from '../../../config/Server'
 import PasswordJoin from './PasswordJoin.vue'
-import RandomMatch from './RandomMatch.vue'
+import RandomMatch from './RandomJoin.vue'
 
 const router = useRouter()
 const message = useMessage()
@@ -74,7 +74,7 @@ function randMatch() {
     <n-collapse-item title="🏊 &nbsp;&nbsp;通过团队密码加入团队" name="1">
       <password-join></password-join>
     </n-collapse-item>
-    <n-collapse-item title="🙈 &nbsp;&nbsp;随机组队" name="2">
+    <n-collapse-item title="🙈 &nbsp;&nbsp;随机加入" name="2">
      <random-match></random-match>
     </n-collapse-item>
   </n-collapse>
