@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { NSpace, NButton, NCard, useMessage } from 'naive-ui';
-import ServerConfig from '../../../config/Server';
-import axios from 'axios';
-import { useRouter } from 'vue-router';
+import { NSpace, NButton, NCard, useMessage } from 'naive-ui'
+import ServerConfig from '../../../config/Server'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
+import Server from '../../../config/Server'
 
-const message = useMessage();
-const router = useRouter();
+const message = useMessage()
+const router = useRouter()
 defineProps({
   name: String,
   isLeader: Boolean,
   tel: String,
   openId: String,
-});
+})
 
 function removeMember(openID: string | undefined) {
-  const removeMemberUrl =
-    ServerConfig.urlPrefix + ServerConfig.apiMap['team']['remove'];
+  const removeMemberUrl = ServerConfig.urlPrefix + ServerConfig.apiMap['team']['remove']
   axios
     .get(removeMemberUrl, {
       params: {
@@ -27,12 +27,34 @@ function removeMember(openID: string | undefined) {
       },
     })
     .then(function (_) {
-      message.success('删除队员成功');
-      setTimeout(() => router.push('/loading'), 1000);
+      message.success('删除队员成功')
+      setTimeout(() => router.push('/loading'), 1000)
     })
     .catch(function (_) {
-      message.error('网络错误，请检查网络');
-    });
+      message.error('网络错误，请检查网络')
+    })
+}
+
+function transferCaptain(openID: string | undefined) {
+  const transferCaptainUrl = Server['urlPrefix'] + Server['apiMap']['team']['transferCaptain']
+  const reqData = { member_open_id: openID }
+
+  ;(async () => {
+    const response = await axios.post(transferCaptainUrl, reqData, {
+      timeout: 3000,
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+      },
+    })
+
+    const respData: any = response.data
+    if (respData['code'] == 200) {
+      message.success('移交成功')
+      router.push('/loading')
+    } else {
+      message.info('该用户可能已经退出, 请点击刷新按钮后重试')
+    }
+  })()
 }
 </script>
 
@@ -41,13 +63,15 @@ function removeMember(openID: string | undefined) {
     :segmented="{
       content: 'soft',
     }"
+    embedded
     :title="name"
     size="small"
   >
     <template #header-extra>
-      <n-button @click="removeMember(openId)" type="error" size="small"
-        >删除</n-button
-      >
+      <n-space :size="10">
+        <n-button @click="transferCaptain(openId)" :type="'primary'" size="small">转让队长</n-button>
+        <n-button @click="removeMember(openId)" :type="'error'" size="small">删除</n-button>
+      </n-space>
     </template>
     <n-space justify="space-between">
       <div>电话</div>

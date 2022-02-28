@@ -24,6 +24,7 @@ export default {
       randomJoin: '/team/random-join',
       leave: '/team/leave',
       randomList: '/team/random-list',
+      transferCaptain: "/team/transfer-captain"
     },
   },
 };
