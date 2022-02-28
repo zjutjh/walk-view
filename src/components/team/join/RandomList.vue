@@ -15,20 +15,22 @@ const hasResult = computed(() => {
 </script>
 
 <template>
-  <n-empty id="empty-state" v-if="!hasResult && !isWaiting" size="large" description="没有结果" />
+  <div>
+    <n-empty id="empty-state" v-if="!hasResult && !isWaiting" size="large" description="没有结果" />
 
-  <team-item
-    v-if="hasResult && !isWaiting"
-    v-for="team in randomTeamList['teams']"
-    :team-id="team['id']"
-    :name="team['name']"
-    :slogan="team['slogan']"
-    :num="team['num']"
-  />
+    <team-item
+      v-if="hasResult && !isWaiting"
+      v-for="team in randomTeamList['teams']"
+      :team-id="team['id']"
+      :name="team['name']"
+      :slogan="team['slogan']"
+      :num="team['num']"
+    />
 
-  <div v-if="isWaiting" id="loading-state">
-    <n-spin :size="'large'" />
-    <div id="loading-text">加载中</div>
+    <div v-if="isWaiting" id="loading-state">
+      <n-spin :size="'large'" />
+      <div id="loading-text">加载中</div>
+    </div>
   </div>
 </template>
 

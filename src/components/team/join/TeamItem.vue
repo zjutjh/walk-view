@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import axios from 'axios'
 import { NThing, NTag, NCard, NButton, useMessage } from 'naive-ui'
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 import Server from '../../../config/Server'
 
 const router = useRouter()
@@ -26,16 +26,18 @@ function randomJoin() {
     })
 
     const respData: any = (await response).data
-    if (respData["code"] == 200) {
-      message.success("加入成功")
-      router.push("/loading")
+    if (respData['code'] == 200) {
+      message.success('加入成功')
+      router.push('/loading')
+    } else {
+      message.error(respData['msg'])
     }
   })()
 }
 </script>
 
 <template>
- <n-card id="team-item" embedded>
+  <n-card id="team-item" embedded>
     <n-thing>
       <template #header>{{ name }}</template>
 
@@ -51,7 +53,7 @@ function randomJoin() {
         <n-button :type="'primary'" id="join-button" @click="randomJoin" ghost>申请加入</n-button>
       </template>
     </n-thing>
- </n-card>
+  </n-card>
 </template>
 
 <style>

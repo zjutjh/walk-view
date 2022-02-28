@@ -31,9 +31,9 @@ function goBack() {
   router.push('/info/team/notjoin')
 }
 
-async function getRandomList() {
+async function getRandomList(routeNumber: number = route.value) {
   const randMatchUrl = ServerConfig.urlPrefix + ServerConfig.apiMap['team']['randomList']
-  const getRandomListData = { route: route.value }
+  const getRandomListData = { route: routeNumber }
   try {
     const response = await axios.post(randMatchUrl, getRandomListData, {
       headers: { Authorization: 'Bearer ' + localStorage.getItem('jwt') },
@@ -79,13 +79,24 @@ onMounted(() => {
     }, 200)
   })()
 })
+
+function routeUpdated(value: number) {
+  ;(async () => {
+    isWaiting.value = true
+    randomTeamList.value = await getRandomList(value)
+    // 让动画晚结束一些
+    setTimeout(() => {
+      isWaiting.value = false
+    }, 200)
+  })()
+}
 </script>
 
 <template>
   <n-space style="margin-top: 10px" :vertical="true">
     <n-grid :x-gap="8">
       <n-grid-item :span="18">
-        <n-select v-model:value="route" :options="routeOptions"></n-select>
+        <n-select v-on:update-value="routeUpdated" v-model:value="route" :options="routeOptions"></n-select>
       </n-grid-item>
       <n-grid-item>
         <n-button @click="refreshList" :type="'primary'">换一换</n-button>
