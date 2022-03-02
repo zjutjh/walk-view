@@ -4,7 +4,7 @@ import Server from '../config/Server'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { onMounted } from 'vue'
-import { storeUserInfo, storeTeamInfo } from '../utility'
+import { storeUserInfo, storeTeamInfo, storeUserMesage } from '../utility'
 
 // 变量定义
 const dialog = useDialog()
@@ -39,6 +39,7 @@ onMounted(() => {
         // 存储用户信息
         storeUserInfo(userApiRespData)
         await storeTeamInfo(userApiRespData, jwt)
+        await storeUserMesage(jwt)
         router.replace('/info')
       } else if (userApiRespData['msg'] == 'time error') {
         dialog.warning({

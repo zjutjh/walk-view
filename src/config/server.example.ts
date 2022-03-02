@@ -26,5 +26,9 @@ export default {
       randomList: '/team/random-list',
       transferCaptain: "/team/transfer-captain"
     },
+    message: {
+      list: '/message/list',
+      delete: '/message/delete'
+    },
   },
 };

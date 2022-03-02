@@ -1,14 +1,23 @@
 <script lang="ts" setup>
 import { NCard, NButton } from 'naive-ui'
+
+const props = defineProps<{
+  id: number
+  message: string
+}>()
+
+function deleteMessage() {
+  console.log(props.id)
+}
 </script>
 
 <template>
-  <n-card id="message-item" title="加入通知" embedded>
+  <n-card id="message-item" title="系统通知" embedded>
     <template #header-extra>
-      <n-button :type="'primary'" :size="'small'">朕已阅</n-button>
+      <n-button :type="'primary'" :size="'small'" @click="deleteMessage">朕已阅</n-button>
     </template>
 
-    有个家伙刚才通过随机组队功能加入了你的团队, 请赶快联系
+    {{ message }}
   </n-card>
 </template>
 

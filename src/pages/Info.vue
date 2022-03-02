@@ -13,6 +13,7 @@ const userData = getUserData()
 const defaultTabName = ref(defaultTab())
 // 用户信息页面默认要展示的是老师页面还是学生页面
 const userInfoRoute = '/info/user/showinfo'
+const messagesRoute = '/info/message/showlist'
 
 // 设置默认 tab 下显示的页面
 onMounted(() => {
@@ -24,6 +25,8 @@ onMounted(() => {
     }
   } else if (defaultTab() === 'user') {
     router.push(userInfoRoute)
+  } else if (defaultTab() === 'message') {
+    router.push(messagesRoute)
   }
 })
 
@@ -37,6 +40,8 @@ function changeTab(value: string) {
     }
   } else if (value === 'user') {
     router.push(userInfoRoute)
+  } else if (value === 'message') {
+    router.push(messagesRoute)
   }
 }
 
@@ -77,7 +82,7 @@ function refresh() {
 
       <n-tab-pane name="message" tab="消息列表"> 
         <!-- TODO 如果没有消息就显示空消息状态, loading 页面上获取消息列表 -->
-        <message-list></message-list>
+        <router-view></router-view>
       </n-tab-pane>
     </n-tabs>
   </n-card>

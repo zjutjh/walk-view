@@ -15,8 +15,15 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('/src/pages/Info.vue'),
     children: [
       { path: 'user/showinfo', component: () => import('/src/components/user/show/UserInfo.vue') },
-      { path: 'update/student', component: () => import('/src/components/user/update/UpdateStudentInfo.vue') },
-      { path: 'update/teacher', component: () => import('/src/components/user/update/UpdateTeacherInfo.vue') },
+      { path: 'message/showlist', component: () => import('/src/components/message/MessageList.vue') },
+      {
+        path: 'update/student',
+        component: () => import('/src/components/user/update/UpdateStudentInfo.vue'),
+      },
+      {
+        path: 'update/teacher',
+        component: () => import('/src/components/user/update/UpdateTeacherInfo.vue'),
+      },
       { path: 'team/notjoin', component: () => import('/src/components/team/show/NotJoin.vue') },
       { path: 'team/join', component: () => import('/src/components/team/join/JoinTeam.vue') },
       { path: 'team/create', component: () => import('/src/components/team/CreateTeam.vue') },

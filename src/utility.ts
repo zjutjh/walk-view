@@ -19,7 +19,7 @@ export function storeUserInfo(respData: any) {
 }
 
 // 加载并存储团队信息的函数
-export async function storeTeamInfo(respData: any, jwt: string) {
+export async function storeTeamInfo(userInfoApiRespData: any, jwt: string) {
   const getTeamInfoUrl = Server.urlPrefix + Server.apiMap['team']['info']
   const response = await axios.get(getTeamInfoUrl, {
     timeout: 3000,
@@ -28,8 +28,22 @@ export async function storeTeamInfo(respData: any, jwt: string) {
     },
   })
 
-  respData = response.data
+  const respData: any = response.data
   localStorage.setItem('team_data', JSON.stringify(respData['data']))
+}
+
+// 加载并存储个人消息
+export async function storeUserMesage(jwt: string) {
+  const getMessagesUrl = Server.urlPrefix + Server.apiMap['message']['list']
+  const response = await axios.get(getMessagesUrl, {
+    timeout: 3000,
+    headers: {
+      Authorization: 'Bearer ' + jwt,
+    },
+  })
+
+  const respData: any = response.data
+  localStorage.setItem('message_data', JSON.stringify(respData['data']))
 }
 
 // 校验一个 key 是否在 object 中的函数
@@ -62,6 +76,7 @@ export function defaultTab(): string {
     '/info/team/notjoin': 'team',
     '/info/team/join': 'team',
     '/info/team/create': 'team',
+    '/info/message/showlist': 'message',
   }
 
   // 根据 loading 页面的父页面来选择默认 tab
