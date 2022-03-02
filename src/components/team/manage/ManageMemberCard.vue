@@ -34,28 +34,6 @@ function removeMember(openID: string | undefined) {
       message.error('网络错误，请检查网络')
     })
 }
-
-function transferCaptain(openID: string | undefined) {
-  const transferCaptainUrl = Server['urlPrefix'] + Server['apiMap']['team']['transferCaptain']
-  const reqData = { member_open_id: openID }
-
-  ;(async () => {
-    const response = await axios.post(transferCaptainUrl, reqData, {
-      timeout: 3000,
-      headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
-      },
-    })
-
-    const respData: any = response.data
-    if (respData['code'] == 200) {
-      message.success('移交成功')
-      router.push('/loading')
-    } else {
-      message.info('该用户可能已经退出, 请点击刷新按钮后重试')
-    }
-  })()
-}
 </script>
 
 <template>
@@ -68,10 +46,7 @@ function transferCaptain(openID: string | undefined) {
     size="small"
   >
     <template #header-extra>
-      <n-space :size="10">
-        <n-button @click="transferCaptain(openId)" :type="'primary'" size="small">转让队长</n-button>
-        <n-button @click="removeMember(openId)" :type="'error'" size="small">删除</n-button>
-      </n-space>
+      <n-button @click="removeMember(openId)" :type="'error'" size="small">删除</n-button>
     </template>
     <n-space justify="space-between">
       <div>电话</div>
