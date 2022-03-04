@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { NCard, NTabs, NTabPane, NButton, useMessage } from 'naive-ui'
-import { onMounted, ref } from 'vue'
+import { NCard, NTabs, NTabPane, NButton, useMessage, NAlert } from 'naive-ui'
+import { computed, onMounted, ref } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
 import { defaultTab, getUserData } from '../utility'
-import MessageList from '../components/message/MessageList.vue'
 
 const router = useRouter()
 const message = useMessage()
@@ -15,6 +14,14 @@ const defaultTabName = ref(defaultTab())
 const userInfoRoute = '/info/user/showinfo'
 const messagesRoute = '/info/message/showlist'
 const noMessageRoute = '/info/message/nomessage'
+
+const showSubscribePrompt = computed(() => {
+  if (localStorage.getItem('show_subscribe_prompt') == 'no') {
+    return false
+  } else {
+    return true
+  }
+})
 
 // 设置默认 tab 下显示的页面
 onMounted(() => {
@@ -65,6 +72,10 @@ function refresh() {
     message.warning('让生产队的驴休息一下吧')
   }
 }
+
+function closePrompt() {
+  localStorage.setItem('show_subscribe_prompt', 'no')
+}
 </script>
 
 <template>
@@ -90,10 +101,27 @@ function refresh() {
       </n-tab-pane>
 
       <n-tab-pane name="message" tab="消息列表">
+        <n-alert
+          v-if="showSubscribePrompt"
+          title="关于微信消息通知"
+          type="info"
+          v-on:close="closePrompt"
+          closable
+          id="wechat-subscribe-prompt"
+        >
+          请关注浙江工业大学精弘网络公众号以正常接收来自微信公众号的通知
+          <br/><br/>
+          因为微信奇怪的限制,第一次使用可能需要向公众号发点东西才能正常通知
+        </n-alert>
+
         <router-view></router-view>
       </n-tab-pane>
     </n-tabs>
   </n-card>
 </template>
 
-<style></style>
+<style>
+#wechat-subscribe-prompt {
+  margin-bottom: 13px;
+}
+</style>

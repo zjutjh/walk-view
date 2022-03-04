@@ -8,7 +8,7 @@ import { NEmpty } from 'naive-ui'
 
 <style>
 #no-message-state {
-  margin-top: 20px;
+  margin-top: 40px;
   margin-bottom: 20px;
 }
 </style>
