@@ -21,6 +21,7 @@ onMounted(() => {
       // 如果本地没有 token 并且还没有 token 参数的话
       const oauthUrl = Server.urlPrefix + Server.apiMap['basic']['oauth']
       window.location.replace(oauthUrl)
+      return
     } else {
       // 如果有后端重定向时回传的 token 的话
       localStorage.setItem('jwt', jwtToken)
