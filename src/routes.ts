@@ -16,6 +16,7 @@ export const routes: RouteRecordRaw[] = [
     children: [
       { path: 'user/showinfo', component: () => import('/src/components/user/show/UserInfo.vue') },
       { path: 'message/showlist', component: () => import('/src/components/message/MessageList.vue') },
+      { path: 'message/nomessage', component: () => import('/src/components/message/NoMessage.vue') },
       {
         path: 'update/student',
         component: () => import('/src/components/user/update/UpdateStudentInfo.vue'),

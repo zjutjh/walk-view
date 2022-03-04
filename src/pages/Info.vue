@@ -3,7 +3,7 @@ import { NCard, NTabs, NTabPane, NButton, useMessage } from 'naive-ui'
 import { onMounted, ref } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
 import { defaultTab, getUserData } from '../utility'
-import MessageList from '../components/message/MessageList.vue';
+import MessageList from '../components/message/MessageList.vue'
 
 const router = useRouter()
 const message = useMessage()
@@ -14,6 +14,7 @@ const defaultTabName = ref(defaultTab())
 // 用户信息页面默认要展示的是老师页面还是学生页面
 const userInfoRoute = '/info/user/showinfo'
 const messagesRoute = '/info/message/showlist'
+const noMessageRoute = '/info/message/nomessage'
 
 // 设置默认 tab 下显示的页面
 onMounted(() => {
@@ -26,7 +27,11 @@ onMounted(() => {
   } else if (defaultTab() === 'user') {
     router.push(userInfoRoute)
   } else if (defaultTab() === 'message') {
-    router.push(messagesRoute)
+    if (localStorage.getItem('message_data') == '') {
+      router.push(noMessageRoute)
+    } else {
+      router.push(messagesRoute)
+    }
   }
 })
 
@@ -41,7 +46,11 @@ function changeTab(value: string) {
   } else if (value === 'user') {
     router.push(userInfoRoute)
   } else if (value === 'message') {
-    router.push(messagesRoute)
+    if (localStorage.getItem('message_data') == '') {
+      router.push(noMessageRoute)
+    } else {
+      router.push(messagesRoute)
+    }
   }
 }
 
@@ -80,8 +89,7 @@ function refresh() {
         <router-view></router-view>
       </n-tab-pane>
 
-      <n-tab-pane name="message" tab="消息列表"> 
-        <!-- TODO 如果没有消息就显示空消息状态, loading 页面上获取消息列表 -->
+      <n-tab-pane name="message" tab="消息列表">
         <router-view></router-view>
       </n-tab-pane>
     </n-tabs>

@@ -1,13 +1,35 @@
 <script lang="ts" setup>
-import { NCard, NButton } from 'naive-ui'
+import axios from 'axios'
+import { NCard, NButton, useMessage } from 'naive-ui'
+import { useRouter } from 'vue-router'
+import Server from '../../config/Server'
 
+const messagePrompt = useMessage()
+const router = useRouter()
 const props = defineProps<{
   id: number
   message: string
 }>()
 
 function deleteMessage() {
-  console.log(props.id)
+  ;(async () => {
+    const deleteMessageUrl = Server.urlPrefix + Server.apiMap['message']['delete']
+    const jwt = localStorage.getItem('jwt')
+    const deleteMessageData = {
+      message_id: props.id,
+    }
+    const response = await axios.post(deleteMessageUrl, deleteMessageData, {
+      timeout: 3000,
+      headers: { Authorization: 'Bearer ' + jwt },
+    })
+
+    const respData: any = response.data
+    if (respData['code'] == 200) {
+      router.push('/loading')
+    } else {
+      messagePrompt.error('网络错误')
+    }
+  })()
 }
 </script>
 

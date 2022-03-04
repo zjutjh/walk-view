@@ -9,7 +9,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        linkJoin: resolve(__dirname, 'entry/linkjoin.html')
       }
     }
   }

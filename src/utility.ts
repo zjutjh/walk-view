@@ -43,7 +43,10 @@ export async function storeUserMesage(jwt: string) {
   })
 
   const respData: any = response.data
-  localStorage.setItem('message_data', JSON.stringify(respData['data']))
+  if (respData['code'] == 200)
+    localStorage.setItem('message_data', JSON.stringify(respData['data']))
+  else 
+    localStorage.setItem('message_data', '')
 }
 
 // 校验一个 key 是否在 object 中的函数
@@ -77,6 +80,7 @@ export function defaultTab(): string {
     '/info/team/join': 'team',
     '/info/team/create': 'team',
     '/info/message/showlist': 'message',
+    '/info/message/nomessage': 'message',
   }
 
   // 根据 loading 页面的父页面来选择默认 tab
