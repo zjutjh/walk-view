@@ -149,37 +149,53 @@ function rollbackTeam() {
     onNegativeClick: () => {},
   })
 }
+
+function showPoster() {
+  router.push('/info/team/poster')
+}
 </script>
 
 <template>
+  <n-button @click="showPoster" class="team-info-buttons" v-if="teamData['submitted']" ghost :type="'primary'"
+    >查看团队海报</n-button
+  >
+
   <n-button
+    class="team-info-buttons"
     @click="rollbackTeam"
     v-if="isLeader && teamData['submitted']"
-    style="width: 100%; margin-top: 20px"
     type="error"
+    ghost
     >撤销团队</n-button
   >
   <n-button
+    class="team-info-buttons"
     @click="submitTeam"
     v-if="isLeader && !teamData['submitted']"
-    style="width: 100%; margin-top: 20px"
     type="primary"
     >提交团队</n-button
   >
   <n-button
+    class="team-info-buttons"
     @click="disbandTeam"
     v-if="isLeader && !teamData['submitted']"
-    style="width: 100%; margin-top: 20px"
     type="error"
+    ghost
     >解散团队</n-button
   >
   <n-button
+    class="team-info-buttons"
     @click="leaveTeam"
     v-if="!isLeader && !teamData['submitted']"
-    style="margin-top: 15px; width: 100%"
     type="error"
+    ghost
     >退出团队</n-button
   >
 </template>
 
-<style></style>
+<style>
+.team-info-buttons {
+  width: 100%;
+  margin-top: 20px;
+}
+</style>

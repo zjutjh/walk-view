@@ -31,6 +31,7 @@ export const routes: RouteRecordRaw[] = [
       { path: 'team/teaminfo', component: () => import('/src/components/team/show/TeamInfo.vue') },
       { path: 'team/updateteam', component: () => import('/src/components/team/UpdateTeam.vue') },
       { path: 'team/managemember', component: () => import('/src/components/team/manage/ManageMember.vue') },
+      { path: 'team/poster', component: () => import('/src/components/team/show/Poster.vue') },
     ],
   },
 ]

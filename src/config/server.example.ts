@@ -28,7 +28,10 @@ export default {
     },
     message: {
       list: '/message/list',
-      delete: '/message/delete'
+      delete: '/message/delete',
     },
+    poster: {
+      get: '/poster/get',
+    }
   },
 };
