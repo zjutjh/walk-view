@@ -10,6 +10,7 @@ export const routes: RouteRecordRaw[] = [
       localStorage.setItem('parentPathOfLoading', from.fullPath)
     },
   },
+  { path: '/poster', component: () => import('/src/pages/Poster.vue') },
   {
     path: '/info',
     component: () => import('/src/pages/Info.vue'),
@@ -31,7 +32,6 @@ export const routes: RouteRecordRaw[] = [
       { path: 'team/teaminfo', component: () => import('/src/components/team/show/TeamInfo.vue') },
       { path: 'team/updateteam', component: () => import('/src/components/team/UpdateTeam.vue') },
       { path: 'team/managemember', component: () => import('/src/components/team/manage/ManageMember.vue') },
-      { path: 'team/poster', component: () => import('/src/components/team/show/Poster.vue') },
     ],
   },
 ]

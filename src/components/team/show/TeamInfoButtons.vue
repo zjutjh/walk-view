@@ -80,8 +80,11 @@ function submitTeam() {
     .then(function (response: AxiosResponse) {
       const respData: any = response.data
       if (respData['code'] == 200) {
-        message.success('提交队伍成功')
-        setTimeout(() => router.push('/loading'), 1000)
+        message.success('提交队伍成功, 在团队信息页面最下方的按钮可以查看海报', {
+          onAfterLeave: () => {
+            setTimeout(() => router.push('/loading'), 800)
+          }
+        })
       } else {
         message.error(respData['msg'])
       }
@@ -151,7 +154,7 @@ function rollbackTeam() {
 }
 
 function showPoster() {
-  router.push('/info/team/poster')
+  router.push('/poster')
 }
 </script>
 
@@ -166,8 +169,9 @@ function showPoster() {
     v-if="isLeader && teamData['submitted']"
     type="error"
     ghost
-    >撤销团队</n-button
   >
+    撤销提交
+  </n-button>
   <n-button
     class="team-info-buttons"
     @click="submitTeam"

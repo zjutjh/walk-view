@@ -79,6 +79,7 @@ export function defaultTab(): string {
     '/info/team/notjoin': 'team',
     '/info/team/join': 'team',
     '/info/team/create': 'team',
+    '/poster': 'team',
     '/info/message/showlist': 'message',
     '/info/message/nomessage': 'message',
   }
